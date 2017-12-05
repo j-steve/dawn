@@ -66,8 +66,8 @@
 			fixed4 gridlines = 1;
 			#if defined(GRIDLINES_ON)
 				float2 gridlinesUV = IN.worldPos.xz;
-				gridlinesUV.x *= 1 / (4 * 8.66025404) / 1.25;
-				gridlinesUV.y *= 1 / (2 * 15.0) / 1.25;
+				gridlinesUV.x *= 1 / (4 * 8.66025404) / 1.15;
+				gridlinesUV.y *= 1 / (2 * 15.0) / 1.15;
 				gridlines = tex2D(_GridLinesTex, gridlinesUV);
 			#endif
 			// Set the albedo.
