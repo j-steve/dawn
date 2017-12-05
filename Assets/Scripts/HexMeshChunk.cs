@@ -55,34 +55,20 @@ public class HexMeshChunk : MonoBehaviour
         triangles.Clear();
         terrainTypes.Clear();
         colors.Clear();
-        var bridges = new Dictionary<HexCell, Dictionary<EdgeDirection, HexMeshBridge>>();
-        UnityUtils.Log("Rendering hexes...");
         foreach (HexCell cell in hexCells) {
-            bridges.Add(cell, new Dictionary<EdgeDirection, HexMeshBridge>());
             TriangulateHexCell(cell);
             foreach (EdgeDirection direction in EASTERLY_DIRECTIONS) {
                 HexCell neighbor = cell.GetNeighbor(direction);
                 if (neighbor != null) {
-                    bridges[cell][direction] = TriangulateBridge(direction, cell, neighbor);
-                    //HexCell neighbor2 = cell.GetNeighbor(direction.Next());
-                    //if (neighbor2 != null) {
-                    //    TriangulateCorner(direction, cell, neighbor, neighbor2);
-                    //}
+                    TriangulateBridge(direction, cell, neighbor);
+                    HexCell neighbor2 = cell.GetNeighbor(direction.Next());
+                    if (neighbor2 != null) {
+                        TriangulateCorner(direction, cell, neighbor, neighbor2);
+                    }
                 }
             }
         }
-        UnityUtils.Log("Adding triangles...");
-        foreach (var cell in bridges) {
-            var neighborNE = cell.Key.GetNeighbor(EdgeDirection.NE);
-            var neighborE = cell.Key.GetNeighbor(EdgeDirection.E);
-            if (neighborNE != null && neighborE != null && bridges.ContainsKey(neighborNE)) {
-                UnityUtils.Log("Adding corner for {0}", cell);
-                TringulateCorner(
-                    cell.Value[EdgeDirection.NE],
-                    cell.Value[EdgeDirection.E],
-                    bridges[neighborNE][EdgeDirection.SE]);
-            }
-        }
+
         mesh.vertices = vertices.ToArray();
         mesh.triangles = triangles.ToArray();
         mesh.colors32 = colors.ToArray();
@@ -116,19 +102,17 @@ public class HexMeshChunk : MonoBehaviour
     /// region which fills the gap between two adjacent HexCells.
     /// </summary>
     /// <param name="direction">The edge direction relative to cell1.</param>
-    HexMeshBridge TriangulateBridge(EdgeDirection direction, HexCell cell1, HexCell cell2)
+    void TriangulateBridge(EdgeDirection direction, HexCell cell1, HexCell cell2)
     {
-        int v0 = vertices.Count;
         TexturedEdge e1 = cell1.GetEdge(direction).Reversed();
         TexturedEdge e2 = cell2.GetEdge(direction.Opposite());
-        if (cell1.Elevation == cell2.Elevation && false) {
+        if (cell1.Elevation == cell2.Elevation) {
             AddQuadWithTerrain(e1, e2);
-            return new HexMeshBridge(e1, e2);
         }
         else {
             var e1offset = new TexturedEdge(e1.Slerp(e2, .15f), TerrainTexture.CLIFF);
             var e2offset = new TexturedEdge(e2.Slerp(e1, .15f), TerrainTexture.CLIFF);
-            if (Math.Abs(cell1.Elevation - cell2.Elevation) <= 1) {
+            if (Math.Abs(cell1.Elevation - cell2.Elevation) == 1) {
                 float y = (e1offset.vertex1.y + e2offset.vertex1.y) / 2;
                 e1offset.vertex1.y = e1offset.vertex2.y = y;
                 e2offset.vertex1.y = e2offset.vertex2.y = y;
@@ -138,59 +122,8 @@ public class HexMeshChunk : MonoBehaviour
             AddQuadWithTerrain(e1, e1offset);
             AddQuadWithTerrain(e1offset, e2offset);
             AddQuadWithTerrain(e2offset, e2);
-            return new HexMeshBridge(e1, e1offset, e2offset, e2);
         }
-    }
 
-    void TringulateCorner(HexMeshBridge b1, HexMeshBridge b2, HexMeshBridge b3)
-    {
-        UnityUtils.Log("Adding bridges");
-        AddTriangle(
-            b1.edges[0].vertex1, b1.edges[1].vertex1, b2.edges[1].vertex2);
-        AddColors(Colors.RED, Colors.GREEN, Colors.BLUE);
-        AddTerrainType(b1.edges[0].texture, b1.edges[1].texture, b2.edges[1].texture, 3);
-
-        AddTriangle(
-            b3.edges[0].vertex1, b3.edges[1].vertex1, b1.edges[2].vertex1);
-        AddColors(Colors.RED, Colors.GREEN, Colors.BLUE);
-        AddTerrainType(b3.edges[0].texture, b3.edges[1].texture, b1.edges[2].texture, 3);
-        //AddTerrainType(TerrainTexture.SAND_DUNES, TerrainTexture.SAND_DUNES, TerrainTexture.SAND_DUNES, 3);
-
-        AddTriangle(
-            b2.edges[3].vertex2, b2.edges[2].vertex2, b3.edges[2].vertex1);
-        AddColors(Colors.RED, Colors.GREEN, Colors.BLUE);
-        AddTerrainType(b2.edges[3].texture, b2.edges[2].texture, b3.edges[2].texture, 3);
-        //AddTerrainType(TerrainTexture.TEMPERATE_FOREST, TerrainTexture.TEMPERATE_FOREST, TerrainTexture.TEMPERATE_FOREST, 3);
-
-        AddTriangle(
-            b1.edges[2].vertex1, b3.edges[1].vertex1, b3.edges[2].vertex1);
-        AddColors(Colors.RED, Colors.GREEN, Colors.BLUE);
-        AddTerrainType(b1.edges[2].texture, b3.edges[1].texture, b3.edges[2].texture, 3);
-        //AddTerrainType(TerrainTexture.TEALWATER, TerrainTexture.TEALWATER, TerrainTexture.TEALWATER, 3);
-
-        AddTriangle(
-            b1.edges[2].vertex1, b2.edges[2].vertex2, b1.edges[1].vertex1);
-        AddColors(Colors.RED, Colors.GREEN, Colors.BLUE);
-        AddTerrainType(b1.edges[2].texture, b2.edges[2].texture, b1.edges[1].texture, 3);
-        //AddTerrainType(TerrainTexture.GLACIER, TerrainTexture.GLACIER, TerrainTexture.GLACIER, 3);
-
-        AddTriangle(
-            b1.edges[2].vertex1, b3.edges[2].vertex1, b2.edges[2].vertex2);
-        AddColors(Colors.RED, Colors.GREEN, Colors.BLUE);
-        AddTerrainType(b1.edges[2].texture, b3.edges[2].texture, b2.edges[2].texture, 3);
-        //AddTerrainType(TerrainTexture.ROCKY_SNOW, TerrainTexture.ROCKY_SNOW, TerrainTexture.ROCKY_SNOW, 3);
-
-        AddTriangle(
-            b1.edges[1].vertex1, b2.edges[2].vertex2, b2.edges[1].vertex2);
-        AddColors(Colors.RED, Colors.GREEN, Colors.BLUE);
-        AddTerrainType(b1.edges[1].texture, b2.edges[2].texture, b2.edges[1].texture, 3);
-        //AddTerrainType(TerrainTexture.ROCKY_SNOW, TerrainTexture.ROCKY_SNOW, TerrainTexture.ROCKY_SNOW, 3);
-
-
-        //AddTriangle(
-        //    b2.edges[0].vertex2, b1.edges[1].vertex1, b2.edges[1].vertex2);
-        //AddColors(Colors.RED, Colors.GREEN, Colors.BLUE);
-        //AddTerrainType(TerrainTexture.TEALWATER, TerrainTexture.TEALWATER, TerrainTexture.TEALWATER, 3);
     }
 
     /// <summary>
@@ -205,7 +138,8 @@ public class HexMeshChunk : MonoBehaviour
             cell2.Vertices[direction.Opposite().vertex1],
             cell3.Vertices[direction.Previous().vertex1]);
         AddColors(Colors.RED, Colors.GREEN, Colors.BLUE);
-        if (cell1.Elevation == cell2.Elevation && cell2.Elevation == cell3.Elevation) {
+        var elevations = new HexCell[] { cell1, cell2, cell3 }.Select(c => c.Elevation);
+        if (Math.Abs(elevations.Max() - elevations.Min()) <= 1) {
             AddTerrainType(cell1.TerrainType, cell2.TerrainType, cell3.TerrainType, 3);
         }
         else {
@@ -253,13 +187,3 @@ public class HexMeshChunk : MonoBehaviour
 
 }
 
-
-class HexMeshBridge
-{
-    public TexturedEdge[] edges;
-
-    public HexMeshBridge(params TexturedEdge[] edges)
-    {
-        this.edges = edges;
-    }
-}

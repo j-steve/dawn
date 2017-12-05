@@ -11,3 +11,10 @@ Library/
 /.vs/
 *.sln
 *.csproj
+
+# ================= #
+# Game Output Files #
+# ================= #
+game_Data/ 
+UnityPlayer.dll
+game.exe
