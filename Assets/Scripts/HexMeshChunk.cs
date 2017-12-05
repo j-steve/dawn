@@ -146,10 +146,51 @@ public class HexMeshChunk : MonoBehaviour
     {
         UnityUtils.Log("Adding bridges");
         AddTriangle(
-            b1.edges[0].vertex2, b1.edges[1].vertex2, b3.edges[1].vertex1);
+            b1.edges[0].vertex1, b1.edges[1].vertex1, b2.edges[1].vertex2);
         AddColors(Colors.RED, Colors.GREEN, Colors.BLUE);
-        //AddTerrainType(b1.edges[0].texture, b3.edges[1].texture, b1.edges[1].texture, 3);
-        AddTerrainType(TerrainTexture.TEALWATER, TerrainTexture.TEALWATER, TerrainTexture.TEALWATER, 3);
+        AddTerrainType(b1.edges[0].texture, b1.edges[1].texture, b2.edges[1].texture, 3);
+
+        AddTriangle(
+            b3.edges[0].vertex1, b3.edges[1].vertex1, b1.edges[2].vertex1);
+        AddColors(Colors.RED, Colors.GREEN, Colors.BLUE);
+        AddTerrainType(b3.edges[0].texture, b3.edges[1].texture, b1.edges[2].texture, 3);
+        //AddTerrainType(TerrainTexture.SAND_DUNES, TerrainTexture.SAND_DUNES, TerrainTexture.SAND_DUNES, 3);
+
+        AddTriangle(
+            b2.edges[3].vertex2, b2.edges[2].vertex2, b3.edges[2].vertex1);
+        AddColors(Colors.RED, Colors.GREEN, Colors.BLUE);
+        AddTerrainType(b2.edges[3].texture, b2.edges[2].texture, b3.edges[2].texture, 3);
+        //AddTerrainType(TerrainTexture.TEMPERATE_FOREST, TerrainTexture.TEMPERATE_FOREST, TerrainTexture.TEMPERATE_FOREST, 3);
+
+        AddTriangle(
+            b1.edges[2].vertex1, b3.edges[1].vertex1, b3.edges[2].vertex1);
+        AddColors(Colors.RED, Colors.GREEN, Colors.BLUE);
+        AddTerrainType(b1.edges[2].texture, b3.edges[1].texture, b3.edges[2].texture, 3);
+        //AddTerrainType(TerrainTexture.TEALWATER, TerrainTexture.TEALWATER, TerrainTexture.TEALWATER, 3);
+
+        AddTriangle(
+            b1.edges[2].vertex1, b2.edges[2].vertex2, b1.edges[1].vertex1);
+        AddColors(Colors.RED, Colors.GREEN, Colors.BLUE);
+        AddTerrainType(b1.edges[2].texture, b2.edges[2].texture, b1.edges[1].texture, 3);
+        //AddTerrainType(TerrainTexture.GLACIER, TerrainTexture.GLACIER, TerrainTexture.GLACIER, 3);
+
+        AddTriangle(
+            b1.edges[2].vertex1, b3.edges[2].vertex1, b2.edges[2].vertex2);
+        AddColors(Colors.RED, Colors.GREEN, Colors.BLUE);
+        AddTerrainType(b1.edges[2].texture, b3.edges[2].texture, b2.edges[2].texture, 3);
+        //AddTerrainType(TerrainTexture.ROCKY_SNOW, TerrainTexture.ROCKY_SNOW, TerrainTexture.ROCKY_SNOW, 3);
+
+        AddTriangle(
+            b1.edges[1].vertex1, b2.edges[2].vertex2, b2.edges[1].vertex2);
+        AddColors(Colors.RED, Colors.GREEN, Colors.BLUE);
+        AddTerrainType(b1.edges[1].texture, b2.edges[2].texture, b2.edges[1].texture, 3);
+        //AddTerrainType(TerrainTexture.ROCKY_SNOW, TerrainTexture.ROCKY_SNOW, TerrainTexture.ROCKY_SNOW, 3);
+
+
+        //AddTriangle(
+        //    b2.edges[0].vertex2, b1.edges[1].vertex1, b2.edges[1].vertex2);
+        //AddColors(Colors.RED, Colors.GREEN, Colors.BLUE);
+        //AddTerrainType(TerrainTexture.TEALWATER, TerrainTexture.TEALWATER, TerrainTexture.TEALWATER, 3);
     }
 
     /// <summary>

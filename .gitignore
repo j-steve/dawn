@@ -3,6 +3,7 @@
 # =============== #
 Temp/ 
 Library/
+.collabignore
 
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
