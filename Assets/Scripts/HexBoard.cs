@@ -19,7 +19,7 @@ public class HexBoard : MonoBehaviour
 
     public HexChunk hexChunkPrefab;
     public HexCell hexCellPrefab;
-    public Text hexCellLabelPrefab;
+    public Text hexLabelPrefab;
 
     public readonly Dictionary<HexCellCoordinates, HexCell> hexCells = new Dictionary<HexCellCoordinates, HexCell>();
 

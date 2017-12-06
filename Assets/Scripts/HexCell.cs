@@ -104,10 +104,10 @@ public class HexCell : MonoBehaviour
 
     void CreateLabel(Canvas hexCanvas)
     {
-        label = Instantiate(HexBoard.ActiveBoard.hexCellLabelPrefab);
+        label = Instantiate(HexBoard.ActiveBoard.hexLabelPrefab);
+        label.name = "HexLabel " + Coordinates.ToString();
         label.rectTransform.SetParent(hexCanvas.transform, false);
         label.rectTransform.anchoredPosition = new Vector2(Center.x, Center.z);
-        //label.text = Coordinates.ToStringOnSeparateLines();
         label.text = Mathf.RoundToInt(Latitude * 100).ToString();
     }
 
