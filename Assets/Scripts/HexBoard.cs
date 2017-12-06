@@ -18,7 +18,7 @@ public class HexBoard : MonoBehaviour
     public Material terrainMaterial;
     public Canvas hexBoardLabelCanvas;
 
-    public HexMeshChunk hexMeshChunkPrefab;
+    public HexChunk hexChunkPrefab;
     public HexCell hexCellPrefab;
     public Text hexCellLabelPrefab;
 

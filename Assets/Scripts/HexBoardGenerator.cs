@@ -19,16 +19,17 @@ public class HexBoardGenerator : MonoBehaviour
         // Triangulate each HexMeshChunk to make the map visible.
         foreach (var entry in hexChunks) {
             entry.Key.Triangulate(entry.Value);
+            HexChunk.Create(hexBoard.hexChunkPrefab, entry.Key.row, entry.Key.column);
         }
 
     }
 
-    Dictionary<HexMeshChunk, IEnumerable<HexCell>> GetHexMeshChunks()
+    Dictionary<HexChunk, IEnumerable<HexCell>> GetHexMeshChunks()
     {
-        var chunks = new Dictionary<HexMeshChunk, IEnumerable<HexCell>>();
+        var chunks = new Dictionary<HexChunk, IEnumerable<HexCell>>();
         for (int row = 0; row < hexBoard.mapSize.Height; row++) {
             for (int column = 0; column < hexBoard.mapSize.Width; column++) {
-                var chunk = HexMeshChunk.Create(hexBoard.hexMeshChunkPrefab, row, column);
+                var chunk = HexChunk.Create(hexBoard.hexChunkPrefab, row, column);
                 chunks[chunk] = GetChunkHexCells(row, column);
             }
         }
