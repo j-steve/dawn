@@ -63,7 +63,7 @@ public class HexBoard : MonoBehaviour
                 if (searchFromCell && highlightedCell) {
                     var path = Search(searchFromCell, highlightedCell);
                     for (int i = 1; i < path.Count - 1; i++) {
-                        path[i].Highlight(Color.white);
+                        path[i].Highlight(Color.yellow);
                         pathCells.Add(path[i]);
                     }
                 }
@@ -122,7 +122,7 @@ public class HexBoard : MonoBehaviour
                 return ReconstructPath(cameFrom, goal);
             }
             if (current != start) {
-                current.Highlight(Color.yellow);
+                current.Highlight(Color.gray);
                 pathCells.Add(current);
             }
 
