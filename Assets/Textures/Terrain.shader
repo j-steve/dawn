@@ -1,4 +1,4 @@
-﻿Shader "Custom/TerrainShader" {
+﻿Shader "Custom/Terrain" {
 	Properties {
 		_Color ("Color", Color) = (1,1,1,1)
 		_MainTex ("Terrain Texture Array", 2DArray) = "white" {}

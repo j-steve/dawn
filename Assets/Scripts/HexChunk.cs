@@ -22,6 +22,7 @@ public class HexChunk : MonoBehaviour
 
     public Canvas hexCanvas;
     public HexMeshTerrain terrainMesh;
+    public HexMesh oceanMesh;
 
     public int row { get; private set; }
     public int column { get; private set; }
