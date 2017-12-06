@@ -16,7 +16,6 @@ public class HexBoard : MonoBehaviour
     public float continentsPerChunk;
 
     public Material terrainMaterial;
-    public Canvas hexBoardLabelCanvas;
 
     public HexChunk hexChunkPrefab;
     public HexCell hexCellPrefab;

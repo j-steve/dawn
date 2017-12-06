@@ -20,6 +20,7 @@ public class HexChunk : MonoBehaviour
 
     #endregion
 
+    public Canvas hexCanvas;
     public HexMeshTerrain terrainMesh;
 
     public int row { get; private set; }

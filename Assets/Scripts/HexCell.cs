@@ -97,16 +97,15 @@ public class HexCell : MonoBehaviour
         Center = new Vector3(x * (float)HexConstants.HEX_DIAMETER, 0f, row * 1.5f)
             * (float)HexConstants.HEX_CELL_SEPERATION;
         SetVertices();
-        CreateLabel();
+        CreateLabel(chunk.hexCanvas);
 
         TerrainType = TerrainTexture.TEALWATER;
     }
 
-    void CreateLabel()
+    void CreateLabel(Canvas hexCanvas)
     {
         label = Instantiate(HexBoard.ActiveBoard.hexCellLabelPrefab);
-        var canvas = HexBoard.ActiveBoard.hexBoardLabelCanvas;
-        label.rectTransform.SetParent(canvas.transform, false);
+        label.rectTransform.SetParent(hexCanvas.transform, false);
         label.rectTransform.anchoredPosition = new Vector2(Center.x, Center.z);
         //label.text = Coordinates.ToStringOnSeparateLines();
         label.text = Mathf.RoundToInt(Latitude * 100).ToString();
