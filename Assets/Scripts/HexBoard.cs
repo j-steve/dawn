@@ -100,56 +100,54 @@ public class HexBoard : MonoBehaviour
 
         // For each node, the total cost of getting from the start node to the goal
         // by passing by that node. That value is partly known, partly heuristic.
-        var fScore = new Dictionary<HexCell, float>() {
-            { toCell, HeuristicCostEstimate(fromCell, toCell) }
-        };
+        var fScore = new Priority_Queue.SimplePriorityQueue<HexCell>();
+        fScore.Enqueue(toCell, HeuristicCostEstimate(fromCell, toCell));
 
         while (openSet.Count > 0) {
+            //    current:= the node in openSet having the lowest fScore[] value
+            //    if current = goal
+            //        return reconstruct_path(cameFrom, current)
+
+            //    openSet.Remove(current)
+            //    closedSet.Add(current)
+
+            //    for each neighbor of current
+            //        if neighbor in closedSet
+            //            continue		// Ignore the neighbor which is already evaluated.
+
+            //        if neighbor not in openSet	// Discover a new node
+            //            openSet.Add(neighbor)
+
+            //        // The distance from start to a neighbor
+            //        //the "dist_between" function may vary as per the solution requirements.
+            //    tentative_gScore:= gScore[current] + dist_between(current, neighbor)
+            //        if tentative_gScore >= gScore[neighbor]
+            //            continue		// This is not a better path.
+
+            //        // This path is the best until now. Record it!
+            //        cameFrom[neighbor] := current
+            //        gScore[neighbor] := tentative_gScore
+            //        fScore[neighbor] := gScore[neighbor] + heuristic_cost_estimate(neighbor, goal)
+
+            //return failure
+            return null;
+
+
         }
-        //    current:= the node in openSet having the lowest fScore[] value
-        //    if current = goal
-        //        return reconstruct_path(cameFrom, current)
 
-        //    openSet.Remove(current)
-        //    closedSet.Add(current)
+        float HeuristicCostEstimate(HexCell c1, HexCell c2)
+        {
+            int sumOfDiff =
+                Math.Abs(c1.Coordinates.X - c2.Coordinates.X) +
+                Math.Abs(c1.Coordinates.Y - c2.Coordinates.Y) +
+                Math.Abs(c1.Coordinates.Z - c2.Coordinates.Z);
+            return sumOfDiff / 2;
+        }
 
-        //    for each neighbor of current
-        //        if neighbor in closedSet
-        //            continue		// Ignore the neighbor which is already evaluated.
-
-        //        if neighbor not in openSet	// Discover a new node
-        //            openSet.Add(neighbor)
-
-        //        // The distance from start to a neighbor
-        //        //the "dist_between" function may vary as per the solution requirements.
-        //    tentative_gScore:= gScore[current] + dist_between(current, neighbor)
-        //        if tentative_gScore >= gScore[neighbor]
-        //            continue		// This is not a better path.
-
-        //        // This path is the best until now. Record it!
-        //        cameFrom[neighbor] := current
-        //        gScore[neighbor] := tentative_gScore
-        //        fScore[neighbor] := gScore[neighbor] + heuristic_cost_estimate(neighbor, goal)
-
-        //return failure
-        return null;
+        void OnEnable()
+        {
+            ActiveBoard = this;
+        }
 
 
     }
-
-    float HeuristicCostEstimate(HexCell c1, HexCell c2)
-    {
-        int sumOfDiff =
-            Math.Abs(c1.Coordinates.X - c2.Coordinates.X) +
-            Math.Abs(c1.Coordinates.Y - c2.Coordinates.Y) +
-            Math.Abs(c1.Coordinates.Z - c2.Coordinates.Z);
-        return sumOfDiff / 2;
-    }
-
-    void OnEnable()
-    {
-        ActiveBoard = this;
-    }
-
-
-}
