@@ -19,7 +19,6 @@ public class HexBoardGenerator : MonoBehaviour
         // Triangulate each HexMeshChunk to make the map visible.
         foreach (var entry in hexChunks) {
             entry.Key.Triangulate(entry.Value);
-            HexChunk.Create(hexBoard.hexChunkPrefab, entry.Key.row, entry.Key.column);
         }
 
     }
@@ -30,22 +29,22 @@ public class HexBoardGenerator : MonoBehaviour
         for (int row = 0; row < hexBoard.mapSize.Height; row++) {
             for (int column = 0; column < hexBoard.mapSize.Width; column++) {
                 var chunk = HexChunk.Create(hexBoard.hexChunkPrefab, row, column);
-                chunks[chunk] = GetChunkHexCells(row, column);
+                chunks[chunk] = GetChunkHexCells(chunk);
             }
         }
         return chunks;
     }
 
-    IEnumerable<HexCell> GetChunkHexCells(int chunkRow, int chunkColumn)
+    IEnumerable<HexCell> GetChunkHexCells(HexChunk chunk)
     {
         var chunkCells = new List<HexCell>();
-        int rowStart = chunkRow * HexConstants.CELLS_PER_CHUNK_ROW;
+        int rowStart = chunk.row * HexConstants.CELLS_PER_CHUNK_ROW;
         int rowEnd = rowStart + HexConstants.CELLS_PER_CHUNK_ROW;
-        int colStart = chunkColumn * HexConstants.CELLS_PER_CHUNK_ROW;
+        int colStart = chunk.column * HexConstants.CELLS_PER_CHUNK_ROW;
         int colEnd = colStart + HexConstants.CELLS_PER_CHUNK_ROW;
         for (int row = rowStart; row < rowEnd; row++) {
             for (int column = colStart; column < colEnd; column++) {
-                var cell = HexCell.Create(hexBoard.hexCellPrefab, row, column);
+                var cell = HexCell.Create(hexBoard.hexCellPrefab, chunk, row, column);
                 hexBoard.hexCells[cell.Coordinates] = cell;
                 chunkCells.Add(cell);
             }
