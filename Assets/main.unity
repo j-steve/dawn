@@ -376,6 +376,48 @@ Transform:
   m_Father: {fileID: 1718932251}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 141.082, y: 163.5, z: 180.99}
+--- !u!1001 &823740094
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4133001965420264, guid: 790f4dae637102246b086a8a25df9b04, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4133001965420264, guid: 790f4dae637102246b086a8a25df9b04, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4133001965420264, guid: 790f4dae637102246b086a8a25df9b04, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4133001965420264, guid: 790f4dae637102246b086a8a25df9b04, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4133001965420264, guid: 790f4dae637102246b086a8a25df9b04, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4133001965420264, guid: 790f4dae637102246b086a8a25df9b04, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4133001965420264, guid: 790f4dae637102246b086a8a25df9b04, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4133001965420264, guid: 790f4dae637102246b086a8a25df9b04, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 790f4dae637102246b086a8a25df9b04, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &927937961
 GameObject:
   m_ObjectHideFlags: 0
@@ -1121,7 +1163,7 @@ MonoBehaviour:
     Width: 25
   continentsPerChunk: 0.15
   terrainMaterial: {fileID: 2100000, guid: da21c4b7cfd02814a943562532d7ff2f, type: 2}
-  hexChunkPrefab: {fileID: 114390915673853376, guid: 790f4dae637102246b086a8a25df9b04,
+  hexChunkPrefab: {fileID: 114703489280269904, guid: 790f4dae637102246b086a8a25df9b04,
     type: 2}
   hexCellPrefab: {fileID: 114815056602809336, guid: 7ef5bcf3f460d38418341a6e0f54ba30,
     type: 2}

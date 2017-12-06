@@ -23,6 +23,7 @@ public class HexChunk : MonoBehaviour
     public Canvas hexCanvas;
     public HexMeshTerrain terrainMesh;
     public HexMesh oceanMesh;
+    public HexMesh lakeMesh;
 
     public int row { get; private set; }
     public int column { get; private set; }
@@ -39,6 +40,7 @@ public class HexChunk : MonoBehaviour
     {
         terrainMesh.Clear();
         oceanMesh.Clear();
+        lakeMesh.Clear();
         foreach (HexCell cell in hexCells) {
             TriangulateHexCell(cell);
             if (cell.Elevation == 0) { TriangulateWater(cell); }
@@ -57,6 +59,7 @@ public class HexChunk : MonoBehaviour
         }
         terrainMesh.Apply();
         oceanMesh.Apply();
+        lakeMesh.Apply();
     }
 
 
@@ -69,18 +72,19 @@ public class HexChunk : MonoBehaviour
 
     private void TriangulateWater(HexCell cell)
     {
-        int v0 = oceanMesh.vertices.Count;
+        var mesh = cell.TerrainType == TerrainTexture.BLUEWATER ? oceanMesh : lakeMesh;
+        int v0 = mesh.vertices.Count;
         Vector3 center = cell.Center + WATERLEVEL;
-        oceanMesh.vertices.Add(cell.Center + WATERLEVEL);
+        mesh.vertices.Add(cell.Center + WATERLEVEL);
         foreach (var vertexOffset in HEX_VERTEX_OFFSETS) {
-            oceanMesh.vertices.Add(center + vertexOffset);
-            oceanMesh.vertices.Add(center - vertexOffset);
+            mesh.vertices.Add(center + vertexOffset);
+            mesh.vertices.Add(center - vertexOffset);
         }
         for (int i = 1; i <= 4; i++) {
-            oceanMesh.triangles.AddRange(new int[] { v0, v0 + i, v0 + i + 2 });
+            mesh.triangles.AddRange(new int[] { v0, v0 + i, v0 + i + 2 });
         }
-        oceanMesh.triangles.AddRange(new int[] { v0, v0 + 5, v0 + 2 });
-        oceanMesh.triangles.AddRange(new int[] { v0, v0 + 6, v0 + 1 });
+        mesh.triangles.AddRange(new int[] { v0, v0 + 5, v0 + 2 });
+        mesh.triangles.AddRange(new int[] { v0, v0 + 6, v0 + 1 });
     }
 
     /// <summary>
