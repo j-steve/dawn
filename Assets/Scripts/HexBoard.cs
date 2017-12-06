@@ -23,6 +23,9 @@ public class HexBoard : MonoBehaviour
 
     public readonly Dictionary<HexCellCoordinates, HexCell> hexCells = new Dictionary<HexCellCoordinates, HexCell>();
 
+    HexCell highlightedCell;
+    HexCell searchFromCell;
+
     // Use this for initialization
     void Start()
     {
@@ -41,13 +44,29 @@ public class HexBoard : MonoBehaviour
             terrainMaterial.ToggleKeyword("GRIDLINES_ON");
         }
         if (Input.GetMouseButton(0)) {
-            HandleCellClick();
+            HexCell clickedCell = GetCellClickTarget();
+            if (clickedCell != null) {
+                Color color = Color.green;
+                if (Input.GetKey(KeyCode.LeftShift)) {
+                    if (searchFromCell != null) {
+                        searchFromCell.Highlight(null);
+                    }
+                    searchFromCell = clickedCell;
+                    searchFromCell.Highlight(Color.blue);
+                }
+                else {
+                    if (highlightedCell != null) {
+                        highlightedCell.Highlight(null);
+                    }
+                    highlightedCell = clickedCell;
+                    clickedCell.Highlight(Color.green);
+                }
+            }
         }
     }
 
-    HexCell highlightedCell;
 
-    void HandleCellClick()
+    HexCell GetCellClickTarget()
     {
         Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -55,11 +74,10 @@ public class HexBoard : MonoBehaviour
             Vector3 position = transform.InverseTransformPoint(hit.point);
             var coordinates = HexCellCoordinates.FromPosition(position);
             if (hexCells.ContainsKey(coordinates)) {
-                if (highlightedCell) { highlightedCell.Highlight(false); }
-                highlightedCell = hexCells[coordinates];
-                highlightedCell.Highlight(true);
+                return hexCells[coordinates];
             }
         }
+        return null;
     }
 
     void OnEnable()

@@ -55,8 +55,6 @@ public class HexCell : MonoBehaviour
         }
     }
 
-    public Color32 Color;
-
     public TerrainTexture TerrainType;
 
     public int Biome = 0;
@@ -161,10 +159,10 @@ public class HexCell : MonoBehaviour
         return new TexturedEdge(Vertices[direction.vertex1], Vertices[direction.vertex2], this.TerrainType);
     }
 
-    public void Highlight(bool toggleOn)
+    public void Highlight(Color? color)
     {
         var highlight = label.rectTransform.GetComponentInChildren<Image>();
-        highlight.color = Colors.GREEN;
-        highlight.enabled = toggleOn;
+        if (color.HasValue) { highlight.color = color.Value; }
+        highlight.enabled = color.HasValue;
     }
 }
