@@ -25,6 +25,7 @@ public class HexBoard : MonoBehaviour
 
     HexCell highlightedCell;
     HexCell searchFromCell;
+    List<HexCell> pathCells = new List<HexCell>();
 
     // Use this for initialization
     void Start()
@@ -46,6 +47,8 @@ public class HexBoard : MonoBehaviour
         if (Input.GetMouseButton(0)) {
             HexCell clickedCell = GetCellClickTarget();
             if (clickedCell != null) {
+                foreach (var cell in pathCells) { cell.Highlight(null); }
+                pathCells.Clear();
                 Color color = Color.green;
                 if (Input.GetKey(KeyCode.LeftShift)) {
                     if (searchFromCell) { searchFromCell.Highlight(null); }
@@ -56,6 +59,13 @@ public class HexBoard : MonoBehaviour
                     if (highlightedCell) { highlightedCell.Highlight(null); }
                     highlightedCell = clickedCell;
                     clickedCell.Highlight(Color.green);
+                }
+                if (searchFromCell && highlightedCell) {
+                    var path = Search(searchFromCell, highlightedCell);
+                    for (int i = 1; i < path.Count - 1; i++) {
+                        path[i].Highlight(Color.white);
+                        pathCells.Add(path[i]);
+                    }
                 }
             }
         }
@@ -77,18 +87,19 @@ public class HexBoard : MonoBehaviour
 
     public void FindPath(HexCell fromCell, HexCell toCell)
     {
-        StopAllCoroutines();
-        StartCoroutine(Search(fromCell, toCell));
+        //StopAllCoroutines();
+        //StartCoroutine(Search(fromCell, toCell));
     }
 
-    IEnumerator Search(HexCell fromCell, HexCell toCell)
+    List<HexCell> Search(HexCell start, HexCell goal)
     {
         // The set of nodes already evaluated
         var closedSet = new HashSet<HexCell>();
 
         // The set of currently discovered nodes that are not evaluated yet.
         // Initially, only the start node is known.
-        var openSet = new HashSet<HexCell>();
+        var openSet = new Priority_Queue.SimplePriorityQueue<HexCell>();
+        openSet.Enqueue(start, 0);
 
         // For each node, which node it can most efficiently be reached from.
         // If a node can be reached from many nodes, cameFrom will eventually contain the
@@ -96,58 +107,78 @@ public class HexBoard : MonoBehaviour
         var cameFrom = new Dictionary<HexCell, HexCell>();
 
         // For each node, the cost of getting from the start node to that node.
-        var gScore = new Dictionary<HexCell, float>() { { fromCell, 0 } };
+        var gScore = new Dictionary<HexCell, float>() { { start, 0 } };
 
         // For each node, the total cost of getting from the start node to the goal
         // by passing by that node. That value is partly known, partly heuristic.
-        var fScore = new Priority_Queue.SimplePriorityQueue<HexCell>();
-        fScore.Enqueue(toCell, HeuristicCostEstimate(fromCell, toCell));
+        var fScore = new Dictionary<HexCell, float>() {
+            { goal, HeuristicCostEstimate(start, goal) }
+        };
 
-        while (openSet.Count > 0) {
-            //    current:= the node in openSet having the lowest fScore[] value
-            //    if current = goal
-            //        return reconstruct_path(cameFrom, current)
+        HexCell current;
+        while (openSet.TryDequeue(out current)) {
+            if (current == goal) {
+                UnityUtils.Log("MATCH! Checked {0} for {1} to {2}, current is {3}", closedSet.Count, start, goal, current);
+                return ReconstructPath(cameFrom, goal);
+            }
+            if (current != start) {
+                current.Highlight(Color.yellow);
+                pathCells.Add(current);
+            }
 
-            //    openSet.Remove(current)
-            //    closedSet.Add(current)
+            foreach (var neighbor in current.GetNeighbors()) {
+                if (closedSet.Contains(neighbor)) { UnityUtils.Log("{0} ar openSet", openSet); continue; }
+                UnityUtils.Log("Adding {0} to openSet", openSet);
 
-            //    for each neighbor of current
-            //        if neighbor in closedSet
-            //            continue		// Ignore the neighbor which is already evaluated.
+                // The distance from start to a neighbor
+                //the "dist_between" function may vary as per the solution requirements.
+                var tentative_gScore = gScore[current] + DistanceBetween(current, neighbor);
+                if (!gScore.ContainsKey(neighbor) || tentative_gScore < gScore[neighbor]) {
+                    // This path is the best until now. Record it!
+                    cameFrom[neighbor] = current;
+                    gScore[neighbor] = tentative_gScore;
+                    fScore[neighbor] = tentative_gScore + HeuristicCostEstimate(neighbor, goal);
+                    openSet.Enqueue(neighbor, fScore[neighbor]); // Discover a new node.
+                }
+            }
 
-            //        if neighbor not in openSet	// Discover a new node
-            //            openSet.Add(neighbor)
-
-            //        // The distance from start to a neighbor
-            //        //the "dist_between" function may vary as per the solution requirements.
-            //    tentative_gScore:= gScore[current] + dist_between(current, neighbor)
-            //        if tentative_gScore >= gScore[neighbor]
-            //            continue		// This is not a better path.
-
-            //        // This path is the best until now. Record it!
-            //        cameFrom[neighbor] := current
-            //        gScore[neighbor] := tentative_gScore
-            //        fScore[neighbor] := gScore[neighbor] + heuristic_cost_estimate(neighbor, goal)
-
-            //return failure
-            return null;
-
-
+            closedSet.Add(current);
         }
+        UnityUtils.Log("No matches! Checked {0}", closedSet.Count);
 
-        float HeuristicCostEstimate(HexCell c1, HexCell c2)
-        {
-            int sumOfDiff =
-                Math.Abs(c1.Coordinates.X - c2.Coordinates.X) +
-                Math.Abs(c1.Coordinates.Y - c2.Coordinates.Y) +
-                Math.Abs(c1.Coordinates.Z - c2.Coordinates.Z);
-            return sumOfDiff / 2;
-        }
-
-        void OnEnable()
-        {
-            ActiveBoard = this;
-        }
-
-
+        return null;
     }
+
+    private float DistanceBetween(HexCell current, HexCell neighbor)
+    {
+        if ((current.Elevation == 0) != (neighbor.Elevation == 0)) {
+            return 100;
+        }
+        return Math.Abs(current.Elevation - neighbor.Elevation) * 2 + 1;
+    }
+
+    private List<HexCell> ReconstructPath(Dictionary<HexCell, HexCell> cameFrom, HexCell current)
+    {
+        var path = new List<HexCell>() { current };
+        while (cameFrom.TryGetValue(current, out current)) {
+            path.Add(current);
+        }
+        return path;
+    }
+
+    float HeuristicCostEstimate(HexCell c1, HexCell c2)
+    {
+        int sumOfDiff =
+            Math.Abs(c1.Coordinates.X - c2.Coordinates.X) +
+            Math.Abs(c1.Coordinates.Y - c2.Coordinates.Y) +
+            Math.Abs(c1.Coordinates.Z - c2.Coordinates.Z);
+        return sumOfDiff / 2;
+    }
+
+    void OnEnable()
+    {
+        ActiveBoard = this;
+    }
+
+
+}
