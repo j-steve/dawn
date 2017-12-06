@@ -7,6 +7,13 @@ using System.Linq;
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class HexMeshChunk : MonoBehaviour
 {
+    static public HexMeshChunk Create(HexMeshChunk prefab, int row, int column)
+    {
+        HexMeshChunk obj = Instantiate(prefab);
+        obj.Initialize(row, column);
+        return obj;
+    }
+
     static private readonly EdgeDirection[] EASTERLY_DIRECTIONS =
         new EdgeDirection[] { EdgeDirection.NE, EdgeDirection.E, EdgeDirection.SE };
 
@@ -22,7 +29,7 @@ public class HexMeshChunk : MonoBehaviour
     static List<Vector3> terrainTypes = new List<Vector3>();
 
 
-    internal void Initialize(int row, int column)
+    void Initialize(int row, int column)
     {
         this.row = row;
         this.column = column;

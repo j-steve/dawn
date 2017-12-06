@@ -28,8 +28,7 @@ public class HexBoardGenerator : MonoBehaviour
         var chunks = new Dictionary<HexMeshChunk, IEnumerable<HexCell>>();
         for (int row = 0; row < hexBoard.mapSize.Height; row++) {
             for (int column = 0; column < hexBoard.mapSize.Width; column++) {
-                HexMeshChunk chunk = Instantiate(hexBoard.hexMeshChunkPrefab);
-                chunk.Initialize(row, column);
+                var chunk = HexMeshChunk.Create(hexBoard.hexMeshChunkPrefab, row, column);
                 chunks[chunk] = GetChunkHexCells(row, column);
             }
         }
@@ -45,11 +44,9 @@ public class HexBoardGenerator : MonoBehaviour
         int colEnd = colStart + HexConstants.CELLS_PER_CHUNK_ROW;
         for (int row = rowStart; row < rowEnd; row++) {
             for (int column = colStart; column < colEnd; column++) {
-                HexCell hexCell = Instantiate(hexBoard.hexCellPrefab);
-                hexCell.Initialize(row, column);
-                hexBoard.hexCells[hexCell.Coordinates] = hexCell;
-                chunkCells.Add(hexCell);
-                //yield return hexCell;
+                var cell = HexCell.Create(hexBoard.hexCellPrefab, row, column);
+                hexBoard.hexCells[cell.Coordinates] = cell;
+                chunkCells.Add(cell);
             }
         }
         return chunkCells;

@@ -5,6 +5,12 @@ using UnityEngine.UI;
 
 public class HexCell : MonoBehaviour
 {
+    static public HexCell Create(HexCell prefab, int row, int column)
+    {
+        HexCell obj = Instantiate(prefab);
+        obj.Initialize(row, column);
+        return obj;
+    }
 
     static private readonly Vector3
         v1 = HexConstants.HEX_SIZE * new Vector3(0, 0, 1),
@@ -81,7 +87,7 @@ public class HexCell : MonoBehaviour
     /// </summary>
     /// <param name="row">The horizantal (x-axis) row for this cell.</param>
     /// <param name="column">The vertical (z-axis) column for this cell.</param>
-    internal void Initialize(int row, int column)
+    void Initialize(int row, int column)
     {
         Coordinates = HexCellCoordinates.FromOffsetCoordinates(column, row);
         name = "HexCell " + Coordinates.ToString();
