@@ -4,64 +4,38 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 
-[RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class HexChunk : MonoBehaviour
 {
-    static public HexChunk Create(HexChunk prefab, int row, int column)
+    #region Static
+
+    static readonly EdgeDirection[] EASTERLY_DIRECTIONS =
+        new EdgeDirection[] { EdgeDirection.NE, EdgeDirection.E, EdgeDirection.SE };
+
+    public static HexChunk Create(HexChunk prefab, int row, int column)
     {
         HexChunk obj = Instantiate(prefab);
         obj.Initialize(row, column);
         return obj;
     }
 
-    static private readonly EdgeDirection[] EASTERLY_DIRECTIONS =
-        new EdgeDirection[] { EdgeDirection.NE, EdgeDirection.E, EdgeDirection.SE };
+    #endregion
 
-    private Mesh mesh;
-    private MeshCollider meshCollider;
+    public HexMeshTerrain terrainMesh;
 
     public int row { get; private set; }
     public int column { get; private set; }
-
-    static List<Vector3> vertices = new List<Vector3>();
-    static List<int> triangles = new List<int>();
-    static List<Color32> colors = new List<Color32>();
-    static List<Vector3> terrainTypes = new List<Vector3>();
-
 
     void Initialize(int row, int column)
     {
         this.row = row;
         this.column = column;
-        name = "HexMeshChunk ({0}, {1})".Format(row, column);
+        name = "HexChunk ({0}, {1})".Format(row, column);
         transform.SetParent(HexBoard.ActiveBoard.transform);
-    }
-
-    // Use this for initialization
-    void Awake()
-    {
-        GetComponent<MeshFilter>().mesh = mesh = new Mesh();
-        meshCollider = gameObject.AddComponent<MeshCollider>();
-    }
-
-
-    private void OnDrawGizmos()
-    {
-        if (mesh != null) {
-            Gizmos.color = Color.black;
-            for (int i = 0; i < vertices.Count; i++) {
-                Gizmos.DrawSphere(vertices[i], 0.1f);
-            }
-        }
     }
 
     internal void Triangulate(IEnumerable<HexCell> hexCells)
     {
-        mesh.name = "Procedural Grid";
-        vertices.Clear();
-        triangles.Clear();
-        terrainTypes.Clear();
-        colors.Clear();
+        terrainMesh.Clear();
         foreach (HexCell cell in hexCells) {
             TriangulateHexCell(cell);
             foreach (EdgeDirection direction in EASTERLY_DIRECTIONS) {
@@ -77,16 +51,7 @@ public class HexChunk : MonoBehaviour
                 }
             }
         }
-
-        mesh.vertices = vertices.ToArray();
-        mesh.triangles = triangles.ToArray();
-        mesh.colors32 = colors.ToArray();
-
-        mesh.SetUVs(2, terrainTypes);
-
-        mesh.RecalculateNormals();
-
-        meshCollider.sharedMesh = mesh;
+        terrainMesh.Apply();
     }
 
     private void TriangulateWater(HexCell cell)
@@ -101,16 +66,16 @@ public class HexChunk : MonoBehaviour
     /// </summary>
     void TriangulateHexCell(HexCell hexCell)
     {
-        int center = vertices.Count;
-        vertices.Add(hexCell.Center);
-        AddColors(Colors.RED);
+        int center = terrainMesh.vertices.Count;
+        terrainMesh.vertices.Add(hexCell.Center);
+        terrainMesh.AddColors(Colors.RED);
         foreach (EdgeDirection direction in EnumClass.GetAll<EdgeDirection>()) {
-            vertices.AddRange(hexCell.GetEdge(direction));
-            AddColors(Colors.RED, Colors.RED);
-            triangles.AddRange(new int[] {
-                vertices.Count - 2, vertices.Count - 1, center});
+            terrainMesh.vertices.AddRange(hexCell.GetEdge(direction));
+            terrainMesh.AddColors(Colors.RED, Colors.RED);
+            terrainMesh.triangles.AddRange(new int[] {
+                terrainMesh.vertices.Count - 2, terrainMesh.vertices.Count - 1, center});
         }
-        AddTerrainType(hexCell.TerrainType, 0, 0, 13);
+        terrainMesh.AddTerrainType(hexCell.TerrainType, 0, 0, 13);
     }
 
     /// <summary>
@@ -123,7 +88,7 @@ public class HexChunk : MonoBehaviour
         TexturedEdge e1 = cell1.GetEdge(direction).Reversed();
         TexturedEdge e2 = cell2.GetEdge(direction.Opposite());
         if (cell1.Elevation == cell2.Elevation) {
-            AddQuadWithTerrain(e1, e2);
+            terrainMesh.AddQuadWithTerrain(e1, e2);
         }
         else {
             var e1offset = new TexturedEdge(e1.Slerp(e2, .15f), TerrainTexture.CLIFF);
@@ -135,9 +100,9 @@ public class HexChunk : MonoBehaviour
                 e1offset.texture = cell1.TerrainType;
                 e2offset.texture = cell2.TerrainType;
             }
-            AddQuadWithTerrain(e1, e1offset);
-            AddQuadWithTerrain(e1offset, e2offset);
-            AddQuadWithTerrain(e2offset, e2);
+            terrainMesh.AddQuadWithTerrain(e1, e1offset);
+            terrainMesh.AddQuadWithTerrain(e1offset, e2offset);
+            terrainMesh.AddQuadWithTerrain(e2offset, e2);
         }
 
     }
@@ -149,55 +114,17 @@ public class HexChunk : MonoBehaviour
     /// <param name="direction">The edge direction relative to cell1.</param>
     void TriangulateCorner(EdgeDirection direction, HexCell cell1, HexCell cell2, HexCell cell3)
     {
-        AddTriangle(
+        terrainMesh.AddTriangle(
             cell1.Vertices[direction.Next().vertex1],
             cell2.Vertices[direction.Opposite().vertex1],
             cell3.Vertices[direction.Previous().vertex1]);
-        AddColors(Colors.RED, Colors.GREEN, Colors.BLUE);
+        terrainMesh.AddColors(Colors.RED, Colors.GREEN, Colors.BLUE);
         var elevations = new HexCell[] { cell1, cell2, cell3 }.Select(c => c.Elevation);
         if (Math.Abs(elevations.Max() - elevations.Min()) <= 1) {
-            AddTerrainType(cell1.TerrainType, cell2.TerrainType, cell3.TerrainType, 3);
+            terrainMesh.AddTerrainType(cell1.TerrainType, cell2.TerrainType, cell3.TerrainType, 3);
         }
         else {
-            AddTerrainType(TerrainTexture.CLIFF, TerrainTexture.CLIFF, TerrainTexture.CLIFF, 3);
-        }
-    }
-
-    void AddTriangle(Vector3 v1, Vector3 v2, Vector3 v3)
-    {
-        int index = vertices.Count;
-        vertices.AddRange(new Vector3[] { v1, v2, v3 });
-        triangles.AddRange(new int[] { index, index + 1, index + 2 });
-    }
-
-    void AddQuadWithTerrain(TexturedEdge e1, TexturedEdge e2)
-    {
-        AddQuad(e1.vertex1, e1.vertex2, e2.vertex1, e2.vertex2);
-        AddColors(Colors.RED, Colors.RED, Colors.GREEN, Colors.GREEN);
-        AddTerrainType(e1.texture, e2.texture, 0, 4);
-    }
-
-    void AddQuad(Vector3 v1, Vector3 v2, Vector3 v3, Vector3 v4)
-    {
-        int i1 = vertices.Count;
-        vertices.AddRange(new Vector3[] { v1, v2, v3, v4 });
-        triangles.AddRange(new int[] { i1, i1 + 3, i1 + 2 });
-        triangles.AddRange(new int[] { i1, i1 + 1, i1 + 3 });
-    }
-
-    void AddColors(params Color32[] colorsToAdd)
-    {
-        colors.AddRange(colorsToAdd);
-    }
-
-    void AddTerrainType(
-        TerrainTexture redChannel, TerrainTexture blueChannel,
-        TerrainTexture greenChannel, int count)
-    {
-        Vector3 terrainType = new Vector3(
-            (int)redChannel, (int)blueChannel, (int)greenChannel);
-        for (int i = 0; i < count; i++) {
-            terrainTypes.Add(terrainType);
+            terrainMesh.AddTerrainType(TerrainTexture.CLIFF, TerrainTexture.CLIFF, TerrainTexture.CLIFF, 3);
         }
     }
 
