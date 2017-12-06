@@ -4,6 +4,15 @@ using System.Collections;
 
 public class Edge : IEnumerable<Vector3>
 {
+    static public Edge operator +(Edge e1, Edge e2)
+    {
+        return new Edge(e1.vertex1 + e2.vertex1, e1.vertex2 + e2.vertex2);
+    }
+    static public Edge operator +(Edge e1, Vector3 v1)
+    {
+        return new Edge(e1.vertex1 + v1, e1.vertex2 + v1);
+    }
+
     static public Edge[] Polygon(params Vector3[] vectors)
     {
         Edge[] edges = new Edge[vectors.Length];

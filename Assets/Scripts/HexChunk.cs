@@ -38,8 +38,10 @@ public class HexChunk : MonoBehaviour
     internal void Triangulate(IEnumerable<HexCell> hexCells)
     {
         terrainMesh.Clear();
+        oceanMesh.Clear();
         foreach (HexCell cell in hexCells) {
             TriangulateHexCell(cell);
+            if (cell.Elevation == 0) { TriangulateWater(cell); }
             foreach (EdgeDirection direction in EASTERLY_DIRECTIONS) {
                 HexCell neighbor = cell.GetNeighbor(direction);
                 if (neighbor != null) {
@@ -54,13 +56,31 @@ public class HexChunk : MonoBehaviour
             }
         }
         terrainMesh.Apply();
+        oceanMesh.Apply();
     }
+
+
+    static private readonly Vector3 WATERLEVEL = new Vector3(0, HexConstants.ELEVATION_STEP * 1.5f, 0);
+    static private readonly Vector3[] HEX_VERTEX_OFFSETS = new Vector3[]  {
+        HexConstants.HEX_CELL_SEPERATION * new Vector3(0, 0, 1),
+        HexConstants.HEX_CELL_SEPERATION * new Vector3((float)HexConstants.HEX_RADIUS, 0f, 0.5f),
+        HexConstants.HEX_CELL_SEPERATION * new Vector3((float)HexConstants.HEX_RADIUS, 0f, -0.5f),
+    };
 
     private void TriangulateWater(HexCell cell)
     {
-        foreach (var vertex in cell.Vertices) {
-
+        int v0 = oceanMesh.vertices.Count;
+        Vector3 center = cell.Center + WATERLEVEL;
+        oceanMesh.vertices.Add(cell.Center + WATERLEVEL);
+        foreach (var vertexOffset in HEX_VERTEX_OFFSETS) {
+            oceanMesh.vertices.Add(center + vertexOffset);
+            oceanMesh.vertices.Add(center - vertexOffset);
         }
+        for (int i = 1; i <= 4; i++) {
+            oceanMesh.triangles.AddRange(new int[] { v0, v0 + i, v0 + i + 2 });
+        }
+        oceanMesh.triangles.AddRange(new int[] { v0, v0 + 5, v0 + 2 });
+        oceanMesh.triangles.AddRange(new int[] { v0, v0 + 6, v0 + 1 });
     }
 
     /// <summary>
