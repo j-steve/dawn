@@ -61,9 +61,11 @@ public class HexMeshChunk : MonoBehaviour
                 HexCell neighbor = cell.GetNeighbor(direction);
                 if (neighbor != null) {
                     TriangulateBridge(direction, cell, neighbor);
-                    HexCell neighbor2 = cell.GetNeighbor(direction.Next());
-                    if (neighbor2 != null) {
-                        TriangulateCorner(direction, cell, neighbor, neighbor2);
+                    if (direction != EdgeDirection.SE) {
+                        HexCell neighbor2 = cell.GetNeighbor(direction.Next());
+                        if (neighbor2 != null) {
+                            TriangulateCorner(direction, cell, neighbor, neighbor2);
+                        }
                     }
                 }
             }
@@ -78,6 +80,13 @@ public class HexMeshChunk : MonoBehaviour
         mesh.RecalculateNormals();
 
         meshCollider.sharedMesh = mesh;
+    }
+
+    private void TriangulateWater(HexCell cell)
+    {
+        foreach (var vertex in cell.Vertices) {
+
+        }
     }
 
     /// <summary>
