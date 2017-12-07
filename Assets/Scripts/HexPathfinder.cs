@@ -52,8 +52,8 @@ public class HexPathfinder
                     continue;
                 }
                 // The movement cost for moving from current to this neighbor.
-                var tentativeGScore = gScore[current] + MovementCost(current, neighbor);
                 var existingScore = gScore.ContainsKey(neighbor);
+                var tentativeGScore = gScore[current] + MovementCost(current, neighbor);
                 if (!existingScore || tentativeGScore < gScore[neighbor]) {
                     // This path is cheapest yet seen for this neighbor.
                     cameFrom[neighbor] = current;
