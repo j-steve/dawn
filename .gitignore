@@ -12,13 +12,9 @@ Library/
 *.sln
 *.csproj
 
-# NuGet Packages
-Assets/Scripts/NuGet Packages/
-
 # ================= #
 # Game Output Files #
 # ================= #
 game_Data/ 
 UnityPlayer.dll
 game.exe
-game.zip
