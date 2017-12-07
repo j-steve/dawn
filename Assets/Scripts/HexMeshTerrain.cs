@@ -32,7 +32,7 @@ public class HexMeshTerrain : HexMesh
     public void AddQuadWithTerrain(TexturedEdge e1, TexturedEdge e2)
     {
         AddQuad(e1.vertex1, e1.vertex2, e2.vertex1, e2.vertex2);
-        AddColors(Colors.RED, Colors.RED, Colors.GREEN, Colors.GREEN);
+        AddColors(Color.red, Color.red, Color.green, Color.green);
         AddTerrainType(e1.texture, e2.texture, 0, 4);
     }
 
