@@ -94,10 +94,10 @@ public class HexChunk : MonoBehaviour
     {
         int center = terrainMesh.vertices.Count;
         terrainMesh.vertices.Add(hexCell.Center);
-        terrainMesh.AddColors(Colors.RED);
+        terrainMesh.AddColors(Color.red);
         foreach (EdgeDirection direction in EnumClass.GetAll<EdgeDirection>()) {
             terrainMesh.vertices.AddRange(hexCell.GetEdge(direction));
-            terrainMesh.AddColors(Colors.RED, Colors.RED);
+            terrainMesh.AddColors(Color.red, Color.red);
             terrainMesh.triangles.AddRange(new int[] {
                 terrainMesh.vertices.Count - 2, terrainMesh.vertices.Count - 1, center});
         }
@@ -144,7 +144,7 @@ public class HexChunk : MonoBehaviour
             cell1.Vertices[direction.Next().vertex1],
             cell2.Vertices[direction.Opposite().vertex1],
             cell3.Vertices[direction.Previous().vertex1]);
-        terrainMesh.AddColors(Colors.RED, Colors.GREEN, Colors.BLUE);
+        terrainMesh.AddColors(Color.red, Color.green, Color.blue);
         var elevations = new HexCell[] { cell1, cell2, cell3 }.Select(c => c.Elevation);
         if (Math.Abs(elevations.Max() - elevations.Min()) <= 1) {
             terrainMesh.AddTerrainType(cell1.TerrainType, cell2.TerrainType, cell3.TerrainType, 3);
