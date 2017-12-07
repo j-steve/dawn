@@ -11,6 +11,8 @@ Library/
 /.vs/
 *.sln
 *.csproj
+#NuGet
+packages/
 
 # ================= #
 # Game Output Files #
