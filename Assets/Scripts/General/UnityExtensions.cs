@@ -52,6 +52,20 @@ static public class UnityExtensions
             material.DisableKeyword(keyword);
         }
     }
+
+    /// <summary>
+    /// Calls <code>GetComponent</code> to retrieve the component of the
+    /// specified type within the GameObject, but throws an error if no
+    /// matching object exists.
+    /// </summary>
+    public static T GetRequiredComponent<T>(this MonoBehaviour obj) where T : MonoBehaviour
+    {
+        T component = obj.GetComponent<T>();
+        if (component == null) {
+            Debug.LogErrorFormat(obj, "Expected to find component of type \"{0}\" but found none", typeof(T));
+        }
+        return component;
+    }
 }
 
 static public class UnityUtils

@@ -20,11 +20,11 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.1, g: 0.1, b: 0.1, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 4
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
@@ -240,7 +240,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 577166862}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 362.5, y: 319.5, z: 0}
+  m_LocalPosition: {x: 237, y: 319.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1038096556}
@@ -311,6 +311,48 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1001 &655801226
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4412935152186004, guid: d91e3a265040dd9498ac36070f61e0e0, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4412935152186004, guid: d91e3a265040dd9498ac36070f61e0e0, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4412935152186004, guid: d91e3a265040dd9498ac36070f61e0e0, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4412935152186004, guid: d91e3a265040dd9498ac36070f61e0e0, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4412935152186004, guid: d91e3a265040dd9498ac36070f61e0e0, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4412935152186004, guid: d91e3a265040dd9498ac36070f61e0e0, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4412935152186004, guid: d91e3a265040dd9498ac36070f61e0e0, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4412935152186004, guid: d91e3a265040dd9498ac36070f61e0e0, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: d91e3a265040dd9498ac36070f61e0e0, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &809848274
 GameObject:
   m_ObjectHideFlags: 0
@@ -1127,6 +1169,9 @@ MonoBehaviour:
     type: 2}
   hexLabelPrefab: {fileID: 114980090634325804, guid: 59cdf4c4c28189e4f896e381668aaba7,
     type: 2}
+  moosePrefab: {fileID: 114682473205644196, guid: d91e3a265040dd9498ac36070f61e0e0,
+    type: 2}
+  mooseCount: 0
 --- !u!4 &1871998840
 Transform:
   m_ObjectHideFlags: 0
@@ -1256,10 +1301,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panSpeedMinZoom: 100
-  panSpeedMaxZoom: 25
+  panSpeedMaxZoom: 10
   fastPanSpeed: 4
   stickMinZoom: -500
-  stickMaxZoom: -50
+  stickMaxZoom: 15
   swivelMinZoom: 90
   swivelMaxZoom: 45
 --- !u!4 &2119277643

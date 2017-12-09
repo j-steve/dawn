@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 
 public class HexBoard : MonoBehaviour
 {
@@ -27,6 +28,9 @@ public class HexBoard : MonoBehaviour
     HexCell searchFromCell;
     internal List<HexCell> pathCells = new List<HexCell>();
 
+    public Unit moosePrefab;
+    public int mooseCount;
+
     // Use this for initialization
     void Start()
     {
@@ -36,6 +40,15 @@ public class HexBoard : MonoBehaviour
 #endif
         ActiveBoard = this;
         new HexBoardGenerator(this).CreateMap();
+        var x = new HashSet<HexCell>(hexCells.Values.Where(c => c.Elevation > 0));
+        while (x.Count > 0 && mooseCount < 100) {
+            var cell = x.GetRandom();
+            var moose = Instantiate(moosePrefab);
+            moose.transform.localPosition = cell.Center;
+            x.Remove(cell);
+            mooseCount++;
+        }
+
     }
 
     // Update is called once per frame
