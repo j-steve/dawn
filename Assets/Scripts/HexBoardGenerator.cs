@@ -65,7 +65,6 @@ public class HexBoardGenerator : MonoBehaviour
             var potentialCells = blankCells.Where(c => LatitudeInRange(c, biome));
             if (potentialCells.Count() == 0) { continue; }
             var firstCell = potentialCells.GetRandom();
-            Debug.Log("{0} is in range of {1}-{2}".Format(System.Math.Abs(firstCell.Latitude * 100), biome.latitude.Min, biome.latitude.Max));
             int targetSize = Random.Range(biome.minSize, biome.minSize * 4 + 1);
             var continentCells = new HashSet<HexCell>() { firstCell };
             var frontierCells = new HashSet<HexCell>(NeighborsInBiome(firstCell, 0));
@@ -121,7 +120,6 @@ public class HexBoardGenerator : MonoBehaviour
         Debug.Log("Setting continent elevation...");
         //var numOfElevationChanges = continentCells.Count * biome.bumpiness * Random.value * 0.15f;
         var numOfElevationChanges = continentCells.Count * biome.bumpiness * 2 * Random.value;
-        UnityUtils.Log("Biome {0} (bumpiness {3}): Elevation Chages={1} for {2}", biome, numOfElevationChanges, continentCells.Count, biome.bumpiness);
         for (int i = 0; i < numOfElevationChanges; i++) {
             continentCells.GetRandom().Elevation += 1;
             //    var cellsToChange = continentCells.Count.DividedBy(numOfElevationChanges) * Random.value * 0.15f;
@@ -137,7 +135,6 @@ public class HexBoardGenerator : MonoBehaviour
         foreach (var cell in continentCells) {
             var oldEl = cell.Elevation;
             cell.Elevation = Mathf.Clamp(cell.Elevation, biome.elevation.Min - 1, biome.elevation.Max + 1);
-            if (oldEl != cell.Elevation) { UnityUtils.Log("Changed {0} to {1}", oldEl, cell.Elevation); }
         }
     }
 

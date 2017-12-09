@@ -67,11 +67,3 @@ static public class UnityExtensions
         return component;
     }
 }
-
-static public class UnityUtils
-{
-    static public void Log(string message, params object[] formatArgs)
-    {
-        Debug.Log(message.Format(formatArgs));
-    }
-}
