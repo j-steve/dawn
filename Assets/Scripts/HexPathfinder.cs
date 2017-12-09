@@ -130,6 +130,7 @@ public class HexPathfinder
         if ((c1.Elevation == 0) != (c2.Elevation == 0)) {
             return 100;
         }
+        return 1; //TODO: DELETEME!!!
         return Math.Abs(c1.Elevation - c2.Elevation) * 2 + 1;
     }
 

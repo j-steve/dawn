@@ -75,6 +75,9 @@ public class Unit : MonoBehaviour
             }
             origin = cell;
         }
+        // Reset any vertical rotation so unit is level on map.
+        transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.ScaledBy(Vector3.up));
+
         location = origin.Coordinates;
         animator.SetTrigger(triggerIdle);
         isMoving = false;
