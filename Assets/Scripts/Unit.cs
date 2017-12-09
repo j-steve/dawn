@@ -27,9 +27,7 @@ public class Unit : MonoBehaviour
     bool isMoving = false;
 
     public HexCellCoordinates location;
-    Queue<HexCellCoordinates> goalPath = new Queue<HexCellCoordinates>();
-    float timeAtLocation = 0;
-    float stayAtLocationUntil;
+    float timeTilDeparture;
 
     void Initialize(HexCell cell)
     {
@@ -47,53 +45,53 @@ public class Unit : MonoBehaviour
 
     void Update()
     {
-        timeAtLocation += Time.deltaTime;
         if (isMoving)
             return;
-        if (goalPath.Count == 0) {
-            timeAtLocation = Random.Range(-20f, -5f);
-            NewGoal();
-        }
-        if (timeAtLocation > 0) {
-            timeAtLocation = 0;
-            var coords = goalPath.Dequeue();
-            var destination = HexBoard.ActiveBoard.hexCells[coords];
-            transform.LookAt(destination.Center);
+        timeTilDeparture -= Time.deltaTime;
+        if (timeTilDeparture <= 0) {
+            var path = GetNewTravelPath();
             animator.SetTrigger(triggerMoving);
             isMoving = true;
             StopAllCoroutines();
-            StartCoroutine(TravelToCell(destination));
+            StartCoroutine(TravelToCell(path));
         }
     }
 
-    IEnumerator TravelToCell(HexCell destination)
+    IEnumerator TravelToCell(IList<HexCell> path)
     {
         var origin = HexBoard.ActiveBoard.hexCells[location];
-        var travelSpeed = .5f;
-        for (float t = 0f; t < 1f; t += Time.deltaTime * travelSpeed) {
-            transform.localPosition = Vector3.Lerp(origin.Center, destination.Center, t);
-            yield return null;
+        foreach (var cell in path.Skip(1)) {
+            var travelSpeed = .5f;
+            for (float t = 0f; t < 1f; t += Time.deltaTime * travelSpeed) {
+                var rotation = t * 2;
+                if (rotation < 1f) {
+                    Quaternion fromRotation = transform.localRotation;
+                    Quaternion toRotation =
+                        Quaternion.LookRotation(cell.Center - transform.localPosition);
+                    transform.localRotation = Quaternion.Slerp(fromRotation, toRotation, rotation);
+                }
+                transform.localPosition = Vector3.Lerp(origin.Center, cell.Center, t);
+                yield return null;
+            }
+            origin = cell;
         }
-        location = destination.Coordinates;
-        timeAtLocation = 0;
+        location = origin.Coordinates;
         animator.SetTrigger(triggerIdle);
         isMoving = false;
+        timeTilDeparture = Random.Range(5f, 20f);
     }
 
-    void NewGoal()
+    IList<HexCell> GetNewTravelPath()
     {
         var currentCell = HexBoard.ActiveBoard.hexCells[location];
         var path = pathfinder.FindNearest(
             currentCell,
-            c => c != currentCell && c.Coordinates.DistanceTo(currentCell.Coordinates) >= 5);
-        Debug.LogFormat("Path length is {0}", path.Count);
-        goalPath = new Queue<HexCellCoordinates>();
-        for (var i = 1; i < path.Count; i++) {
-            goalPath.Enqueue(path[i].Coordinates);
-            path[i].Highlight(Color.white);
-        }
+            c => c != currentCell &&
+            c.Coordinates.DistanceTo(currentCell.Coordinates) >= 5 &&
+            c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) != null);
         path[0].Highlight(Color.green);
         path.Last().Highlight(Color.blue);
+        return path;
     }
 
     /// <summary>
