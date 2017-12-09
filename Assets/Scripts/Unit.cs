@@ -51,6 +51,7 @@ public class Unit : MonoBehaviour
         if (isMoving)
             return;
         if (goalPath.Count == 0) {
+            timeAtLocation = Random.Range(-15f, -2f);
             NewGoal();
         }
         if (timeAtLocation > 5) {
