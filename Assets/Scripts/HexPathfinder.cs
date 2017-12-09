@@ -60,12 +60,10 @@ public class HexPathfinder
                     gScore[neighbor] = tentativeGScore;
                     fScore[neighbor] = tentativeGScore + MovementCostEstimate(neighbor, goal);
 
-                    if (existingScore) {
+                    if (existingScore)
                         openSet.UpdatePriority(neighbor, fScore[neighbor]);
-                    }
-                    else {
+                    else
                         openSet.Enqueue(neighbor, fScore[neighbor]);
-                    }
                 }
             }
             closedSet.Add(current);

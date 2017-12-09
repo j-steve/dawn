@@ -77,3 +77,48 @@ static public class EnumUtil
         return Enum.GetValues(typeof(T)).Cast<T>();
     }
 }
+
+public static class HashUtil
+{
+    private const int SEED_FIELD_PRIME_NUMBER = 691;
+    private const int FIELD_PRIME_NUMBER = 397;
+
+    public static int GetHashCodeFromFields<T1, T2, T3, T4>(object obj, T1 obj1, T2 obj2)
+    {
+        return GetHashCodeFromFields(obj1, obj2, null, null);
+    }
+
+    public static int GetHashCodeFromFields<T1, T2, T3, T4>(object obj, T1 obj1, T2 obj2, T3 obj3)
+    {
+        return GetHashCodeFromFields(obj1, obj2, obj3, null);
+    }
+
+    public static int GetHashCodeFromFields<T1, T2, T3, T4>(object obj, T1 obj1, T2 obj2, T3 obj3, T4 obj4)
+    {
+        int hashCode = SEED_FIELD_PRIME_NUMBER;
+        unchecked {  //unchecked to prevent throwing overflow exception
+            if (obj1 != null)
+                hashCode *= FIELD_PRIME_NUMBER + obj1.GetHashCode();
+            if (obj2 != null)
+                hashCode *= FIELD_PRIME_NUMBER + obj2.GetHashCode();
+            if (obj3 != null)
+                hashCode *= FIELD_PRIME_NUMBER + obj3.GetHashCode();
+            if (obj4 != null)
+                hashCode *= FIELD_PRIME_NUMBER + obj4.GetHashCode();
+        }
+        return hashCode;
+    }
+
+    public static int GetHashCodeFromFields(object obj, params object[] fields)
+    {
+        unchecked { //unchecked to prevent throwing overflow exception
+            int hashCode = SEED_FIELD_PRIME_NUMBER;
+            for (int i = 0; i < fields.Length; i++)
+                if (fields[i] != null)
+                    hashCode *= FIELD_PRIME_NUMBER + fields[i].GetHashCode();
+            return hashCode;
+        }
+    }
+
+
+}

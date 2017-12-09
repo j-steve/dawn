@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class HexCell : MonoBehaviour
 {
+    #region Static
+
     static public HexCell Create(HexCell prefab, HexChunk chunk, int row, int column)
     {
         HexCell obj = Instantiate(prefab);
@@ -17,6 +19,7 @@ public class HexCell : MonoBehaviour
         v2 = HexConstants.HEX_SIZE * new Vector3((float)HexConstants.HEX_RADIUS, 0f, 0.5f),
         v3 = HexConstants.HEX_SIZE * new Vector3((float)HexConstants.HEX_RADIUS, 0f, -0.5f);
 
+    #endregion
 
     /// <summary>
     /// Returns the vector cooresponding to the very center of the hexagon cell.
@@ -47,7 +50,6 @@ public class HexCell : MonoBehaviour
             }
         }
     }
-
 
     public float Latitude {
         get {
@@ -144,7 +146,6 @@ public class HexCell : MonoBehaviour
         }
     }
 
-
     /// <summary>
     /// Returns the <code>Edge</code> corresponding to the given
     /// <code>HexDirection</code>.
@@ -156,7 +157,7 @@ public class HexCell : MonoBehaviour
     /// <returns>The edge for the given direction.</returns>
     public TexturedEdge GetEdge(EdgeDirection direction)
     {
-        return new TexturedEdge(Vertices[direction.vertex1], Vertices[direction.vertex2], this.TerrainType);
+        return new TexturedEdge(Vertices[direction.vertex1], Vertices[direction.vertex2], TerrainType);
     }
 
     public void Highlight(Color? color)
@@ -165,4 +166,19 @@ public class HexCell : MonoBehaviour
         if (color.HasValue) { highlight.color = color.Value; }
         highlight.enabled = color.HasValue;
     }
+
+    #region HashCode
+
+    public override int GetHashCode()
+    {
+        return Coordinates.GetHashCode();
+    }
+
+    public override bool Equals(System.Object obj)
+    {
+        return obj != null && obj.GetType() == GetType() &&
+            ((HexCell)obj).Coordinates.Equals(Coordinates);
+    }
+
+    #endregion
 }

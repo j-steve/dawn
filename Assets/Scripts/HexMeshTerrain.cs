@@ -46,6 +46,4 @@ public class HexMeshTerrain : HexMesh
             terrainTypes.Add(terrainType);
         }
     }
-
-
 }

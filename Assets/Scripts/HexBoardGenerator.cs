@@ -138,8 +138,6 @@ public class HexBoardGenerator : MonoBehaviour
         }
     }
 
-
-
     static bool LatitudeInRange(HexCell cell, Biome biome)
     {
         var cellLatitude = System.Math.Abs(cell.Latitude * 100);

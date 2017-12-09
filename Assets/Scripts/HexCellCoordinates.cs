@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[System.Serializable]
+[Serializable]
 [SerializeField]
 public struct HexCellCoordinates
 {
+    #region Static
+
     static public readonly Dictionary<EdgeDirection, HexCellCoordinates> OFFSET =
         new Dictionary<EdgeDirection, HexCellCoordinates>() {
             { EdgeDirection.NE, new HexCellCoordinates(0, 1) },
@@ -30,6 +32,7 @@ public struct HexCellCoordinates
     /// The slope of hexagons on a hexagon grid, equal to <code>(√3)/3</code>.
     /// </summary>
     static private readonly double HEX_SLOPE = Math.Sqrt(3) / 3;
+
 
     /// <summary>
     /// Converts a cartesian (x, y) position into its corresponding hexagon
@@ -65,20 +68,36 @@ public struct HexCellCoordinates
         return new HexCellCoordinates(integers[X], integers[Z]);
     }
 
+    #region Operator Overloads
+
     static public HexCellCoordinates operator +(HexCellCoordinates c1, HexCellCoordinates c2)
     {
         return new HexCellCoordinates(c1.x + c2.x, c1.z + c2.z);
     }
+
+    static public bool operator ==(HexCellCoordinates c1, HexCellCoordinates c2)
+    {
+        return c1 == null && c2 == null || c1.Equals(c2);
+    }
+
+    static public bool operator !=(HexCellCoordinates c1, HexCellCoordinates c2)
+    {
+        return !(c1 == c2);
+    }
+
+    #endregion
+
+    #endregion
 
     public int X { get { return x; } }
     public int Y { get { return -X - Z; } }
     public int Z { get { return z; } }
 
     [SerializeField]
-    int x;
+    readonly int x;
 
     [SerializeField]
-    int z;
+    readonly int z;
 
     public HexCellCoordinates(int x, int z)
     {
@@ -95,4 +114,21 @@ public struct HexCellCoordinates
     {
         return string.Concat(X, "\n", Y, "\n", Z);
     }
+
+    #region HashCode
+
+    public override int GetHashCode()
+    {
+        return HashUtil.GetHashCodeFromFields(x, z);
+    }
+
+    public override bool Equals(System.Object obj)
+    {
+        if (obj == null || GetType() != obj.GetType())
+            return false;
+        HexCellCoordinates hc = (HexCellCoordinates)obj;
+        return hc.x == x && hc.z == z;
+    }
+
+    #endregion
 }

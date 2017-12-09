@@ -17,6 +17,7 @@ public class Biome
         new Biome("Shrubland", TerrainTexture.STEPPE, 20, Range.Of(1, 5), .75f, Range.Of(0, 50)),
         new Biome("Desert", TerrainTexture.SAND_DUNES, 10, Range.Of(1, 3), .3f, Range.Of(0, 30)),
     };
+
     public readonly string name;
     public readonly TerrainTexture terrainTexture;
     public int minSize;
@@ -33,7 +34,6 @@ public class Biome
         this.bumpiness = bumpiness;
         this.latitude = latitude;
     }
-
 
     public override string ToString() { return name; }
 }
