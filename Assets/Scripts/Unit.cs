@@ -57,18 +57,38 @@ public class Unit : MonoBehaviour
         location = cell.Coordinates;
     }
 
+
     void Update()
     {
         timeAtLocation += Time.deltaTime;
+        if (isMoving)
+            return;
         if (goalPath.Count == 0) {
             NewGoal();
         }
-        if (timeAtLocation > 2) {
+        if (timeAtLocation > 5) {
+            timeAtLocation = 0;
             var coords = goalPath.Dequeue();
             var cell = HexBoard.ActiveBoard.hexCells[coords];
-            SetPosition(cell);
-            timeAtLocation = 0;
+            animator.SetTrigger(triggerMoving);
+            isMoving = true;
+            StopAllCoroutines();
+            StartCoroutine(TravelToCell(cell));
         }
+    }
+
+    IEnumerator TravelToCell(HexCell destination)
+    {
+        var origin = HexBoard.ActiveBoard.hexCells[location];
+        var travelSpeed = .5f;
+        for (float t = 0f; t < 1f; t += Time.deltaTime * travelSpeed) {
+            transform.localPosition = Vector3.Lerp(origin.Center, destination.Center, t);
+            yield return null;
+        }
+        location = destination.Coordinates;
+        timeAtLocation = 0;
+        animator.SetTrigger(triggerIdle);
+        isMoving = false;
     }
 
     void NewGoal()
