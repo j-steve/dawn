@@ -13,13 +13,8 @@ public class Unit : MonoBehaviour
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        animator = this.GetRequiredComponent<Animator>();
         StartCoroutine(StartIdleAnimation());
-        //Debug.LogFormat("Animator: {0}, animation: {1}", animator.name, animation.name);
-        //animation.PlayQueued("Idle02", QueueMode.CompleteOthers);
-        //animation.PlayQueued("Idle01", QueueMode.CompleteOthers);
-        //animation.PlayQueued("Idle", QueueMode.CompleteOthers);
-        //animation.wrapMode = WrapMode.Loop;
     }
 
 
@@ -49,14 +44,11 @@ public class Unit : MonoBehaviour
             if (isMoving) {
                 animator.SetTrigger(triggerIdle);
                 isMoving = false;
-                //animator.ResetTrigger(triggerMove);
             }
             else {
                 animator.SetTrigger(triggerMoving);
                 isMoving = true;
-                //animator.ResetTrigger(triggerStop);
             }
-            //animator.SetBool(moveHash, !animator.GetBool(moveHash));
         }
     }
 }

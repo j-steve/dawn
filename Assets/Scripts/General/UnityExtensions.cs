@@ -58,7 +58,7 @@ static public class UnityExtensions
     /// specified type within the GameObject, but throws an error if no
     /// matching object exists.
     /// </summary>
-    public static T GetRequiredComponent<T>(this MonoBehaviour obj) where T : MonoBehaviour
+    public static T GetRequiredComponent<T>(this Component obj) where T : Component
     {
         T component = obj.GetComponent<T>();
         if (component == null) {
