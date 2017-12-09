@@ -16,34 +16,48 @@ public class Unit : MonoBehaviour
     static public Unit Create(Unit prefab, HexCell cell)
     {
         Unit obj = Instantiate(prefab);
-        obj.SetPosition(cell);
+        obj.Initialize(cell);
         return obj;
     }
 
     #endregion
 
-    private Animator animator;
+    public float Orientation {
+        get {
+            return orientation;
+        }
+        set {
+            orientation = value;
+            transform.localRotation = Quaternion.Euler(0f, value, 0f);
+        }
+    }
 
-    private bool isMoving = false;
+    float orientation;
+
+    Animator animator;
+
+    bool isMoving = false;
 
     public HexCellCoordinates location;
-    private Queue<HexCellCoordinates> goalPath = new Queue<HexCellCoordinates>();
-    private float timeAtLocation = 0;
-    private float stayAtLocationUntil;
+    Queue<HexCellCoordinates> goalPath = new Queue<HexCellCoordinates>();
+    float timeAtLocation = 0;
+    float stayAtLocationUntil;
 
-    private void Awake()
+    void Initialize(HexCell cell)
     {
         animator = this.GetRequiredComponent<Animator>();
         StartCoroutine(StartIdleAnimation());
+        SetPosition(cell);
+        Orientation = Random.Range(0f, 360f);
     }
 
-    private void SetPosition(HexCell cell)
+    void SetPosition(HexCell cell)
     {
         transform.localPosition = cell.Center;
         location = cell.Coordinates;
     }
 
-    private void Update()
+    void Update()
     {
         timeAtLocation += Time.deltaTime;
         if (goalPath.Count == 0) {
@@ -57,7 +71,7 @@ public class Unit : MonoBehaviour
         }
     }
 
-    private void NewGoal()
+    void NewGoal()
     {
         var currentCell = HexBoard.ActiveBoard.hexCells[location];
         var path = pathfinder.FindNearest(
