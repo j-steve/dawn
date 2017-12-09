@@ -15,7 +15,7 @@ public class HexMesh : MonoBehaviour
 
     protected virtual void Awake()
     {
-        GetComponent<MeshFilter>().mesh = mesh = new Mesh();
+        this.GetRequiredComponent<MeshFilter>().mesh = mesh = new Mesh();
     }
 
     public virtual void Clear()
