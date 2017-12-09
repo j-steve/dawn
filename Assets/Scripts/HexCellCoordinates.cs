@@ -105,6 +105,12 @@ public struct HexCellCoordinates
         this.z = z;
     }
 
+    public int DistanceTo(HexCellCoordinates c2)
+    {
+        int sumOfDiff = Math.Abs(X - c2.X) + Math.Abs(Y - c2.Y) + Math.Abs(Z - c2.Z);
+        return sumOfDiff / 2;
+    }
+
     public override string ToString()
     {
         return string.Concat("(", X, ", ", Y, ", ", Z, ")");

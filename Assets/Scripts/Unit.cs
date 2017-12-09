@@ -51,10 +51,10 @@ public class Unit : MonoBehaviour
         if (isMoving)
             return;
         if (goalPath.Count == 0) {
-            timeAtLocation = Random.Range(-15f, -2f);
+            timeAtLocation = Random.Range(-20f, -5f);
             NewGoal();
         }
-        if (timeAtLocation > 5) {
+        if (timeAtLocation > 0) {
             timeAtLocation = 0;
             var coords = goalPath.Dequeue();
             var destination = HexBoard.ActiveBoard.hexCells[coords];
@@ -85,7 +85,7 @@ public class Unit : MonoBehaviour
         var currentCell = HexBoard.ActiveBoard.hexCells[location];
         var path = pathfinder.FindNearest(
             currentCell,
-            c => c != currentCell && c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) != null);
+            c => c != currentCell && c.Coordinates.DistanceTo(currentCell.Coordinates) >= 5);
         Debug.LogFormat("Path length is {0}", path.Count);
         goalPath = new Queue<HexCellCoordinates>();
         for (var i = 1; i < path.Count; i++) {

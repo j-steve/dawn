@@ -115,11 +115,7 @@ public class HexPathfinder
     /// </summary>
     float MovementCostEstimate(HexCell c1, HexCell c2)
     {
-        int sumOfDiff =
-            Math.Abs(c1.Coordinates.X - c2.Coordinates.X) +
-            Math.Abs(c1.Coordinates.Y - c2.Coordinates.Y) +
-            Math.Abs(c1.Coordinates.Z - c2.Coordinates.Z);
-        return sumOfDiff / 2;
+        return c1.Coordinates.DistanceTo(c2.Coordinates);
     }
 
     /// <summary>
