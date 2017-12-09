@@ -40,11 +40,10 @@ public class HexBoard : MonoBehaviour
 #endif
         ActiveBoard = this;
         new HexBoardGenerator(this).CreateMap();
-        var x = new HashSet<HexCell>(hexCells.Values.Where(c => c.Elevation > 0));
-        while (x.Count > 0 && mooseCount < 100) {
+        var x = new HashSet<HexCell>(hexCells.Values.Where(c => c.Elevation > 0 && c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) == null));
+        while (x.Count > 0 && mooseCount < 20) {
             var cell = x.GetRandom();
-            var moose = Instantiate(moosePrefab);
-            moose.transform.localPosition = cell.Center;
+            Unit.Create(moosePrefab, cell);
             x.Remove(cell);
             mooseCount++;
         }
@@ -98,11 +97,9 @@ public class HexBoard : MonoBehaviour
         return null;
     }
 
-
     void OnEnable()
     {
         ActiveBoard = this;
     }
-
 
 }

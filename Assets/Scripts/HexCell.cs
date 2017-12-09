@@ -167,6 +167,12 @@ public class HexCell : MonoBehaviour
         highlight.enabled = color.HasValue;
     }
 
+    public bool HasHighlight()
+    {
+        var highlight = label.rectTransform.GetComponentInChildren<Image>();
+        return highlight.enabled;
+    }
+
     #region HashCode
 
     public override int GetHashCode()

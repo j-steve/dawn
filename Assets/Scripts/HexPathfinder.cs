@@ -5,6 +5,42 @@ using Priority_Queue;
 
 public class HexPathfinder
 {
+    public IList<HexCell> FindNearest(HexCell origin, Func<HexCell, bool> goalCondition)
+    {
+        var cameFrom = new Dictionary<HexCell, HexCell>();
+        var gScore = new Dictionary<HexCell, float>() { { origin, 0 } };
+        var closedSet = new HashSet<HexCell>();
+        var openSet = new SimplePriorityQueue<HexCell>();
+        openSet.Enqueue(origin, 0);
+
+        HexCell current;
+        while (openSet.TryDequeue(out current)) {
+            if (!current.HasHighlight())
+                current.Highlight(Color.gray);
+            if (goalCondition(current)) {
+                return ReconstructPath(cameFrom, current);
+            }
+            foreach (var neighbor in current.GetNeighbors()) {
+                if (closedSet.Contains(neighbor))
+                    continue;
+                var existingScore = gScore.ContainsKey(neighbor);
+                var tentativeGScore = gScore[current] + MovementCost(current, neighbor);
+                if (!existingScore || tentativeGScore < gScore[neighbor]) {
+                    // This path is cheapest yet seen for this neighbor.
+                    cameFrom[neighbor] = current;
+                    gScore[neighbor] = tentativeGScore;
+
+                    if (existingScore)
+                        openSet.UpdatePriority(neighbor, tentativeGScore);
+                    else
+                        openSet.Enqueue(neighbor, tentativeGScore);
+                }
+            }
+        }
+        Debug.LogWarningFormat("No suitable path from {0} to goal condition cell! Checked {2}", origin, closedSet.Count);
+        return null;
+    }
+
     /// <summary>
     /// Initiates an A* pathfinding search to determine the cheapest path from
     /// origin to goal, based on the current movement cost function.
@@ -41,7 +77,7 @@ public class HexPathfinder
         HexCell current;
         while (openSet.TryDequeue(out current)) {
             if (current == goal) {
-                return ReconstructPath(cameFrom, goal);
+                return ReconstructPath(cameFrom, current);
             }
             if (current != origin) {
                 current.Highlight(Color.gray);
