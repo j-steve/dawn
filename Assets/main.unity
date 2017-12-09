@@ -240,7 +240,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 577166862}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 237, y: 319.5, z: 0}
+  m_LocalPosition: {x: 348.5, y: 319.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1038096556}
@@ -311,48 +311,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!1001 &655801226
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4412935152186004, guid: d91e3a265040dd9498ac36070f61e0e0, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4412935152186004, guid: d91e3a265040dd9498ac36070f61e0e0, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4412935152186004, guid: d91e3a265040dd9498ac36070f61e0e0, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4412935152186004, guid: d91e3a265040dd9498ac36070f61e0e0, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4412935152186004, guid: d91e3a265040dd9498ac36070f61e0e0, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4412935152186004, guid: d91e3a265040dd9498ac36070f61e0e0, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4412935152186004, guid: d91e3a265040dd9498ac36070f61e0e0, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4412935152186004, guid: d91e3a265040dd9498ac36070f61e0e0, type: 2}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: d91e3a265040dd9498ac36070f61e0e0, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &809848274
 GameObject:
   m_ObjectHideFlags: 0
@@ -1169,7 +1127,7 @@ MonoBehaviour:
     type: 2}
   hexLabelPrefab: {fileID: 114980090634325804, guid: 59cdf4c4c28189e4f896e381668aaba7,
     type: 2}
-  moosePrefab: {fileID: 114682473205644196, guid: d91e3a265040dd9498ac36070f61e0e0,
+  moosePrefab: {fileID: 114889472125591254, guid: d91e3a265040dd9498ac36070f61e0e0,
     type: 2}
   mooseCount: 0
 --- !u!4 &1871998840
