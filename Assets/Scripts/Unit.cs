@@ -22,18 +22,6 @@ public class Unit : MonoBehaviour
 
     #endregion
 
-    public float Orientation {
-        get {
-            return orientation;
-        }
-        set {
-            orientation = value;
-            transform.localRotation = Quaternion.Euler(0f, value, 0f);
-        }
-    }
-
-    float orientation;
-
     Animator animator;
 
     bool isMoving = false;
@@ -48,7 +36,7 @@ public class Unit : MonoBehaviour
         animator = this.GetRequiredComponent<Animator>();
         StartCoroutine(StartIdleAnimation());
         SetPosition(cell);
-        Orientation = Random.Range(0f, 360f);
+        transform.localRotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
     }
 
     void SetPosition(HexCell cell)
@@ -56,7 +44,6 @@ public class Unit : MonoBehaviour
         transform.localPosition = cell.Center;
         location = cell.Coordinates;
     }
-
 
     void Update()
     {
@@ -69,11 +56,12 @@ public class Unit : MonoBehaviour
         if (timeAtLocation > 5) {
             timeAtLocation = 0;
             var coords = goalPath.Dequeue();
-            var cell = HexBoard.ActiveBoard.hexCells[coords];
+            var destination = HexBoard.ActiveBoard.hexCells[coords];
+            transform.LookAt(destination.Center);
             animator.SetTrigger(triggerMoving);
             isMoving = true;
             StopAllCoroutines();
-            StartCoroutine(TravelToCell(cell));
+            StartCoroutine(TravelToCell(destination));
         }
     }
 
