@@ -2,7 +2,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using DawnX.UI.Tweens;
 using System;
 
 namespace DawnX.UI
@@ -80,6 +79,7 @@ namespace DawnX.UI
         internal void UpdateLoad(float completeRatio, string message)
         {
             loadStatusText.text = message;
+            progressBar.fillAmount = completeRatio;
             if (completeRatio >= 1) {
                 StartCoroutine(Fade(FadeType.OUT));
             }
