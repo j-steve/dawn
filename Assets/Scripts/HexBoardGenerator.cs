@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using DawnX.UI;
+using System.Collections;
 
 public class HexBoardGenerator : MonoBehaviour
 {
@@ -11,15 +13,33 @@ public class HexBoardGenerator : MonoBehaviour
         this.hexBoard = hexBoard;
     }
 
-    public void CreateMap()
+    public IEnumerator CreateMap()
     {
         hexBoard.hexCells.Clear();
+        yield return null;
+        UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.2f, "Generating mesh chunks");
         var hexChunks = GetHexMeshChunks();
+        yield return null;
+        UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.4f, "Generating terrain");
         GenerateTerrain();
+        yield return null;
         // Triangulate each HexMeshChunk to make the map visible.
+        UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.6f, "Triangulating Cells");
         foreach (var entry in hexChunks) {
             entry.Key.Triangulate(entry.Value);
+            yield return null;
         }
+        UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.8f, "Moosifying");
+        var x = new HashSet<HexCell>(hexBoard.hexCells.Values.Where(c => c.Elevation > 0 && c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) == null));
+        while (x.Count > 0 && hexBoard.mooseCount < 20) {
+            var cell = x.GetRandom();
+            Unit.Create(hexBoard.moosePrefab, cell);
+            x.Remove(cell);
+            hexBoard.mooseCount++;
+            yield return null;
+        }
+
+        UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(1, "Finished");
 
     }
 

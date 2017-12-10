@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using DawnX.UI.Tweens;
+using System;
 
 namespace DawnX.UI
 {
@@ -16,37 +17,38 @@ namespace DawnX.UI
     [RequireComponent(typeof(Canvas)), RequireComponent(typeof(GraphicRaycaster))]
     public class UILoadingOverlay : MonoBehaviour
     {
-        [SerializeField] private UIProgressBar m_ProgressBar;
-        [SerializeField] private CanvasGroup m_CanvasGroup;
+        public static UILoadingOverlay ActiveLoadingOverlay;
 
-        [Header("Transition")]
-        [SerializeField]
-        private TweenEasing m_TransitionEasing = TweenEasing.InOutQuint;
-        [SerializeField] private float m_TransitionDuration = 0.4f;
+        enum FadeType { IN, OUT }
 
-        private bool m_Showing = false;
-        private int m_LoadSceneId = 0;
+        [SerializeField] float fadeDuration;
 
-        // Tween controls
-        [System.NonSerialized] private readonly TweenRunner<FloatTween> m_FloatTweenRunner;
+        [SerializeField] UIProgressBar progressBar;
 
-        // Called by Unity prior to deserialization, 
-        // should not be called by users
-        protected UILoadingOverlay()
+        [SerializeField] private CanvasGroup canvasGroup;
+
+        [SerializeField] private Text loadStatusText;
+
+        float totalElapsedTime;
+
+        void Awake()
         {
-            if (this.m_FloatTweenRunner == null)
-                this.m_FloatTweenRunner = new TweenRunner<FloatTween>();
-
-            this.m_FloatTweenRunner.Init(this);
+            ActiveLoadingOverlay = this;
+            EnsureTopLayer();
+            canvasGroup.alpha = 1;
+            //canvasGroup.alpha = 0;
+            //StartCoroutine(Fade(FadeType.IN));
         }
 
-        protected void Awake()
+        void OnEnable()
         {
-            DontDestroyOnLoad(this.gameObject);
+            ActiveLoadingOverlay = this;
+        }
 
-            // Make sure it's top most ordering number
+        void EnsureTopLayer()
+        {
             Canvas[] canvases = FindObjectsOfType<Canvas>();
-            Canvas currentCanvas = this.gameObject.GetComponent<Canvas>();
+            Canvas currentCanvas = gameObject.GetComponent<Canvas>();
 
             foreach (Canvas canvas in canvases) {
                 // Make sure it's not our canvas1
@@ -55,140 +57,33 @@ namespace DawnX.UI
                         currentCanvas.sortingOrder = canvas.sortingOrder + 1;
                 }
             }
-
-            // Update the progress bar
-            if (this.m_ProgressBar != null)
-                this.m_ProgressBar.fillAmount = 0f;
-
-            // Update the canvas group
-            if (this.m_CanvasGroup != null)
-                this.m_CanvasGroup.alpha = 0f;
         }
 
-        protected void OnEnable()
+        void Update()
         {
-            SceneManager.sceneLoaded += OnSceneFinishedLoading;
+            totalElapsedTime += Time.deltaTime;
         }
 
-        protected void OnDisable()
+        IEnumerator Fade(FadeType fadeType)
         {
-            SceneManager.sceneLoaded -= OnSceneFinishedLoading;
-        }
-
-        /// <summary>
-        /// Shows the loading overlay and loads the scene.
-        /// </summary>
-        /// <param name="sceneName">The scene name.</param>
-        public void LoadScene(string sceneName)
-        {
-            Scene scene = SceneManager.GetSceneByName(sceneName);
-
-            if (scene != null)
-                this.LoadScene(scene.buildIndex);
-        }
-
-        /// <summary>
-        /// Shows the loading overlay and loads the scene.
-        /// </summary>
-        /// <param name="sceneIndex">The scene build index.</param>
-        public void LoadScene(int sceneIndex)
-        {
-            this.m_Showing = true;
-            this.m_LoadSceneId = sceneIndex;
-
-            // Update the progress bar
-            if (this.m_ProgressBar != null)
-                this.m_ProgressBar.fillAmount = 0f;
-
-            // Update the canvas group
-            if (this.m_CanvasGroup != null)
-                this.m_CanvasGroup.alpha = 0f;
-
-            // Start the tween
-            this.StartAlphaTween(1f, this.m_TransitionDuration, true);
-        }
-
-        /// <summary>
-        /// Starts alpha tween.
-        /// </summary>
-        /// <param name="targetAlpha">Target alpha.</param>
-        /// <param name="duration">Duration.</param>
-        /// <param name="ignoreTimeScale">If set to <c>true</c> ignore time scale.</param>
-        public void StartAlphaTween(float targetAlpha, float duration, bool ignoreTimeScale)
-        {
-            if (this.m_CanvasGroup == null)
-                return;
-
-            var floatTween = new FloatTween { duration = duration, startFloat = this.m_CanvasGroup.alpha, targetFloat = targetAlpha };
-            floatTween.AddOnChangedCallback(SetCanvasAlpha);
-            floatTween.AddOnFinishCallback(OnTweenFinished);
-            floatTween.ignoreTimeScale = ignoreTimeScale;
-            floatTween.easing = this.m_TransitionEasing;
-            this.m_FloatTweenRunner.StartTween(floatTween);
-        }
-
-        /// <summary>
-        /// Sets the canvas alpha.
-        /// </summary>
-        /// <param name="alpha">Alpha.</param>
-        protected void SetCanvasAlpha(float alpha)
-        {
-            if (this.m_CanvasGroup == null)
-                return;
-
-            // Set the alpha
-            this.m_CanvasGroup.alpha = alpha;
-        }
-
-        /// <summary>
-        /// Raises the list tween finished event.
-        /// </summary>
-        protected void OnTweenFinished()
-        {
-            // When the loading overlay is shown
-            if (this.m_Showing) {
-                this.m_Showing = false;
-                StartCoroutine(AsynchronousLoad());
-            }
-            else {
-                // Destroy the loading overlay
-                Destroy(this.gameObject);
-            }
-        }
-
-        IEnumerator AsynchronousLoad()
-        {
-            yield return null;
-
-            AsyncOperation ao = SceneManager.LoadSceneAsync(this.m_LoadSceneId);
-            ao.allowSceneActivation = false;
-
-            while (!ao.isDone) {
-                // [0, 0.9] > [0, 1]
-                float progress = Mathf.Clamp01(ao.progress / 0.9f);
-
-                // Update the progress bar
-                if (this.m_ProgressBar != null) {
-                    this.m_ProgressBar.fillAmount = progress;
-                }
-
-                // Loading completed
-                if (ao.progress == 0.9f) {
-                    ao.allowSceneActivation = true;
-                }
-
+            float startTime = totalElapsedTime;
+            int alphaModifier = fadeType == FadeType.IN ? 1 : -1;
+            float completion = 0;
+            while (completion < 1) {
+                Debug.LogFormat("completion is {0}, elapsed time is {1}", completion, totalElapsedTime);
+                completion = (totalElapsedTime - startTime) / fadeDuration;
+                canvasGroup.alpha = 1 - completion;
                 yield return null;
             }
         }
 
-        private void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)
+        internal void UpdateLoad(float completeRatio, string message)
         {
-            if (scene.buildIndex != this.m_LoadSceneId)
-                return;
-
-            // Hide the loading overlay
-            this.StartAlphaTween(0f, this.m_TransitionDuration, true);
+            loadStatusText.text = message;
+            if (completeRatio >= 1) {
+                StartCoroutine(Fade(FadeType.OUT));
+            }
         }
-    }
 
+    }
 }

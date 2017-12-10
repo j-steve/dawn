@@ -3321,10 +3321,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa90c93ac75e1e4488f00b613036ab39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ProgressBar: {fileID: 155126673}
-  m_CanvasGroup: {fileID: 1764204946}
-  m_TransitionEasing: 13
-  m_TransitionDuration: 0.4
+  fadeDuration: 2
+  progressBar: {fileID: 155126673}
+  canvasGroup: {fileID: 1764204946}
+  loadStatusText: {fileID: 545690475}
 --- !u!114 &1764204948
 MonoBehaviour:
   m_ObjectHideFlags: 0

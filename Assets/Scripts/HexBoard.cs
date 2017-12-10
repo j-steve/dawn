@@ -39,14 +39,7 @@ public class HexBoard : MonoBehaviour
         continentsPerChunk = 0.5f;
 #endif
         ActiveBoard = this;
-        new HexBoardGenerator(this).CreateMap();
-        var x = new HashSet<HexCell>(hexCells.Values.Where(c => c.Elevation > 0 && c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) == null));
-        while (x.Count > 0 && mooseCount < 20) {
-            var cell = x.GetRandom();
-            Unit.Create(moosePrefab, cell);
-            x.Remove(cell);
-            mooseCount++;
-        }
+        StartCoroutine(new HexBoardGenerator(this).CreateMap());
 
     }
 
