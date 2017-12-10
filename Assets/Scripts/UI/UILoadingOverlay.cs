@@ -65,6 +65,7 @@ namespace DawnX.UI
 
         IEnumerator Fade(FadeType fadeType)
         {
+            gameObject.SetActive(true);
             float startTime = totalElapsedTime;
             int alphaModifier = fadeType == FadeType.IN ? 1 : -1;
             float completion = 0;
@@ -74,6 +75,7 @@ namespace DawnX.UI
                 canvasGroup.alpha = 1 - completion;
                 yield return null;
             }
+            gameObject.SetActive(false);
         }
 
         internal void UpdateLoad(float completeRatio, string message)
