@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using System;
-using System.Linq;
 
 public class HexBoard : MonoBehaviour
 {
@@ -46,6 +43,8 @@ public class HexBoard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Game.Paused)
+            return;
         if (Input.GetButtonDown("Show Gridlines")) {
             terrainMaterial.ToggleKeyword("GRIDLINES_ON");
         }

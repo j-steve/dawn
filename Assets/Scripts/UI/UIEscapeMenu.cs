@@ -30,6 +30,7 @@ namespace DawnX.UI
 
         void ToggleMenu(bool doShow)
         {
+            Game.Paused = doShow;
             GuiMenuCanvas.gameObject.SetActive(doShow);
         }
 

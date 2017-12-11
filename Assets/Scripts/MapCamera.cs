@@ -29,6 +29,8 @@ public class MapCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Game.Paused)
+            return;
         float zoomDelta = Input.GetAxis("Mouse ScrollWheel");
         if (zoomDelta != 0f) {
             AdjustZoom(zoomDelta);
