@@ -2095,6 +2095,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4bed021c1c503a49b01a44528764947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GuiMenuCanvas: {fileID: 577166866}
   ReturnToGameButton: {fileID: 1591363798}
   QuitToDesktopButton: {fileID: 1038096557}
   SaveButton: {fileID: 1824092766}
