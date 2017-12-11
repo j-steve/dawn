@@ -17,16 +17,20 @@ public class HexBoardGenerator : MonoBehaviour
     {
         hexBoard.hexCells.Clear();
         yield return null;
-        UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.2f, "Generating mesh chunks...");
+        UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(0f, "Generating mesh chunks...");
         var hexChunks = GetHexMeshChunks();
         yield return null;
-        UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.4f, "Generating terrain...");
+        UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.2f, "Generating terrain...");
         GenerateTerrain();
         yield return null;
         // Triangulate each HexMeshChunk to make the map visible.
-        UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.6f, "Triangulating Cells...");
+        UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.4f, "Triangulating Cells...");
+        var completion = .6f;
+        var chunkValue = (.8f - completion) / hexChunks.Count;
         foreach (var entry in hexChunks) {
             entry.Key.Triangulate(entry.Value);
+            completion += chunkValue;
+            UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(completion);
             yield return null;
         }
         UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.8f, "Moosifying...");
@@ -39,7 +43,7 @@ public class HexBoardGenerator : MonoBehaviour
             yield return null;
         }
 
-        UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(1, "Moosifying...");
+        UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(1);
 
     }
 

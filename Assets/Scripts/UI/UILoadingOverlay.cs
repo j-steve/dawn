@@ -76,9 +76,15 @@ namespace DawnX.UI
             gameObject.SetActive(false);
         }
 
+
         internal void UpdateLoad(float completeRatio, string message)
         {
             loadStatusText.text = message;
+            UpdateLoad(completeRatio);
+        }
+
+        internal void UpdateLoad(float completeRatio)
+        {
             progressBar.fillAmount = completeRatio;
             if (completeRatio >= 1) {
                 StartCoroutine(Fade(FadeType.OUT));
