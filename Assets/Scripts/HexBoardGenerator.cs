@@ -16,16 +16,16 @@ public class HexBoardGenerator : MonoBehaviour
     public IEnumerator CreateMap()
     {
         hexBoard.hexCells.Clear();
+        UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.1f, "Generating mesh chunks...");
         yield return null;
-        UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(0f, "Generating mesh chunks...");
         var hexChunks = GetHexMeshChunks();
+        UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.25f, "Generating terrain...");
         yield return null;
-        UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.2f, "Generating terrain...");
         GenerateTerrain();
+        UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.4f, "Triangulating Cells...");
         yield return null;
         // Triangulate each HexMeshChunk to make the map visible.
-        UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.4f, "Triangulating Cells...");
-        var completion = .6f;
+        var completion = .4f;
         var chunkValue = (.8f - completion) / hexChunks.Count;
         foreach (var entry in hexChunks) {
             entry.Key.Triangulate(entry.Value);
