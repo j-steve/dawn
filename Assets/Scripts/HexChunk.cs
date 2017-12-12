@@ -22,6 +22,7 @@ public class HexChunk : MonoBehaviour
 
     public Canvas hexCanvas;
     public HexMeshTerrain terrainMesh;
+    public HexMesh treeMesh;
     public HexMesh oceanMesh;
     public HexMesh lakeMesh;
 
@@ -41,9 +42,13 @@ public class HexChunk : MonoBehaviour
         terrainMesh.Clear();
         oceanMesh.Clear();
         lakeMesh.Clear();
+        treeMesh.Clear();
         foreach (HexCell cell in hexCells) {
             TriangulateHexCell(cell);
-            if (cell.Elevation == 0) { TriangulateWater(cell); }
+            if (cell.Elevation == 0)
+                TriangulateWater(cell);
+            if (cell.TerrainType == TerrainTexture.MIXEDTREES)
+                TriangulateTrees(cell);
             foreach (EdgeDirection direction in EASTERLY_DIRECTIONS) {
                 HexCell neighbor = cell.GetNeighbor(direction);
                 if (neighbor != null) {
@@ -60,6 +65,7 @@ public class HexChunk : MonoBehaviour
         terrainMesh.Apply();
         oceanMesh.Apply();
         lakeMesh.Apply();
+        treeMesh.Apply();
     }
 
 
@@ -76,6 +82,23 @@ public class HexChunk : MonoBehaviour
         int v0 = mesh.vertices.Count;
         Vector3 center = cell.Center + WATERLEVEL;
         mesh.vertices.Add(cell.Center + WATERLEVEL);
+        foreach (var vertexOffset in HEX_VERTEX_OFFSETS) {
+            mesh.vertices.Add(center + vertexOffset);
+            mesh.vertices.Add(center - vertexOffset);
+        }
+        for (int i = 1; i <= 4; i++) {
+            mesh.triangles.AddRange(new int[] { v0, v0 + i, v0 + i + 2 });
+        }
+        mesh.triangles.AddRange(new int[] { v0, v0 + 5, v0 + 2 });
+        mesh.triangles.AddRange(new int[] { v0, v0 + 6, v0 + 1 });
+    }
+
+    private void TriangulateTrees(HexCell cell)
+    {
+        var mesh = treeMesh;
+        int v0 = mesh.vertices.Count;
+        Vector3 center = cell.Center + WATERLEVEL;
+        mesh.vertices.Add(center);
         foreach (var vertexOffset in HEX_VERTEX_OFFSETS) {
             mesh.vertices.Add(center + vertexOffset);
             mesh.vertices.Add(center - vertexOffset);

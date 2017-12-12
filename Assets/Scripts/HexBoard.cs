@@ -32,7 +32,7 @@ public class HexBoard : MonoBehaviour
     void Start()
     {
 #if UNITY_EDITOR
-        mapSize = new RectangleInt(4, 4);
+        mapSize = new RectangleInt(8, 8);
         continentsPerChunk = 0.5f;
 #endif
         ActiveBoard = this;

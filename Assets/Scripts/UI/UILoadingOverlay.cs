@@ -68,7 +68,6 @@ namespace DawnX.UI
             int alphaModifier = fadeType == FadeType.IN ? 1 : -1;
             float completion = 0;
             while (completion < 1) {
-                Debug.LogFormat("completion is {0}, elapsed time is {1}", completion, totalElapsedTime);
                 completion = (totalElapsedTime - startTime) / fadeDuration;
                 canvasGroup.alpha = 1 - completion;
                 yield return null;
