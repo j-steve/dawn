@@ -2109,12 +2109,12 @@ Light:
   serializedVersion: 8
   m_Type: 1
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 0.75
+  m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 1
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -2596,12 +2596,12 @@ Light:
   serializedVersion: 8
   m_Type: 1
   m_Color: {r: 0.88235295, g: 0.67832, b: 0.14273354, a: 1}
-  m_Intensity: 0.25
+  m_Intensity: 0.5
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 1
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -4429,9 +4429,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2072168005}
   - component: {fileID: 2072168004}
-  - component: {fileID: 2072168003}
   - component: {fileID: 2072168002}
   - component: {fileID: 2072168001}
+  - component: {fileID: 2072168003}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -4453,13 +4453,18 @@ Behaviour:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2072168000}
   m_Enabled: 1
---- !u!92 &2072168003
-Behaviour:
+--- !u!114 &2072168003
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2072168000}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 82ca9c5f2c2157b46b533cfc465b9a21, type: 2}
 --- !u!20 &2072168004
 Camera:
   m_ObjectHideFlags: 0
