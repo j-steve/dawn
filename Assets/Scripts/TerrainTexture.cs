@@ -21,7 +21,10 @@ public enum TerrainTexture
     STEPPE,
     SAND,
     CLIFF,
-    SCRUBLAND,
+    SNOW,
+    THINGRASS,
+    PRETTYICE,
+    FOILAGE,
 }
 
 public class TexturedEdge : Edge
