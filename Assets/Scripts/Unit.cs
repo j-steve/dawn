@@ -22,25 +22,33 @@ public class Unit : MonoBehaviour
 
     #endregion
 
+    private HexCell location {
+        get {
+            return _location;
+        }
+        set {
+            if (_location != null)
+                _location.units.Remove(this);
+            _location = value;
+            _location.units.Add(this);
+        }
+    }
+
+    private HexCell _location;
+
     Animator animator;
 
     bool isMoving = false;
 
-    public HexCellCoordinates location;
     float timeTilDeparture;
 
     void Initialize(HexCell cell)
     {
         animator = this.GetRequiredComponent<Animator>();
         StartCoroutine(StartIdleAnimation());
-        SetPosition(cell);
-        transform.localRotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
-    }
-
-    void SetPosition(HexCell cell)
-    {
+        location = cell;
         transform.localPosition = cell.Center;
-        location = cell.Coordinates;
+        transform.localRotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
     }
 
     void Update()
@@ -59,8 +67,9 @@ public class Unit : MonoBehaviour
 
     IEnumerator TravelToCell(IList<HexCell> path)
     {
-        var origin = HexBoard.ActiveBoard.hexCells[location];
         foreach (var cell in path.Skip(1)) {
+            var lastLocation = location;
+            location = cell;
             var travelSpeed = .5f;
             for (float t = 0f; t < 1f; t += Time.deltaTime * travelSpeed) {
                 var rotation = t * 2;
@@ -70,15 +79,13 @@ public class Unit : MonoBehaviour
                         Quaternion.LookRotation(cell.Center - transform.localPosition);
                     transform.localRotation = Quaternion.Slerp(fromRotation, toRotation, rotation);
                 }
-                transform.localPosition = Vector3.Lerp(origin.Center, cell.Center, t);
+                transform.localPosition = Vector3.Lerp(lastLocation.Center, cell.Center, t);
                 yield return null;
             }
-            origin = cell;
         }
         // Reset any vertical rotation so unit is level on map.
         transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.ScaledBy(Vector3.up));
 
-        location = origin.Coordinates;
         animator.SetTrigger(triggerIdle);
         isMoving = false;
         timeTilDeparture = Random.Range(5f, 20f);
@@ -86,11 +93,10 @@ public class Unit : MonoBehaviour
 
     IList<HexCell> GetNewTravelPath()
     {
-        var currentCell = HexBoard.ActiveBoard.hexCells[location];
         var path = pathfinder.FindNearest(
-            currentCell,
-            c => c != currentCell &&
-            c.Coordinates.DistanceTo(currentCell.Coordinates) >= 5 &&
+            location,
+            c => c != location &&
+            c.Coordinates.DistanceTo(location.Coordinates) >= 5 &&
             c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) != null);
         path[0].Highlight(Color.green);
         path.Last().Highlight(Color.blue);

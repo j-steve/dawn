@@ -49,8 +49,15 @@ public class HexBoard : MonoBehaviour
             terrainMaterial.ToggleKeyword("GRIDLINES_ON");
         }
         if (Input.GetMouseButton(0)) {
+            UIInGame.ActiveInGameUI.HideUI();
             HexCell clickedCell = GetCellClickTarget();
             if (clickedCell != null) {
+                if (clickedCell.units.Count > 0) {
+                    string message = "Moose";
+                    if (clickedCell.units.Count > 1)
+                        message += " ({0})".Format(clickedCell.units.Count);
+                    UIInGame.ActiveInGameUI.ShowUI(message);
+                }
                 foreach (var cell in pathCells) { cell.Highlight(null); }
                 pathCells.Clear();
                 Color color = Color.green;

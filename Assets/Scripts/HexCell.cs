@@ -63,9 +63,12 @@ public class HexCell : MonoBehaviour
 
     public int Continent = 0;
 
+    public readonly List<Unit> units = new List<Unit>();
+
     int elevation = 0;
 
     Text label;
+
 
     /// <summary>
     /// Returns the hex cell's <code>HexCellCoordinates</code>, which is a 
