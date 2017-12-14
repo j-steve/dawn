@@ -98,7 +98,7 @@ public class HexChunk : MonoBehaviour
         var mesh = treeMesh;
         int v0 = mesh.vertices.Count;
         Vector3 center = cell.Center + (WATERLEVEL / 2);
-        mesh.vertices.Add(center);
+        mesh.vertices.Add(center + (WATERLEVEL / 2));
         foreach (var vertexOffset in HEX_VERTEX_OFFSETS) {
             mesh.vertices.Add(center + vertexOffset);
             mesh.vertices.Add(center - vertexOffset);

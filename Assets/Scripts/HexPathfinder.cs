@@ -35,7 +35,7 @@ public class HexPathfinder
                 }
             }
         }
-        Debug.LogWarningFormat("No suitable path from {0} to goal condition cell! Checked {2}", origin, closedSet.Count);
+        Debug.LogWarningFormat("No suitable path from {0} to goal condition cell! Checked {1}", origin, closedSet.Count);
         return null;
     }
 

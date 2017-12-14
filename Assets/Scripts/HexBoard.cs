@@ -50,10 +50,16 @@ public class HexBoard : MonoBehaviour
         if (Input.GetButtonDown("Show Gridlines")) {
             terrainMaterial.ToggleKeyword("GRIDLINES_ON");
         }
-        if (Input.GetMouseButton(0)) {
+        if (Input.GetMouseButtonDown(0)) {
             UIInGame.ActiveInGameUI.HideUI();
             HexCell clickedCell = GetCellClickTarget();
             if (clickedCell != null) {
+                if (clickedCell == highlightedCell) {
+                    clickedCell.Highlight(null);
+                    highlightedCell = null;
+                    UIInGame.ActiveInGameUI.HideUI();
+                    return;
+                }
                 if (clickedCell.units.Count > 0) {
                     var msg = clickedCell.units.Select(x => x.UnitName).Join(", ");
                     UIInGame.ActiveInGameUI.ShowUI(msg);

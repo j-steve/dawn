@@ -36,7 +36,7 @@
             o.Albedo = c.rgb;
             o.Metallic = _Metallic;
             o.Smoothness = _Glossiness;
-            o.Alpha = .85;
+            o.Alpha = 1;
             o.Normal = UnpackNormal(tex2D(_BumpMap, IN.uv_BumpMap));
         }
         ENDCG
