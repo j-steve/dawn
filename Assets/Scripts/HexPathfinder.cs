@@ -15,8 +15,6 @@ public class HexPathfinder
 
         HexCell current;
         while (openSet.TryDequeue(out current)) {
-            if (!current.HasHighlight())
-                current.Highlight(Color.gray);
             if (goalCondition(current)) {
                 return ReconstructPath(cameFrom, current);
             }

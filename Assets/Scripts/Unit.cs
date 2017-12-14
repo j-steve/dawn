@@ -98,8 +98,6 @@ public class Unit : MonoBehaviour
             c => c != location &&
             c.Coordinates.DistanceTo(location.Coordinates) >= 5 &&
             c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) != null);
-        path[0].Highlight(Color.green);
-        path.Last().Highlight(Color.blue);
         return path;
     }
 
