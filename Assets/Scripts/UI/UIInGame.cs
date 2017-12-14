@@ -6,6 +6,7 @@ public class UIInGame : MonoBehaviour
     public static UIInGame ActiveInGameUI;
 
     [SerializeField] GameObject unitInfoPanel;
+    [SerializeField] Text unitInfoTitle;
     [SerializeField] Text unitInfoName;
 
     // Use this for initialization
@@ -21,10 +22,11 @@ public class UIInGame : MonoBehaviour
         HideUI();
     }
 
-    public void ShowUI(string unitName)
+    public void ShowUI(string title, string description)
     {
         unitInfoPanel.SetActive(true);
-        unitInfoName.text = unitName;
+        unitInfoTitle.text = title;
+        unitInfoName.text = description;
     }
 
     public void HideUI()

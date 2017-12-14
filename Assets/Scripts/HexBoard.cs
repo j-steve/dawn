@@ -60,10 +60,12 @@ public class HexBoard : MonoBehaviour
                     UIInGame.ActiveInGameUI.HideUI();
                     return;
                 }
+                string title = clickedCell.Coordinates.ToString();
+                string description = "";
                 if (clickedCell.units.Count > 0) {
-                    var msg = clickedCell.units.Select(x => x.UnitName).Join(", ");
-                    UIInGame.ActiveInGameUI.ShowUI(msg);
+                    description = clickedCell.units.Select(x => x.UnitName).Join(", ");
                 }
+                UIInGame.ActiveInGameUI.ShowUI(title, description);
                 foreach (var cell in pathCells) { cell.Highlight(null); }
                 pathCells.Clear();
                 Color color = Color.green;

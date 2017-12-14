@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Trees
-  m_Shader: {fileID: 4800000, guid: a1b5c996255fbbb4a93019b2f3c41be4, type: 3}
+  m_Shader: {fileID: 4800000, guid: 149735a4c0723b74a8570634f9d55304, type: 3}
   m_ShaderKeywords: _NORMALMAP _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,23 +19,23 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: e75be90877a729f428cdc058edde5f2f, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _HeightMap:
-        m_Texture: {fileID: 2800000, guid: 6e184bfe8994a094ab606d1528c56040, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 135c455332f1ecd47b7f51d3d878a70b, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8548a9a2685e08b46bf624fefc04f7b0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: e0a43a00537906347a1972623a18c68f, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
-        m_Texture: {fileID: 2800000, guid: 6f54c43a88f100640a5c0d3e2856d6be, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -45,4 +45,4 @@ Material:
     - _Metallic: 0.22
     - _OcclusionStrength: 1
     m_Colors:
-    - _Color: {r: 0.6397059, g: 0.6397059, b: 0.6397059, a: 0.403}
+    - _Color: {r: 1, g: 1, b: 1, a: 0.403}
