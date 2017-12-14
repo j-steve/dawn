@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.Linq;
 
 public class HexBoard : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class HexBoard : MonoBehaviour
     internal List<HexCell> pathCells = new List<HexCell>();
 
     public Unit moosePrefab;
+    public Unit wolfPrefab;
     public int mooseCount;
 
     // Use this for initialization
@@ -53,10 +55,8 @@ public class HexBoard : MonoBehaviour
             HexCell clickedCell = GetCellClickTarget();
             if (clickedCell != null) {
                 if (clickedCell.units.Count > 0) {
-                    string message = "Moose";
-                    if (clickedCell.units.Count > 1)
-                        message += " ({0})".Format(clickedCell.units.Count);
-                    UIInGame.ActiveInGameUI.ShowUI(message);
+                    var msg = clickedCell.units.Select(x => x.UnitName).Join(", ");
+                    UIInGame.ActiveInGameUI.ShowUI(msg);
                 }
                 foreach (var cell in pathCells) { cell.Highlight(null); }
                 pathCells.Clear();

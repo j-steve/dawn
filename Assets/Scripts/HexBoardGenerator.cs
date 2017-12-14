@@ -37,7 +37,8 @@ public class HexBoardGenerator : MonoBehaviour
         var x = new HashSet<HexCell>(hexBoard.hexCells.Values.Where(c => c.Elevation > 0 && c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) == null));
         while (x.Count > 0 && hexBoard.mooseCount < 20) {
             var cell = x.GetRandom();
-            Unit.Create(hexBoard.moosePrefab, cell);
+            var prefab = Random.value > 0.5f ? hexBoard.moosePrefab : hexBoard.wolfPrefab;
+            Unit.Create(prefab, cell);
             x.Remove(cell);
             hexBoard.mooseCount++;
             yield return null;

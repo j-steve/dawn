@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-[RequireComponent(typeof(Animator))]
 public class Unit : MonoBehaviour
 {
     #region Static
@@ -22,6 +21,10 @@ public class Unit : MonoBehaviour
 
     #endregion
 
+    public string UnitName { get { return unitName; } }
+
+    [SerializeField] string unitName;
+
     private HexCell location {
         get {
             return _location;
@@ -38,13 +41,13 @@ public class Unit : MonoBehaviour
 
     Animator animator;
 
-    bool isMoving = false;
+    protected bool isMoving = false;
 
     float timeTilDeparture;
 
     void Initialize(HexCell cell)
     {
-        animator = this.GetRequiredComponent<Animator>();
+        animator = GetComponent<Animator>();
         StartCoroutine(StartIdleAnimation());
         location = cell;
         transform.localPosition = cell.Center;
@@ -58,8 +61,7 @@ public class Unit : MonoBehaviour
         timeTilDeparture -= Time.deltaTime;
         if (timeTilDeparture <= 0) {
             var path = GetNewTravelPath();
-            animator.SetTrigger(triggerMoving);
-            isMoving = true;
+            SetMovement(true);
             StopAllCoroutines();
             StartCoroutine(TravelToCell(path));
         }
@@ -85,9 +87,7 @@ public class Unit : MonoBehaviour
         }
         // Reset any vertical rotation so unit is level on map.
         transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.ScaledBy(Vector3.up));
-
-        animator.SetTrigger(triggerIdle);
-        isMoving = false;
+        SetMovement(false);
         timeTilDeparture = Random.Range(5f, 20f);
     }
 
@@ -112,7 +112,7 @@ public class Unit : MonoBehaviour
         var secs = Random.Range(0f, 2f);
         yield return new WaitForSeconds(secs);
         if (!isMoving)
-            animator.SetTrigger(triggerIdle);
+            SetMovement(false);
     }
 
     IEnumerator TriggerMoveAaimation()
@@ -121,14 +121,18 @@ public class Unit : MonoBehaviour
             var secs = Random.Range(0f, 10f);
             yield return new WaitForSeconds(secs);
             Debug.LogFormat("Done waiing {0} secs", secs);
-            if (isMoving) {
-                animator.SetTrigger(triggerIdle);
-                isMoving = false;
-            }
-            else {
-                animator.SetTrigger(triggerMoving);
-                isMoving = true;
-            }
+            SetMovement(!isMoving);
         }
+    }
+
+    protected virtual void SetMovement(bool moving)
+    {
+        if (moving) {
+            animator.SetTrigger(triggerMoving);
+        }
+        else {
+            animator.SetTrigger(triggerIdle);
+        }
+        isMoving = moving;
     }
 }
