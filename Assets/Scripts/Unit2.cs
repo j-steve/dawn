@@ -16,10 +16,10 @@ public class Unit2 : Unit
     protected override void SetMovement(bool moving)
     {
         if (moving) {
-            animation.Play("Walking");
+            animation.CrossFade("Walking");
         }
         else {
-            animation.Play("Idle");
+            animation.CrossFade("Idle");
         }
         isMoving = moving;
     }
