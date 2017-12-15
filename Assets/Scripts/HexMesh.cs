@@ -32,7 +32,8 @@ public class HexMesh : MonoBehaviour
         mesh.SetVertices(vertices);
         mesh.SetTriangles(triangles, 0);
         mesh.SetColors(colors);
-        mesh.RecalculateNormals();
+        mesh.RecalculateNormals(110);
+        mesh.RecalculateTangents();
     }
 
     public void AddTriangle(Vector3 v1, Vector3 v2, Vector3 v3)

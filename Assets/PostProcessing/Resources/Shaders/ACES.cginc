@@ -58,15 +58,12 @@
 
 /*
     Basic usage :
-
     half4 color = tex2D(_MainTex, i.uv);
     half3 aces = unity_to_ACES(color.rgb);
     half3 oces = RRT(aces);
     half3 odt = ODT_RGBmonitor_100nits_dim(oces);
     return half4(odt, color.a);
-
     If you want to customize the white point, uncomment the previous define and set uniforms accordingly:
-
     float whitePoint = 48f; // Default ACES value
     material.SetFloat("CINEMA_WHITE", whitePoint);
     material.SetFloat("CINEMA_DARK", whitePoint / 2400f);
@@ -397,7 +394,6 @@ half cubic_basis_shaper
         { -3.0 / 6,  0.0 / 6,  3.0 / 6,  0.0 / 6 },
         {  1.0 / 6,  4.0 / 6,  1.0 / 6,  0.0 / 6 }
     };
-
     half knots[5] = {
         -w / 2.0,
         -w / 4.0,
@@ -405,16 +401,13 @@ half cubic_basis_shaper
          w / 4.0,
          w / 2.0
     };
-
     half y = 0.0;
     if ((x > knots[0]) && (x < knots[4]))
     {
         half knot_coord = (x - knots[0]) * 4.0 / w;
         int j = knot_coord;
         half t = knot_coord - j;
-
         half monomials[4] = { t*t*t, t*t, t, 1.0 };
-
         // (if/else structure required for compatibility with CTL < v1.5.)
         if (j == 3)
         {
@@ -441,7 +434,6 @@ half cubic_basis_shaper
             y = 0.0;
         }
     }
-
     return y * 3.0 / 2.0;
 }
 */
@@ -816,7 +808,6 @@ half3 ODT_RGBmonitor_100nits_dim(half3 oces)
     outputCV.x = moncurve_r(linearCV.x, DISPGAMMA, OFFSET);
     outputCV.y = moncurve_r(linearCV.y, DISPGAMMA, OFFSET);
     outputCV.z = moncurve_r(linearCV.z, DISPGAMMA, OFFSET);
-
     outputCV = linear_to_sRGB(linearCV);
     */
 
@@ -929,7 +920,6 @@ half3 ODT_RGBmonitor_D60sim_100nits_dim(half3 oces)
     outputCV.x = moncurve_r(linearCV.x, DISPGAMMA, OFFSET);
     outputCV.y = moncurve_r(linearCV.y, DISPGAMMA, OFFSET);
     outputCV.z = moncurve_r(linearCV.z, DISPGAMMA, OFFSET);
-
     outputCV = linear_to_sRGB(linearCV);
     */
 
