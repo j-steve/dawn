@@ -1317,6 +1317,48 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 415082069}
+--- !u!1001 &451594272
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4045280021045548, guid: 0b845d5670bac324bbb9d09abf31a91e, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -3.6843436
+      objectReference: {fileID: 0}
+    - target: {fileID: 4045280021045548, guid: 0b845d5670bac324bbb9d09abf31a91e, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -6.187699e-17
+      objectReference: {fileID: 0}
+    - target: {fileID: 4045280021045548, guid: 0b845d5670bac324bbb9d09abf31a91e, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 2.7866917
+      objectReference: {fileID: 0}
+    - target: {fileID: 4045280021045548, guid: 0b845d5670bac324bbb9d09abf31a91e, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4045280021045548, guid: 0b845d5670bac324bbb9d09abf31a91e, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4045280021045548, guid: 0b845d5670bac324bbb9d09abf31a91e, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4045280021045548, guid: 0b845d5670bac324bbb9d09abf31a91e, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4045280021045548, guid: 0b845d5670bac324bbb9d09abf31a91e, type: 2}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 0b845d5670bac324bbb9d09abf31a91e, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &466024065
 GameObject:
   m_ObjectHideFlags: 0
@@ -4316,10 +4358,10 @@ MonoBehaviour:
     type: 2}
   hexLabelPrefab: {fileID: 114980090634325804, guid: 59cdf4c4c28189e4f896e381668aaba7,
     type: 2}
-  moosePrefab: {fileID: 114889472125591254, guid: d91e3a265040dd9498ac36070f61e0e0,
-    type: 2}
-  wolfPrefab: {fileID: 114089428488858240, guid: a8a9d5abfa360354182b54f783256da9,
-    type: 2}
+  unitPrefabs:
+  - {fileID: 114016554706752964, guid: d91e3a265040dd9498ac36070f61e0e0, type: 2}
+  - {fileID: 114089428488858240, guid: a8a9d5abfa360354182b54f783256da9, type: 2}
+  - {fileID: 114559706213567910, guid: 0b845d5670bac324bbb9d09abf31a91e, type: 2}
   mooseCount: 0
 --- !u!4 &1871998840
 Transform:

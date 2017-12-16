@@ -26,8 +26,7 @@ public class HexBoard : MonoBehaviour
     HexCell searchFromCell;
     internal List<HexCell> pathCells = new List<HexCell>();
 
-    public Unit moosePrefab;
-    public Unit wolfPrefab;
+    public Unit[] unitPrefabs;
     public int mooseCount;
 
     // Use this for initialization
@@ -73,8 +72,7 @@ public class HexBoard : MonoBehaviour
                     if (searchFromCell) { searchFromCell.Highlight(null); }
                     searchFromCell = clickedCell;
                     searchFromCell.Highlight(Color.blue);
-                }
-                else {
+                } else {
                     if (highlightedCell) { highlightedCell.Highlight(null); }
                     highlightedCell = clickedCell;
                     clickedCell.Highlight(Color.green);
