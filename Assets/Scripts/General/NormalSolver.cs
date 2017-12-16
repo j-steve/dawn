@@ -121,17 +121,17 @@ public static class NormalSolver
         private readonly long _z;
 
         // Change this if you require a different precision.
-        private const int Tolerance = 100000;
+        private const int TOLERANCE = 100000;
 
         // Magic FNV values. Do not change these.
-        private const long FNV32Init = 0x811c9dc5;
-        private const long FNV32Prime = 0x01000193;
+        private const long FNV32INIT = 0x811c9dc5;
+        private const long FNV32PRIME = 0x01000193;
 
         public VertexKey(Vector3 position)
         {
-            _x = (long)(Mathf.Round(position.x * Tolerance));
-            _y = (long)(Mathf.Round(position.y * Tolerance));
-            _z = (long)(Mathf.Round(position.z * Tolerance));
+            _x = (long)(Mathf.Round(position.x * TOLERANCE));
+            _y = (long)(Mathf.Round(position.y * TOLERANCE));
+            _z = (long)(Mathf.Round(position.z * TOLERANCE));
         }
 
         public override bool Equals(object obj)
@@ -142,13 +142,13 @@ public static class NormalSolver
 
         public override int GetHashCode()
         {
-            long rv = FNV32Init;
+            long rv = FNV32INIT;
             rv ^= _x;
-            rv *= FNV32Prime;
+            rv *= FNV32PRIME;
             rv ^= _y;
-            rv *= FNV32Prime;
+            rv *= FNV32PRIME;
             rv ^= _z;
-            rv *= FNV32Prime;
+            rv *= FNV32PRIME;
 
             return rv.GetHashCode();
         }
