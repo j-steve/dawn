@@ -83,7 +83,6 @@ public class HexBoardGenerator : MonoBehaviour
         int continents = Mathf.FloorToInt(hexBoard.continentsPerChunk * hexBoard.mapSize.Area);
         var oceanCells = new HashSet<HexCell>();
         var blankCells = new HashSet<HexCell>(hexBoard.hexCells.Values);
-        Debug.Log(continents + "for" + hexBoard.mapSize.Area);
         for (int continent = 0; continent < continents; continent++) {
             if (blankCells.Count == 0) { break; }
             var biome = Biome.Values.GetRandom();

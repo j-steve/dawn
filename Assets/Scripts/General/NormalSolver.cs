@@ -44,7 +44,6 @@ public static class NormalSolver
         for (var subMeshIndex = 0; subMeshIndex < mesh.subMeshCount; ++subMeshIndex) {
 
             var triangles = mesh.GetTriangles(subMeshIndex);
-            Debug.LogFormat("SubMesh {0} has {1}", subMeshIndex, triangles.Length);
 
             triNormals[subMeshIndex] = new Vector3[triangles.Length / 3];
 
@@ -96,8 +95,7 @@ public static class NormalSolver
 
                     if (lhsEntry.VertexIndex == rhsEntry.VertexIndex) {
                         sum += triNormals[rhsEntry.MeshIndex][rhsEntry.TriangleIndex];
-                    }
-                    else {
+                    } else {
                         // The dot product is the cosine of the angle between the two triangles.
                         // A larger cosine means a smaller angle.
                         var dot = Vector3.Dot(
