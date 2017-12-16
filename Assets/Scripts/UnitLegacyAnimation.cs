@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 
-public class Unit2 : Unit
+public class UnitLegacyAnimation : Unit
 {
     new Animation animation;
 
@@ -17,8 +14,7 @@ public class Unit2 : Unit
     {
         if (moving) {
             animation.CrossFade("Walking");
-        }
-        else {
+        } else {
             animation.CrossFade("Idle");
         }
         isMoving = moving;

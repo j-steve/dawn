@@ -3,14 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class Unit : MonoBehaviour
+abstract public class Unit : MonoBehaviour
 {
     #region Static
 
     static HexPathfinder pathfinder = new HexPathfinder();
-
-    static readonly int triggerMoving = Animator.StringToHash("Moving");
-    static readonly int triggerIdle = Animator.StringToHash("Idle");
 
     static public Unit Create(Unit prefab, HexCell cell)
     {
@@ -25,21 +22,20 @@ public class Unit : MonoBehaviour
 
     [SerializeField] string unitName;
 
-    private HexCell location {
+    HexCell location {
         get {
             return _location;
         }
         set {
-            if (_location != null)
+            if (_location != null) {
                 _location.units.Remove(this);
+            }
             _location = value;
             _location.units.Add(this);
         }
     }
 
-    private HexCell _location;
-
-    Animator animator;
+    HexCell _location;
 
     protected bool isMoving = false;
 
@@ -47,7 +43,6 @@ public class Unit : MonoBehaviour
 
     void Initialize(HexCell cell)
     {
-        animator = GetComponent<Animator>();
         StartCoroutine(StartIdleAnimation());
         location = cell;
         transform.localPosition = cell.Center;
@@ -56,14 +51,14 @@ public class Unit : MonoBehaviour
 
     void Update()
     {
-        if (isMoving)
-            return;
-        timeTilDeparture -= Time.deltaTime;
-        if (timeTilDeparture <= 0) {
-            var path = GetNewTravelPath();
-            SetMovement(true);
-            StopAllCoroutines();
-            StartCoroutine(TravelToCell(path));
+        if (!isMoving) {
+            timeTilDeparture -= Time.deltaTime;
+            if (timeTilDeparture <= 0) {
+                var path = GetNewTravelPath();
+                SetMovement(true);
+                StopAllCoroutines();
+                StartCoroutine(TravelToCell(path));
+            }
         }
     }
 
@@ -93,12 +88,11 @@ public class Unit : MonoBehaviour
 
     IList<HexCell> GetNewTravelPath()
     {
-        var path = pathfinder.FindNearest(
+        return pathfinder.FindNearest(
             location,
             c => c != location &&
             c.Coordinates.DistanceTo(location.Coordinates) >= 5 &&
             c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) != null);
-        return path;
     }
 
     /// <summary>
@@ -109,8 +103,9 @@ public class Unit : MonoBehaviour
     {
         var secs = Random.Range(0f, 2f);
         yield return new WaitForSeconds(secs);
-        if (!isMoving)
+        if (!isMoving) {
             SetMovement(false);
+        }
     }
 
     IEnumerator TriggerMoveAaimation()
@@ -118,19 +113,9 @@ public class Unit : MonoBehaviour
         while (true) {
             var secs = Random.Range(0f, 10f);
             yield return new WaitForSeconds(secs);
-            Debug.LogFormat("Done waiing {0} secs", secs);
             SetMovement(!isMoving);
         }
     }
 
-    protected virtual void SetMovement(bool moving)
-    {
-        if (moving) {
-            animator.SetTrigger(triggerMoving);
-        }
-        else {
-            animator.SetTrigger(triggerIdle);
-        }
-        isMoving = moving;
-    }
+    abstract protected void SetMovement(bool moving);
 }
