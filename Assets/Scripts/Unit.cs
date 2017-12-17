@@ -89,6 +89,7 @@ abstract public class Unit : MonoBehaviour
 
     protected IEnumerator TravelToCell(IList<HexCell> path)
     {
+        IsMoving = true;
         foreach (var cell in path.Skip(1)) {
             var lastLocation = Location;
             Location = cell;

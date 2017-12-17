@@ -25,7 +25,7 @@ public class UnitPlayer : Unit
     {
         path = pathfinder.Search(Location, cell);
         for (int i = 0; i < path.Count - 1; i++) {
-            path[i].Highlight(Color.yellow);
+            path[i].Highlight(Color.white);
         }
         path[path.Count - 1].Highlight(Color.green);
     }
@@ -40,6 +40,11 @@ public class UnitPlayer : Unit
     void OnHexCellClick(HexCellClickedEventArgs e)
     {
         Debug.LogFormat("{0} knows you clicked {1}", UnitName, e.Cell);
+        StopAllCoroutines();
+        StartCoroutine(TravelToCell(path));
+        UnHighlightPath();
+        e.Cancel = true;
+        UIInGame.ActiveInGameUI.HideUI();
     }
 
     protected override void onBlur()

@@ -12,7 +12,6 @@ public class UnitAnimal : Unit
             if (timeTilDeparture <= 0) {
                 var path = GetNewTravelPath();
                 if (path != null) {
-                    IsMoving = true;
                     StopAllCoroutines();
                     StartCoroutine(TravelToCell(path));
                 }
