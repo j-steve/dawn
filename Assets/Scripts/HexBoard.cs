@@ -49,41 +49,56 @@ public class HexBoard : MonoBehaviour
         if (Input.GetButtonDown("Show Gridlines")) {
             terrainMaterial.ToggleKeyword("GRIDLINES_ON");
         }
-        if (Input.GetMouseButtonDown(0)) {
-            UIInGame.ActiveInGameUI.HideUI();
-            HexCell clickedCell = GetCellClickTarget();
-            Debug.LogFormat("You clicked cell {0}!", clickedCell.Coordinates);
-            if (clickedCell != null) {
-                if (clickedCell == highlightedCell) {
-                    clickedCell.Highlight(null);
-                    highlightedCell = null;
-                    UIInGame.ActiveInGameUI.HideUI();
-                    return;
-                }
-                string title = clickedCell.Coordinates.ToString();
-                string description = "";
-                if (clickedCell.units.Count > 0) {
-                    description = clickedCell.units.Select(x => x.UnitName).Join(", ");
-                }
-                UIInGame.ActiveInGameUI.ShowUI(title, description);
-                foreach (var cell in pathCells) { cell.Highlight(null); }
-                pathCells.Clear();
-                Color color = Color.green;
-                if (Input.GetKey(KeyCode.LeftShift)) {
-                    if (searchFromCell) { searchFromCell.Highlight(null); }
-                    searchFromCell = clickedCell;
-                    searchFromCell.Highlight(Color.blue);
-                } else {
-                    if (highlightedCell) { highlightedCell.Highlight(null); }
-                    highlightedCell = clickedCell;
-                    clickedCell.Highlight(Color.green);
-                }
-                if (searchFromCell && highlightedCell) {
-                    var path = new HexPathfinder().Search(searchFromCell, highlightedCell);
-                    for (int i = 1; i < path.Count - 1; i++) {
-                        path[i].Highlight(Color.yellow);
-                        pathCells.Add(path[i]);
-                    }
+
+    }
+
+    public void OnMapBlur()
+    {
+        if (highlightedCell) {
+            highlightedCell.Highlight(null);
+            highlightedCell = null;
+        }
+        if (searchFromCell) {
+            searchFromCell.Highlight(null);
+            searchFromCell = null;
+        }
+    }
+
+    public void OnMapClick()
+    {
+        UIInGame.ActiveInGameUI.HideUI();
+        HexCell clickedCell = GetCellClickTarget();
+        Debug.LogFormat("You clicked cell {0}!", clickedCell.Coordinates);
+        if (clickedCell != null) {
+            if (clickedCell == highlightedCell) {
+                clickedCell.Highlight(null);
+                highlightedCell = null;
+                UIInGame.ActiveInGameUI.HideUI();
+                return;
+            }
+            string title = clickedCell.Coordinates.ToString();
+            string description = "";
+            if (clickedCell.units.Count > 0) {
+                description = clickedCell.units.Select(x => x.UnitName).Join(", ");
+            }
+            UIInGame.ActiveInGameUI.ShowUI(title, description);
+            foreach (var cell in pathCells) { cell.Highlight(null); }
+            pathCells.Clear();
+            Color color = Color.green;
+            if (Input.GetKey(KeyCode.LeftShift)) {
+                if (searchFromCell) { searchFromCell.Highlight(null); }
+                searchFromCell = clickedCell;
+                searchFromCell.Highlight(Color.blue);
+            } else {
+                if (highlightedCell) { highlightedCell.Highlight(null); }
+                highlightedCell = clickedCell;
+                clickedCell.Highlight(Color.green);
+            }
+            if (searchFromCell && highlightedCell) {
+                var path = new HexPathfinder().Search(searchFromCell, highlightedCell);
+                for (int i = 1; i < path.Count - 1; i++) {
+                    path[i].Highlight(Color.yellow);
+                    pathCells.Add(path[i]);
                 }
             }
         }

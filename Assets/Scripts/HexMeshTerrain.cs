@@ -13,6 +13,8 @@ public class HexMeshTerrain : HexMesh
     {
         base.Awake();
         meshCollider = gameObject.AddComponent<MeshCollider>();
+        meshCollider.convex = true;
+        meshCollider.isTrigger = true;
     }
 
     public override void Clear()
@@ -27,6 +29,11 @@ public class HexMeshTerrain : HexMesh
         base.Apply();
         mesh.SetUVs(2, terrainTypes);
         meshCollider.sharedMesh = mesh;
+    }
+
+    void OnMouseDown()
+    {
+        HexBoard.ActiveBoard.OnMapClick();
     }
 
     public void AddQuadWithTerrain(TexturedEdge e1, TexturedEdge e2)

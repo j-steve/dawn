@@ -60,7 +60,7 @@ abstract public class Unit : MonoBehaviour
 
     void OnMouseDown()
     {
-        Debug.LogFormat("You clicked a {0}!", UnitName);
+        HexBoard.ActiveBoard.OnMapBlur();
         UIInGame.ActiveInGameUI.ShowUI(UnitName, "A Unit!");
     }
 
