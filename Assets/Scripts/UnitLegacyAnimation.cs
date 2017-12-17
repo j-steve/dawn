@@ -4,10 +4,10 @@ public class UnitLegacyAnimation : Unit
 {
     new Animation animation;
 
-    private void Awake()
+    protected override void Awake()
     {
         animation = GetComponentInChildren<Animation>();
-        SetMovement(false);
+        base.Awake();
     }
 
     protected override void SetMovement(bool moving)

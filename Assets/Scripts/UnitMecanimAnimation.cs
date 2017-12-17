@@ -8,10 +8,10 @@ public class UnitMecanimAnimation : Unit
 
     Animator animator;
 
-    private void Awake()
+    protected override void Awake()
     {
         animator = GetComponent<Animator>();
-        SetMovement(false);
+        base.Awake();
     }
 
     protected override void SetMovement(bool moving)

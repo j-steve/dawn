@@ -52,6 +52,7 @@ public class HexBoard : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) {
             UIInGame.ActiveInGameUI.HideUI();
             HexCell clickedCell = GetCellClickTarget();
+            Debug.LogFormat("You clicked cell {0}!", clickedCell.Coordinates);
             if (clickedCell != null) {
                 if (clickedCell == highlightedCell) {
                     clickedCell.Highlight(null);

@@ -41,12 +41,27 @@ abstract public class Unit : MonoBehaviour
 
     float timeTilDeparture;
 
+    protected virtual void Awake()
+    {
+        var meshCollider = gameObject.AddComponent<MeshCollider>();
+        meshCollider.convex = true;
+        meshCollider.isTrigger = true;
+        meshCollider.sharedMesh = GetComponentInChildren<SkinnedMeshRenderer>().sharedMesh;
+        SetMovement(false);
+    }
+
     void Initialize(HexCell cell)
     {
         StartCoroutine(StartIdleAnimation());
         location = cell;
         transform.localPosition = cell.Center;
         transform.localRotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
+    }
+
+    void OnMouseDown()
+    {
+        Debug.LogFormat("You clicked a {0}!", UnitName);
+        UIInGame.ActiveInGameUI.ShowUI(UnitName, "A Unit!");
     }
 
     void Update()
