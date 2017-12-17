@@ -60,7 +60,7 @@ public class HexBoard : MonoBehaviour
 
     public void OnMapClick()
     {
-        HexCell clickedCell = GetCellClickTarget();
+        HexCell clickedCell = GetCellUnderCursor();
         if (HexCellClickedEvent != null) {
             var eventArgs = new HexCellClickedEventArgs(clickedCell);
             HexCellClickedEvent.Invoke(eventArgs);
@@ -89,7 +89,7 @@ public class HexBoard : MonoBehaviour
         }
     }
 
-    HexCell GetCellClickTarget()
+    public HexCell GetCellUnderCursor()
     {
         Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;

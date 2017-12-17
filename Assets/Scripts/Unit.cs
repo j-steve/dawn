@@ -7,7 +7,7 @@ abstract public class Unit : MonoBehaviour
 {
     #region Static
 
-    static HexPathfinder pathfinder = new HexPathfinder();
+    static protected HexPathfinder pathfinder = new HexPathfinder();
 
     static public Unit Create(Unit prefab, HexCell cell)
     {
