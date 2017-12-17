@@ -2,10 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Linq;
+using System;
+
+public class HexCellClickedEventArgs : System.ComponentModel.CancelEventArgs
+{
+    public readonly HexCell Cell;
+    public HexCellClickedEventArgs(HexCell cell) { Cell = cell; }
+}
 
 public class HexBoard : MonoBehaviour
 {
     public static HexBoard ActiveBoard;
+
+    public event Action<HexCellClickedEventArgs> HexCellClickedEvent;
 
     /// <summary>
     /// The size of the map, as a number of HexMeshChunks in the X and Y axes.
@@ -52,6 +61,11 @@ public class HexBoard : MonoBehaviour
     public void OnMapClick()
     {
         HexCell clickedCell = GetCellClickTarget();
+        if (HexCellClickedEvent != null) {
+            var eventArgs = new HexCellClickedEventArgs(clickedCell);
+            HexCellClickedEvent.Invoke(eventArgs);
+            if (eventArgs.Cancel) { return; }
+        }
         if (clickedCell == null) {
             UIInGame.ActiveInGameUI.HideUI();
         } else if (clickedCell != highlightedCell) {

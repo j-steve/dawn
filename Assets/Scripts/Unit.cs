@@ -77,13 +77,15 @@ abstract public class Unit : MonoBehaviour
         Select();
     }
 
-    public void Select()
+    public virtual void Select()
     {
         var material = GetComponentInChildren<SkinnedMeshRenderer>().material;
         var originalColor = material.color;
         material.color = Color.green;
-        UIInGame.ActiveInGameUI.ShowUI(UnitName, "A Unit!", () => material.color = originalColor);
+        UIInGame.ActiveInGameUI.ShowUI(UnitName, "A Unit!", () => { material.color = originalColor; onBlur(); });
     }
+
+    protected virtual void onBlur() { }
 
     protected IEnumerator TravelToCell(IList<HexCell> path)
     {
