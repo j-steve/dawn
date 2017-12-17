@@ -52,18 +52,6 @@ public class HexBoard : MonoBehaviour
 
     }
 
-    public void OnMapBlur()
-    {
-        if (highlightedCell) {
-            highlightedCell.Highlight(null);
-            highlightedCell = null;
-        }
-        if (searchFromCell) {
-            searchFromCell.Highlight(null);
-            searchFromCell = null;
-        }
-    }
-
     public void OnMapClick()
     {
         UIInGame.ActiveInGameUI.HideUI();
@@ -76,12 +64,6 @@ public class HexBoard : MonoBehaviour
                 UIInGame.ActiveInGameUI.HideUI();
                 return;
             }
-            string title = clickedCell.Coordinates.ToString();
-            string description = "";
-            if (clickedCell.units.Count > 0) {
-                description = clickedCell.units.Select(x => x.UnitName).Join(", ");
-            }
-            UIInGame.ActiveInGameUI.ShowUI(title, description);
             foreach (var cell in pathCells) { cell.Highlight(null); }
             pathCells.Clear();
             Color color = Color.green;
@@ -90,6 +72,12 @@ public class HexBoard : MonoBehaviour
                 searchFromCell = clickedCell;
                 searchFromCell.Highlight(Color.blue);
             } else {
+                string title = clickedCell.Coordinates.ToString();
+                string description = "";
+                if (clickedCell.units.Count > 0) {
+                    description = clickedCell.units.Select(x => x.UnitName).Join(", ");
+                }
+                UIInGame.ActiveInGameUI.ShowUI(title, description, OnMapBlur);
                 if (highlightedCell) { highlightedCell.Highlight(null); }
                 highlightedCell = clickedCell;
                 clickedCell.Highlight(Color.green);
@@ -101,6 +89,18 @@ public class HexBoard : MonoBehaviour
                     pathCells.Add(path[i]);
                 }
             }
+        }
+    }
+
+    void OnMapBlur()
+    {
+        if (highlightedCell) {
+            highlightedCell.Highlight(null);
+            highlightedCell = null;
+        }
+        if (searchFromCell) {
+            searchFromCell.Highlight(null);
+            searchFromCell = null;
         }
     }
 

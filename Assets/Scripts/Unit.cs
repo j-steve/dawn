@@ -60,8 +60,11 @@ abstract public class Unit : MonoBehaviour
 
     void OnMouseDown()
     {
-        HexBoard.ActiveBoard.OnMapBlur();
-        UIInGame.ActiveInGameUI.ShowUI(UnitName, "A Unit!");
+        Debug.LogFormat("You clicked {0}", name);
+        var material = GetComponentInChildren<SkinnedMeshRenderer>().material;
+        var originalColor = material.color;
+        material.color = Color.green;
+        UIInGame.ActiveInGameUI.ShowUI(UnitName, "A Unit!", () => material.color = originalColor);
     }
 
     void Update()

@@ -261,7 +261,6 @@ GameObject:
   - component: {fileID: 4045280021045548}
   - component: {fileID: 95774052347263168}
   - component: {fileID: 114559706213567910}
-  - component: {fileID: 64124477451556324}
   m_Layer: 0
   m_Name: Mannequin
   m_TagString: Untagged
@@ -858,20 +857,6 @@ Transform:
   m_Father: {fileID: 4846510848951244}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -89.4826, y: -89.899796, z: -0.1033}
---- !u!64 &64124477451556324
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1557167486751186}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Convex: 1
-  m_InflateMesh: 0
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: 655b6b517b20eff4b8621cc34f4fb8fb, type: 3}
 --- !u!95 &95774052347263168
 Animator:
   serializedVersion: 3

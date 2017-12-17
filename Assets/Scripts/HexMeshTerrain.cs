@@ -33,6 +33,7 @@ public class HexMeshTerrain : HexMesh
 
     void OnMouseDown()
     {
+        Debug.LogFormat("You clicked {0}", name);
         HexBoard.ActiveBoard.OnMapClick();
     }
 
