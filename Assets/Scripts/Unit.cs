@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-abstract public class Unit : MonoBehaviour
+public class Unit : MonoBehaviour
 {
     #region Static
 
@@ -22,6 +22,8 @@ abstract public class Unit : MonoBehaviour
 
     [SerializeField] string unitName;
 
+    [SerializeField] UnitAnimation unitAnimation;
+
     HexCell location {
         get {
             return _location;
@@ -37,7 +39,7 @@ abstract public class Unit : MonoBehaviour
 
     HexCell _location;
 
-    protected bool isMoving = false;
+    bool isMoving = false;
 
     float timeTilDeparture;
 
@@ -142,5 +144,10 @@ abstract public class Unit : MonoBehaviour
         }
     }
 
-    abstract protected void SetMovement(bool moving);
+    void SetMovement(bool moving)
+    {
+        var animationType = moving ? UnitAnimationType.MOVE : UnitAnimationType.IDLE;
+        unitAnimation.SetAnimation(animationType);
+        isMoving = moving;
+    }
 }
