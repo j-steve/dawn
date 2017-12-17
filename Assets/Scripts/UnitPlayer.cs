@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class UnitPlayer : Unit
 {
@@ -9,25 +10,37 @@ public class UnitPlayer : Unit
     private HexCell currentHoverTarget;
     private IList<HexCell> path;
 
+    const float MOVEMENT_POINTS = 3;
+
+    protected override float TravelSpeed { get { return 1f; } }
+
     private void Update()
     {
         if (isSelected) {
             var cell = HexBoard.ActiveBoard.GetCellUnderCursor();
             if (cell != currentHoverTarget) {
                 UnHighlightPath();
-                currentHoverTarget = cell;
-                MapPathToTarget(cell);
+                if (cell != Location) {
+                    currentHoverTarget = cell;
+                    MapPathToTarget(cell);
+                }
             }
         }
     }
 
-    private void MapPathToTarget(HexCell cell)
+    private void MapPathToTarget(HexCell target)
     {
-        path = pathfinder.Search(Location, cell);
-        for (int i = 0; i < path.Count - 1; i++) {
-            path[i].Highlight(Color.white);
+        path = pathfinder.Search(Location, target);
+        float cost = 0;
+        HexCell prevCell = Location;
+        HexCell lastCell = path.Last();
+        foreach (var cell in path) {
+            cost += pathfinder.MovementCost(prevCell, cell);
+            int turns = Mathf.FloorToInt(cost / MOVEMENT_POINTS);
+            var color = cell == lastCell ? Color.green : Color.white;
+            cell.Highlight(color, turns.ToString());
+            prevCell = cell;
         }
-        path[path.Count - 1].Highlight(Color.green);
     }
 
     public override void Select()
@@ -40,11 +53,13 @@ public class UnitPlayer : Unit
     void OnHexCellClick(HexCellClickedEventArgs e)
     {
         Debug.LogFormat("{0} knows you clicked {1}", UnitName, e.Cell);
-        StopAllCoroutines();
-        StartCoroutine(TravelToCell(path));
-        UnHighlightPath();
-        e.Cancel = true;
-        UIInGame.ActiveInGameUI.HideUI();
+        if (e.Cell != Location) {
+            StopAllCoroutines();
+            StartCoroutine(TravelToCell(path));
+            UnHighlightPath();
+            e.Cancel = true;
+            UIInGame.ActiveInGameUI.HideUI();
+        }
     }
 
     protected override void onBlur()
@@ -58,7 +73,7 @@ public class UnitPlayer : Unit
     {
         if (path != null) {
             foreach (var cell in path) {
-                cell.Highlight(null);
+                cell.UnHighlight();
             }
             path = null;
         }

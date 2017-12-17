@@ -119,7 +119,7 @@ public class HexPathfinder
     /// <param name="c1"></param>
     /// <param name="c2"></param>
     /// <returns></returns>
-    float MovementCost(HexCell c1, HexCell c2)
+    public float MovementCost(HexCell c1, HexCell c2)
     {
         if ((c1.Elevation == 0) != (c2.Elevation == 0)) {
             return 100;

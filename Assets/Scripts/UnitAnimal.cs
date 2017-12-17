@@ -5,6 +5,8 @@ public class UnitAnimal : Unit
 {
     float timeTilDeparture;
 
+    protected override float TravelSpeed { get { return 0.5f; } }
+
     void Update()
     {
         if (!IsMoving) {

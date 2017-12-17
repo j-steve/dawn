@@ -18,6 +18,8 @@ abstract public class Unit : MonoBehaviour
 
     #endregion
 
+    abstract protected float TravelSpeed { get; }
+
     public string UnitName { get { return unitName; } }
 
     [SerializeField] string unitName;
@@ -93,8 +95,7 @@ abstract public class Unit : MonoBehaviour
         foreach (var cell in path.Skip(1)) {
             var lastLocation = Location;
             Location = cell;
-            var travelSpeed = .5f;
-            for (float t = 0f; t < 1f; t += Time.deltaTime * travelSpeed) {
+            for (float t = 0f; t < 1f; t += Time.deltaTime * TravelSpeed) {
                 var rotation = t * 2;
                 if (rotation < 1f) {
                     Quaternion fromRotation = transform.localRotation;

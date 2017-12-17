@@ -111,7 +111,6 @@ public class HexCell : MonoBehaviour
         label.name = "HexLabel " + Coordinates.ToString();
         label.rectTransform.SetParent(hexCanvas.transform, false);
         label.rectTransform.anchoredPosition = new Vector2(Center.x, Center.z);
-        label.text = Mathf.RoundToInt(Latitude * 100).ToString();
     }
 
     void SetVertices()
@@ -163,6 +162,14 @@ public class HexCell : MonoBehaviour
         return new TexturedEdge(Vertices[direction.vertex1], Vertices[direction.vertex2], TerrainType);
     }
 
+    #region Cell Highlighting
+
+    public void Highlight(Color? color, string labelText)
+    {
+        Highlight(color);
+        label.text = labelText;
+    }
+
     public void Highlight(Color? color)
     {
         var highlight = label.rectTransform.GetComponentInChildren<Image>();
@@ -170,11 +177,19 @@ public class HexCell : MonoBehaviour
         highlight.enabled = color.HasValue;
     }
 
+    public void UnHighlight()
+    {
+        Highlight(null);
+        label.text = "";
+    }
+
     public bool HasHighlight()
     {
         var highlight = label.rectTransform.GetComponentInChildren<Image>();
         return highlight.enabled;
     }
+
+    #endregion
 
     #region HashCode
 
