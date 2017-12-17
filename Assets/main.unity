@@ -4317,10 +4317,9 @@ MonoBehaviour:
   hexLabelPrefab: {fileID: 114980090634325804, guid: 59cdf4c4c28189e4f896e381668aaba7,
     type: 2}
   unitPrefabs:
-  - {fileID: 114016554706752964, guid: d91e3a265040dd9498ac36070f61e0e0, type: 2}
-  - {fileID: 114760259564161440, guid: a8a9d5abfa360354182b54f783256da9, type: 2}
-  - {fileID: 114559706213567910, guid: 0b845d5670bac324bbb9d09abf31a91e, type: 2}
-  mooseCount: 0
+  - {fileID: 114273223347226820, guid: d91e3a265040dd9498ac36070f61e0e0, type: 2}
+  - {fileID: 114922379191293572, guid: a8a9d5abfa360354182b54f783256da9, type: 2}
+  - {fileID: 114074489008154244, guid: 0b845d5670bac324bbb9d09abf31a91e, type: 2}
 --- !u!4 &1871998840
 Transform:
   m_ObjectHideFlags: 0

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class Unit : MonoBehaviour
+abstract public class Unit : MonoBehaviour
 {
     #region Static
 
@@ -24,7 +24,7 @@ public class Unit : MonoBehaviour
 
     [SerializeField] UnitAnimation unitAnimation;
 
-    HexCell location {
+    protected HexCell Location {
         get {
             return _location;
         }
@@ -36,12 +36,22 @@ public class Unit : MonoBehaviour
             _location.units.Add(this);
         }
     }
-
     HexCell _location;
 
-    bool isMoving = false;
+    protected bool IsMoving {
+        get {
+            return _isMoving;
+        }
+        set {
+            if (value != _isMoving) {
+                var animationType = value ? UnitAnimationType.MOVE : UnitAnimationType.IDLE;
+                unitAnimation.SetAnimation(animationType);
+                _isMoving = value;
+            }
+        }
+    }
+    bool _isMoving;
 
-    float timeTilDeparture;
 
     protected virtual void Awake()
     {
@@ -49,18 +59,19 @@ public class Unit : MonoBehaviour
         meshCollider.convex = true;
         meshCollider.isTrigger = true;
         meshCollider.sharedMesh = GetComponentInChildren<SkinnedMeshRenderer>().sharedMesh;
-        SetMovement(false);
+        //IsMoving = false;
+        StartCoroutine(StartIdleAnimation());
     }
 
-    void Initialize(HexCell cell)
+    protected virtual void Initialize(HexCell cell)
     {
-        StartCoroutine(StartIdleAnimation());
-        location = cell;
+
+        Location = cell;
         transform.localPosition = cell.Center;
         transform.localRotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
     }
 
-    void OnMouseDown()
+    protected virtual void OnMouseDown()
     {
         Debug.LogFormat("You clicked {0}", name);
         Select();
@@ -74,26 +85,11 @@ public class Unit : MonoBehaviour
         UIInGame.ActiveInGameUI.ShowUI(UnitName, "A Unit!", () => material.color = originalColor);
     }
 
-    void Update()
-    {
-        if (!isMoving) {
-            timeTilDeparture -= Time.deltaTime;
-            if (timeTilDeparture <= 0) {
-                var path = GetNewTravelPath();
-                if (path != null) {
-                    SetMovement(true);
-                    StopAllCoroutines();
-                    StartCoroutine(TravelToCell(path));
-                }
-            }
-        }
-    }
-
-    IEnumerator TravelToCell(IList<HexCell> path)
+    protected IEnumerator TravelToCell(IList<HexCell> path)
     {
         foreach (var cell in path.Skip(1)) {
-            var lastLocation = location;
-            location = cell;
+            var lastLocation = Location;
+            Location = cell;
             var travelSpeed = .5f;
             for (float t = 0f; t < 1f; t += Time.deltaTime * travelSpeed) {
                 var rotation = t * 2;
@@ -109,16 +105,18 @@ public class Unit : MonoBehaviour
         }
         // Reset any vertical rotation so unit is level on map.
         transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.ScaledBy(Vector3.up));
-        SetMovement(false);
-        timeTilDeparture = Random.Range(5f, 20f);
+        IsMoving = false;
+        ArrivedAtCell();
     }
 
-    IList<HexCell> GetNewTravelPath()
+    protected virtual void ArrivedAtCell() { }
+
+    protected IList<HexCell> GetNewTravelPath()
     {
         return pathfinder.FindNearest(
-            location,
-            c => c != location &&
-            c.Coordinates.DistanceTo(location.Coordinates) >= 5 &&
+            Location,
+            c => c != Location &&
+            c.Coordinates.DistanceTo(Location.Coordinates) >= 5 &&
             c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) != null);
     }
 
@@ -128,26 +126,10 @@ public class Unit : MonoBehaviour
     /// </summary>
     IEnumerator StartIdleAnimation()
     {
-        var secs = Random.Range(0f, 2f);
+        var secs = Random.Range(0f, 1f);
         yield return new WaitForSeconds(secs);
-        if (!isMoving) {
-            SetMovement(false);
+        if (!IsMoving) {
+            unitAnimation.SetAnimation(UnitAnimationType.IDLE);
         }
-    }
-
-    IEnumerator TriggerMoveAaimation()
-    {
-        while (true) {
-            var secs = Random.Range(0f, 10f);
-            yield return new WaitForSeconds(secs);
-            SetMovement(!isMoving);
-        }
-    }
-
-    void SetMovement(bool moving)
-    {
-        var animationType = moving ? UnitAnimationType.MOVE : UnitAnimationType.IDLE;
-        unitAnimation.SetAnimation(animationType);
-        isMoving = moving;
     }
 }
