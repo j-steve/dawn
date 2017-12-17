@@ -61,6 +61,11 @@ abstract public class Unit : MonoBehaviour
     void OnMouseDown()
     {
         Debug.LogFormat("You clicked {0}", name);
+        Select();
+    }
+
+    public void Select()
+    {
         var material = GetComponentInChildren<SkinnedMeshRenderer>().material;
         var originalColor = material.color;
         material.color = Color.green;
@@ -73,9 +78,11 @@ abstract public class Unit : MonoBehaviour
             timeTilDeparture -= Time.deltaTime;
             if (timeTilDeparture <= 0) {
                 var path = GetNewTravelPath();
-                SetMovement(true);
-                StopAllCoroutines();
-                StartCoroutine(TravelToCell(path));
+                if (path != null) {
+                    SetMovement(true);
+                    StopAllCoroutines();
+                    StartCoroutine(TravelToCell(path));
+                }
             }
         }
     }

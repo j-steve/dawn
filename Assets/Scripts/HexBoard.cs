@@ -22,9 +22,7 @@ public class HexBoard : MonoBehaviour
 
     public readonly Dictionary<HexCellCoordinates, HexCell> hexCells = new Dictionary<HexCellCoordinates, HexCell>();
 
-    HexCell highlightedCell;
-    HexCell searchFromCell;
-    internal List<HexCell> pathCells = new List<HexCell>();
+    private HexCell highlightedCell;
 
     public Unit[] unitPrefabs;
 
@@ -54,38 +52,18 @@ public class HexBoard : MonoBehaviour
     public void OnMapClick()
     {
         HexCell clickedCell = GetCellClickTarget();
-        if (clickedCell != null) {
-            if (clickedCell == highlightedCell) {
-                clickedCell.Highlight(null);
-                highlightedCell = null;
-                UIInGame.ActiveInGameUI.HideUI();
-                return;
-            }
-            foreach (var cell in pathCells) { cell.Highlight(null); }
-            pathCells.Clear();
-            Color color = Color.green;
-            if (Input.GetKey(KeyCode.LeftShift)) {
-                if (searchFromCell) { searchFromCell.Highlight(null); }
-                searchFromCell = clickedCell;
-                searchFromCell.Highlight(Color.blue);
-            } else {
-                string title = clickedCell.Coordinates.ToString();
-                string description = "";
-                if (clickedCell.units.Count > 0) {
-                    description = clickedCell.units.Select(x => x.UnitName).Join(", ");
-                }
-                UIInGame.ActiveInGameUI.ShowUI(title, description, OnMapBlur);
-                if (highlightedCell) { highlightedCell.Highlight(null); }
-                highlightedCell = clickedCell;
-                clickedCell.Highlight(Color.green);
-            }
-            if (searchFromCell && highlightedCell) {
-                var path = new HexPathfinder().Search(searchFromCell, highlightedCell);
-                for (int i = 1; i < path.Count - 1; i++) {
-                    path[i].Highlight(Color.yellow);
-                    pathCells.Add(path[i]);
-                }
-            }
+        if (clickedCell == null) {
+            UIInGame.ActiveInGameUI.HideUI();
+        } else if (clickedCell != highlightedCell) {
+            string title = clickedCell.Coordinates.ToString();
+            string description = clickedCell.units.Select(x => x.UnitName).Join(", ");
+            UIInGame.ActiveInGameUI.ShowUI(title, description, OnMapBlur);
+            clickedCell.Highlight(Color.green);
+            highlightedCell = clickedCell;
+        } else if (clickedCell.units.Count > 0) {
+            clickedCell.units.First().Select();
+        } else {
+            UIInGame.ActiveInGameUI.HideUI();
         }
     }
 
@@ -94,10 +72,6 @@ public class HexBoard : MonoBehaviour
         if (highlightedCell) {
             highlightedCell.Highlight(null);
             highlightedCell = null;
-        }
-        if (searchFromCell) {
-            searchFromCell.Highlight(null);
-            searchFromCell = null;
         }
     }
 

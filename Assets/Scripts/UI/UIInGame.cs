@@ -27,10 +27,7 @@ public class UIInGame : MonoBehaviour
 
     public void ShowUI(string title, string description)
     {
-        if (onBlur != null) {
-            onBlur();
-            onBlur = null;
-        }
+        BlurSelected();
         unitInfoPanel.SetActive(true);
         unitInfoTitle.text = title;
         unitInfoName.text = description;
@@ -44,7 +41,16 @@ public class UIInGame : MonoBehaviour
 
     public void HideUI()
     {
+        BlurSelected();
         unitInfoPanel.SetActive(false);
+    }
+
+    void BlurSelected()
+    {
+        if (onBlur != null) {
+            onBlur();
+            onBlur = null;
+        }
     }
 
 }

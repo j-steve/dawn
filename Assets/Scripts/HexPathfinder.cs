@@ -77,10 +77,6 @@ public class HexPathfinder
             if (current == goal) {
                 return ReconstructPath(cameFrom, current);
             }
-            if (current != origin) {
-                current.Highlight(Color.gray);
-                HexBoard.ActiveBoard.pathCells.Add(current);
-            }
             foreach (var neighbor in current.GetNeighbors()) {
                 if (closedSet.Contains(neighbor)) {
                     continue;
