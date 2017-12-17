@@ -27,7 +27,6 @@ public class HexBoard : MonoBehaviour
     internal List<HexCell> pathCells = new List<HexCell>();
 
     public Unit[] unitPrefabs;
-    public int mooseCount;
 
     // Use this for initialization
     void Start()
@@ -54,9 +53,7 @@ public class HexBoard : MonoBehaviour
 
     public void OnMapClick()
     {
-        UIInGame.ActiveInGameUI.HideUI();
         HexCell clickedCell = GetCellClickTarget();
-        Debug.LogFormat("You clicked cell {0}!", clickedCell.Coordinates);
         if (clickedCell != null) {
             if (clickedCell == highlightedCell) {
                 clickedCell.Highlight(null);

@@ -35,12 +35,13 @@ public class HexBoardGenerator : MonoBehaviour
         }
         UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.8f, "Moosifying...");
         var x = new HashSet<HexCell>(hexBoard.hexCells.Values.Where(c => c.Elevation > 0 && c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) == null));
-        while (x.Count > 0 && hexBoard.mooseCount < 20) {
+        var unitCount = 0;
+        while (x.Count > 0 && unitCount < 20) {
             var cell = x.GetRandom();
             var prefab = hexBoard.unitPrefabs.GetRandom();
             Unit.Create(prefab, cell);
             x.Remove(cell);
-            hexBoard.mooseCount++;
+            unitCount++;
             yield return null;
         }
 
