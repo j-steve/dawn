@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-abstract public class Unit : MonoBehaviour
+abstract public class Unit : MonoBehaviour, ISelectable
 {
     #region Static
 
@@ -19,13 +19,14 @@ abstract public class Unit : MonoBehaviour
     #endregion
 
     abstract protected float TravelSpeed { get; }
-    abstract protected string SelectedDescription { get; }
 
     public string UnitName { get { return unitName; } }
 
     [SerializeField] string unitName;
 
     [SerializeField] UnitAnimation unitAnimation;
+
+    SkinnedMeshRenderer skinnedMeshRender;
 
     protected HexCell Location {
         get {
@@ -53,16 +54,22 @@ abstract public class Unit : MonoBehaviour
             }
         }
     }
+
+    public string Name { get { return UnitName; } }
+    public virtual string Description { get { return ""; } }
+
     bool _isMoving;
 
+    Color originalColor;
 
     protected virtual void Awake()
     {
         var meshCollider = gameObject.AddComponent<MeshCollider>();
         meshCollider.convex = true;
         meshCollider.isTrigger = true;
-        meshCollider.sharedMesh = GetComponentInChildren<SkinnedMeshRenderer>().sharedMesh;
-        //IsMoving = false;
+        skinnedMeshRender = GetComponentInChildren<SkinnedMeshRenderer>();
+        meshCollider.sharedMesh = skinnedMeshRender.sharedMesh;
+        originalColor = skinnedMeshRender.material.color;
         StartCoroutine(StartIdleAnimation());
     }
 
@@ -77,18 +84,18 @@ abstract public class Unit : MonoBehaviour
     protected virtual void OnMouseDown()
     {
         Debug.LogFormat("You clicked {0}", name);
-        Select();
+        UIInGame.ActiveInGameUI.SetSelected(this);
     }
 
-    public virtual void Select()
+    public virtual void OnFocus()
     {
-        var material = GetComponentInChildren<SkinnedMeshRenderer>().material;
-        var originalColor = material.color;
-        material.color = Color.green;
-        UIInGame.ActiveInGameUI.ShowUI(UnitName, SelectedDescription, () => { material.color = originalColor; onBlur(); });
+        skinnedMeshRender.material.color = Color.green;
     }
 
-    protected virtual void onBlur() { }
+    public virtual void OnBlur()
+    {
+        skinnedMeshRender.material.color = originalColor;
+    }
 
     protected IEnumerator TravelToCell(IList<HexCell> path)
     {
@@ -116,15 +123,6 @@ abstract public class Unit : MonoBehaviour
 
     protected virtual void ArrivedAtCell() { }
 
-    protected IList<HexCell> GetNewTravelPath()
-    {
-        return pathfinder.FindNearest(
-            Location,
-            c => c != Location &&
-            c.Coordinates.DistanceTo(Location.Coordinates) >= 5 &&
-            c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) != null);
-    }
-
     /// <summary>
     /// Wait a short random interval before starting the idle animation loop,
     /// to prevent all units from having the exact same idle animation schedule.
@@ -137,4 +135,5 @@ abstract public class Unit : MonoBehaviour
             unitAnimation.SetAnimation(UnitAnimationType.IDLE);
         }
     }
+
 }

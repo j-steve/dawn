@@ -31,8 +31,6 @@ public class HexBoard : MonoBehaviour
 
     public readonly Dictionary<HexCellCoordinates, HexCell> hexCells = new Dictionary<HexCellCoordinates, HexCell>();
 
-    private HexCell highlightedCell;
-
     public Unit[] unitPrefabs;
 
     // Use this for initialization
@@ -68,24 +66,12 @@ public class HexBoard : MonoBehaviour
         }
         if (clickedCell == null) {
             UIInGame.ActiveInGameUI.HideUI();
-        } else if (clickedCell != highlightedCell) {
-            string title = clickedCell.Coordinates.ToString();
-            string description = clickedCell.units.Select(x => x.UnitName).Join(", ");
-            UIInGame.ActiveInGameUI.ShowUI(title, description, OnMapBlur);
-            clickedCell.Highlight(Color.green);
-            highlightedCell = clickedCell;
+        } else if ((ISelectable)clickedCell != UIInGame.ActiveInGameUI.selection) {
+            UIInGame.ActiveInGameUI.SetSelected(clickedCell);
         } else if (clickedCell.units.Count > 0) {
-            clickedCell.units.First().Select();
+            UIInGame.ActiveInGameUI.SetSelected(clickedCell.units.First());
         } else {
             UIInGame.ActiveInGameUI.HideUI();
-        }
-    }
-
-    void OnMapBlur()
-    {
-        if (highlightedCell) {
-            highlightedCell.Highlight(null);
-            highlightedCell = null;
         }
     }
 

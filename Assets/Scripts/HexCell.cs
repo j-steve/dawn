@@ -2,8 +2,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System.Linq;
 
-public class HexCell : MonoBehaviour
+public class HexCell : MonoBehaviour, ISelectable
 {
     #region Static
 
@@ -161,6 +162,32 @@ public class HexCell : MonoBehaviour
     {
         return new TexturedEdge(Vertices[direction.vertex1], Vertices[direction.vertex2], TerrainType);
     }
+
+    #region ISelectable
+
+    string ISelectable.Name {
+        get {
+            return Coordinates.ToString();
+        }
+    }
+
+    string ISelectable.Description {
+        get {
+            return units.Select(x => x.UnitName).Join(", ");
+        }
+    }
+
+    void ISelectable.OnFocus()
+    {
+        Highlight(Color.green);
+    }
+
+    void ISelectable.OnBlur()
+    {
+        UnHighlight();
+    }
+
+    #endregion
 
     #region Cell Highlighting
 

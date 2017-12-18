@@ -1,32 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
+using System.Collections.Generic;
 
 public class UnitAnimal : Unit
 {
     float timeTilDeparture;
 
     protected override float TravelSpeed { get { return 0.75f; } }
-    protected override string SelectedDescription { get { return Goal; } }
 
-    bool isSelected;
+    public override string Description { get { return goal; } }
 
-    string Goal {
-        get { return _goal; }
-        set {
-            if (isSelected) {
-                UIInGame.ActiveInGameUI.UpdateDescription(value);
-            }
-            _goal = value;
-        }
-    }
-    string _goal;
+    string goal;
 
     void Update()
     {
         if (!IsMoving) {
             timeTilDeparture -= Time.deltaTime;
             if (timeTilDeparture <= 0) {
-                Goal = "Seeking water";
+                goal = "Seeking water";
                 var path = GetNewTravelPath();
                 if (path != null) {
                     StopAllCoroutines();
@@ -36,22 +28,20 @@ public class UnitAnimal : Unit
         }
     }
 
+    IList<HexCell> GetNewTravelPath()
+    {
+        return pathfinder.FindNearest(
+            Location,
+            c => c != Location &&
+            c.Coordinates.DistanceTo(Location.Coordinates) >= 5 &&
+            c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) != null);
+    }
+
     protected override void ArrivedAtCell()
     {
-        Goal = "Drinking";
+        goal = "Drinking";
         timeTilDeparture = Random.Range(5f, 20f);
     }
 
-
-    public override void Select()
-    {
-        base.Select();
-        isSelected = true;
-    }
-
-    protected override void onBlur()
-    {
-        isSelected = false;
-    }
 
 }

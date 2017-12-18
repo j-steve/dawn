@@ -6,18 +6,16 @@ using System.Linq;
 
 public class UnitPlayer : Unit
 {
-    private bool isSelected;
     private HexCell currentHoverTarget;
     private IList<HexCell> path;
 
     const float MOVEMENT_POINTS = 3;
 
     protected override float TravelSpeed { get { return 1f; } }
-    protected override string SelectedDescription { get { return "(player)"; } }
 
     private void Update()
     {
-        if (isSelected) {
+        if (UIInGame.ActiveInGameUI.selection == (ISelectable)this) {
             var cell = HexBoard.ActiveBoard.GetCellUnderCursor();
             if (cell != currentHoverTarget) {
                 UnHighlightPath();
@@ -44,11 +42,10 @@ public class UnitPlayer : Unit
         }
     }
 
-    public override void Select()
+    public override void OnFocus()
     {
-        base.Select();
+        base.OnFocus();
         HexBoard.ActiveBoard.HexCellClickedEvent += OnHexCellClick;
-        isSelected = true;
     }
 
     void OnHexCellClick(HexCellClickedEventArgs e)
@@ -63,11 +60,10 @@ public class UnitPlayer : Unit
         }
     }
 
-    protected override void onBlur()
+    public override void OnBlur()
     {
         HexBoard.ActiveBoard.HexCellClickedEvent -= OnHexCellClick;
         UnHighlightPath();
-        isSelected = false;
     }
 
     void UnHighlightPath()

@@ -10,7 +10,7 @@ public class UIInGame : MonoBehaviour
     [SerializeField] Text unitInfoTitle;
     [SerializeField] Text unitInfoName;
 
-    Action onBlur;
+    public ISelectable selection { get; private set; }
 
     // Use this for initialization
     void Start()
@@ -22,40 +22,40 @@ public class UIInGame : MonoBehaviour
     void OnEnable()
     {
         ActiveInGameUI = this;
-        HideUI();
     }
 
-    public void ShowUI(string title, string description)
+    void Update()
     {
-        BlurSelected();
-        unitInfoPanel.SetActive(true);
-        unitInfoTitle.text = title;
-        unitInfoName.text = description;
+        if (selection != null) {
+            unitInfoTitle.text = selection.Name;
+            unitInfoName.text = selection.Description;
+        }
     }
 
-    public void ShowUI(string title, string description, Action onBlur)
+    public void SetSelected(ISelectable newSelection)
     {
-        ShowUI(title, description);
-        this.onBlur = onBlur;
+        if (selection != null) {
+            selection.OnBlur();
+        }
+        unitInfoPanel.SetActive(newSelection != null);
+        if (newSelection != null) {
+            selection = newSelection;
+            selection.OnFocus();
+            unitInfoTitle.text = newSelection.Name;
+            unitInfoName.text = newSelection.Description;
+        }
     }
 
     public void HideUI()
     {
-        BlurSelected();
         unitInfoPanel.SetActive(false);
     }
+}
 
-    void BlurSelected()
-    {
-        if (onBlur != null) {
-            onBlur();
-            onBlur = null;
-        }
-    }
-
-    public void UpdateDescription(string description)
-    {
-        unitInfoName.text = description;
-    }
-
+public interface ISelectable
+{
+    void OnFocus();
+    void OnBlur();
+    string Name { get; }
+    string Description { get; }
 }
