@@ -13,6 +13,7 @@ public class UnitPlayer : Unit
     const float MOVEMENT_POINTS = 3;
 
     protected override float TravelSpeed { get { return 1f; } }
+    protected override string SelectedDescription { get { return "(player)"; } }
 
     private void Update()
     {

@@ -19,6 +19,7 @@ abstract public class Unit : MonoBehaviour
     #endregion
 
     abstract protected float TravelSpeed { get; }
+    abstract protected string SelectedDescription { get; }
 
     public string UnitName { get { return unitName; } }
 
@@ -84,7 +85,7 @@ abstract public class Unit : MonoBehaviour
         var material = GetComponentInChildren<SkinnedMeshRenderer>().material;
         var originalColor = material.color;
         material.color = Color.green;
-        UIInGame.ActiveInGameUI.ShowUI(UnitName, "A Unit!", () => { material.color = originalColor; onBlur(); });
+        UIInGame.ActiveInGameUI.ShowUI(UnitName, SelectedDescription, () => { material.color = originalColor; onBlur(); });
     }
 
     protected virtual void onBlur() { }

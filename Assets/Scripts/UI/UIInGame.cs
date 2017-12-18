@@ -53,4 +53,9 @@ public class UIInGame : MonoBehaviour
         }
     }
 
+    public void UpdateDescription(string description)
+    {
+        unitInfoName.text = description;
+    }
+
 }
