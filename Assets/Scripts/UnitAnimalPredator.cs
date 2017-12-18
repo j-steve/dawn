@@ -30,8 +30,14 @@ public class UnitAnimalPredator : UnitAnimal
         if (goal == "Seeking water") {
             base.ArrivedAtCell();
         } else {
-            goal = "Hunting";
-            timeTilDeparture = Random.Range(1f, 10f);
+            if (Location.GetNeighbors().FirstOrDefault(n => n.units.Count > 0) == null) {
+                // The stalked prey is gone, stalk again.
+                StopAllCoroutines();
+                StartCoroutine(TravelToCell(GetPathToPrey()));
+            } else {
+                goal = "Hunting";
+                timeTilDeparture = Random.Range(1f, 10f);
+            }
         }
     }
 }
