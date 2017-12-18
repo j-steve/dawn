@@ -4,7 +4,7 @@ using System.Linq;
 using DawnX.UI;
 using System.Collections;
 
-public class HexBoardGenerator : MonoBehaviour
+public class HexBoardGenerator
 {
     private HexBoard hexBoard;
 
@@ -95,17 +95,9 @@ public class HexBoardGenerator : MonoBehaviour
             var frontierCells = new HashSet<HexCell>(NeighborsInBiome(firstCell, 0));
             while (continentCells.Count < targetSize && frontierCells.Count > 0 && blankCells.Count > 0) {
                 HexCell nextCell = frontierCells.GetRandom();
-                EdgeDirection direction = EnumClass.GetAll<EdgeDirection>().GetRandom();
                 if (blankCells.Remove(nextCell)) {
                     continentCells.Add(nextCell);
                     var neighbors = nextCell.GetNeighbors().Where(c => c.Biome == 0);
-                    foreach (HexCell neighbor in neighbors) {
-                        if (Random.value * 100 < biome.bumpiness) {
-                            // int minChange = biome.elevation.Min - neighbor.Elevation;
-                            // int maxChange = biome.elevation.Max - neighbor.Elevation;
-                            // neighbor.Elevation += Random.Range(minChange, maxChange);
-                        }
-                    }
                     frontierCells.UnionWith(neighbors);
                 }
                 frontierCells.Remove(nextCell);
@@ -114,7 +106,6 @@ public class HexBoardGenerator : MonoBehaviour
                 foreach (HexCell cell in continentCells) {
                     cell.TerrainType = biome.terrainTexture;
                     cell.Biome = continent + 1;
-                    // cell.Elevation = Mathf.Clamp(cell.Elevation, biome.elevation.Min, biome.elevation.Max);
                     cell.Elevation = cell.TerrainType == TerrainTexture.BLUEWATER ? 0 : 2;
                 }
                 if (biome.terrainTexture == TerrainTexture.BLUEWATER) {

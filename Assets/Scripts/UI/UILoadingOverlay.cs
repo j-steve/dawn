@@ -65,7 +65,7 @@ namespace DawnX.UI
         {
             gameObject.SetActive(true);
             float startTime = totalElapsedTime;
-            int alphaModifier = fadeType == FadeType.IN ? 1 : -1;
+            //int alphaModifier = fadeType == FadeType.IN ? 1 : -1;
             float completion = 0;
             while (completion < 1) {
                 completion = (totalElapsedTime - startTime) / fadeDuration;

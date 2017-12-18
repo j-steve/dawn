@@ -60,8 +60,7 @@ public struct HexCellCoordinates
             // recomputing it from the remaining two dimensions.
             double[] deltas = coords.Select((v, i) => Math.Abs(integers[i] - v)).ToArray();
             int maxDeltaCoordinate = deltas.IndexOf(deltas.Max());
-            if (maxDeltaCoordinate == X) { integers[X] = -integers[Y] - integers[Z]; }
-            else if (maxDeltaCoordinate == Z) { integers[Z] = -integers[Y] - integers[X]; }
+            if (maxDeltaCoordinate == X) { integers[X] = -integers[Y] - integers[Z]; } else if (maxDeltaCoordinate == Z) { integers[Z] = -integers[Y] - integers[X]; }
             // If "Y" has the largest discrepency, ignore it, we are not using Y.
         }
 
@@ -77,12 +76,12 @@ public struct HexCellCoordinates
 
     static public bool operator ==(HexCellCoordinates c1, HexCellCoordinates c2)
     {
-        return c1 == null && c2 == null || c1.Equals(c2);
+        return c1.Equals(c2);
     }
 
     static public bool operator !=(HexCellCoordinates c1, HexCellCoordinates c2)
     {
-        return !(c1 == c2);
+        return !c1.Equals(c2);
     }
 
     #endregion
