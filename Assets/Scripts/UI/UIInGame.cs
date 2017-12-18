@@ -16,7 +16,7 @@ public class UIInGame : MonoBehaviour
     void Start()
     {
         ActiveInGameUI = this;
-        HideUI();
+        unitInfoPanel.SetActive(false);
     }
 
     void OnEnable()
@@ -38,17 +38,12 @@ public class UIInGame : MonoBehaviour
             selection.OnBlur();
         }
         unitInfoPanel.SetActive(newSelection != null);
+        selection = newSelection;
         if (newSelection != null) {
-            selection = newSelection;
             selection.OnFocus();
             unitInfoTitle.text = newSelection.InGameUITitle;
             unitInfoName.text = newSelection.InGameUIDescription;
         }
-    }
-
-    public void HideUI()
-    {
-        unitInfoPanel.SetActive(false);
     }
 }
 

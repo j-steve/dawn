@@ -64,14 +64,12 @@ public class HexBoard : MonoBehaviour
             HexCellClickedEvent.Invoke(eventArgs);
             if (eventArgs.Cancel) { return; }
         }
-        if (clickedCell == null) {
-            UIInGame.ActiveInGameUI.HideUI();
-        } else if ((ISelectable)clickedCell != UIInGame.ActiveInGameUI.selection) {
+        if (clickedCell == null || (ISelectable)clickedCell != UIInGame.ActiveInGameUI.selection) {
             UIInGame.ActiveInGameUI.SetSelected(clickedCell);
         } else if (clickedCell.units.Count > 0) {
             UIInGame.ActiveInGameUI.SetSelected(clickedCell.units.First());
         } else {
-            UIInGame.ActiveInGameUI.HideUI();
+            UIInGame.ActiveInGameUI.SetSelected(null);
         }
     }
 

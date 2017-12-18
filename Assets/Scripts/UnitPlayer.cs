@@ -48,6 +48,13 @@ public class UnitPlayer : Unit
         HexBoard.ActiveBoard.HexCellClickedEvent += OnHexCellClick;
     }
 
+    public override void OnBlur()
+    {
+        base.OnBlur();
+        HexBoard.ActiveBoard.HexCellClickedEvent -= OnHexCellClick;
+        UnHighlightPath();
+    }
+
     void OnHexCellClick(HexCellClickedEventArgs e)
     {
         Debug.LogFormat("{0} knows you clicked {1}", UnitName, e.Cell);
@@ -56,14 +63,9 @@ public class UnitPlayer : Unit
             StartCoroutine(TravelToCell(path));
             UnHighlightPath();
             e.Cancel = true;
-            UIInGame.ActiveInGameUI.HideUI();
-        }
-    }
+            UIInGame.ActiveInGameUI.SetSelected(null);
 
-    public override void OnBlur()
-    {
-        HexBoard.ActiveBoard.HexCellClickedEvent -= OnHexCellClick;
-        UnHighlightPath();
+        }
     }
 
     void UnHighlightPath()
