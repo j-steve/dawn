@@ -27,8 +27,8 @@ public class UIInGame : MonoBehaviour
     void Update()
     {
         if (selection != null) {
-            unitInfoTitle.text = selection.Name;
-            unitInfoName.text = selection.Description;
+            unitInfoTitle.text = selection.InGameUITitle;
+            unitInfoName.text = selection.InGameUIDescription;
         }
     }
 
@@ -41,8 +41,8 @@ public class UIInGame : MonoBehaviour
         if (newSelection != null) {
             selection = newSelection;
             selection.OnFocus();
-            unitInfoTitle.text = newSelection.Name;
-            unitInfoName.text = newSelection.Description;
+            unitInfoTitle.text = newSelection.InGameUITitle;
+            unitInfoName.text = newSelection.InGameUIDescription;
         }
     }
 
@@ -56,6 +56,6 @@ public interface ISelectable
 {
     void OnFocus();
     void OnBlur();
-    string Name { get; }
-    string Description { get; }
+    string InGameUITitle { get; }
+    string InGameUIDescription { get; }
 }

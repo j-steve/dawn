@@ -55,9 +55,6 @@ abstract public class Unit : MonoBehaviour, ISelectable
         }
     }
 
-    public string Name { get { return UnitName; } }
-    public virtual string Description { get { return ""; } }
-
     bool _isMoving;
 
     Color originalColor;
@@ -87,6 +84,20 @@ abstract public class Unit : MonoBehaviour, ISelectable
         UIInGame.ActiveInGameUI.SetSelected(this);
     }
 
+    #region ISelectable
+
+    public virtual string InGameUITitle {
+        get {
+            return UnitName;
+        }
+    }
+
+    public virtual string InGameUIDescription {
+        get {
+            return "";
+        }
+    }
+
     public virtual void OnFocus()
     {
         skinnedMeshRender.material.color = Color.green;
@@ -96,6 +107,8 @@ abstract public class Unit : MonoBehaviour, ISelectable
     {
         skinnedMeshRender.material.color = originalColor;
     }
+
+    #endregion
 
     protected IEnumerator TravelToCell(IList<HexCell> path)
     {

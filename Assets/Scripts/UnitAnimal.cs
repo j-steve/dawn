@@ -9,7 +9,7 @@ public class UnitAnimal : Unit
 
     protected override float TravelSpeed { get { return 0.75f; } }
 
-    public override string Description { get { return goal; } }
+    public override string InGameUIDescription { get { return goal; } }
 
     string goal;
 

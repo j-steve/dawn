@@ -165,13 +165,13 @@ public class HexCell : MonoBehaviour, ISelectable
 
     #region ISelectable
 
-    string ISelectable.Name {
+    string ISelectable.InGameUITitle {
         get {
             return Coordinates.ToString();
         }
     }
 
-    string ISelectable.Description {
+    string ISelectable.InGameUIDescription {
         get {
             return units.Select(x => x.UnitName).Join(", ");
         }
