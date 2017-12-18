@@ -2,16 +2,17 @@
 using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
+using System;
 
 public class UnitAnimal : Unit
 {
-    float timeTilDeparture;
+    protected float timeTilDeparture;
 
     protected override float TravelSpeed { get { return 0.75f; } }
 
     public override string InGameUIDescription { get { return goal; } }
 
-    string goal;
+    protected string goal;
 
     void Update()
     {
@@ -19,7 +20,7 @@ public class UnitAnimal : Unit
             timeTilDeparture -= Time.deltaTime;
             if (timeTilDeparture <= 0) {
                 goal = "Seeking water";
-                var path = GetNewTravelPath();
+                var path = GetNewGoal();
                 if (path != null) {
                     StopAllCoroutines();
                     StartCoroutine(TravelToCell(path));
@@ -28,7 +29,23 @@ public class UnitAnimal : Unit
         }
     }
 
-    IList<HexCell> GetNewTravelPath()
+    protected virtual IList<HexCell> GetNewGoal()
+    {
+        goal = "Seeking water";
+        return GetPathToWater();
+    }
+
+    //protected virtual Dictionary<string, Func<HexCell, HexCell, bool>> GetGoals()
+    //{
+    //    return new Dictionary<string, Func<HexCell, HexCell, bool>>() {
+    //        {
+    //            "water",
+    //            (HexCell c1, HexCell c2) => c1.Coordinates.DistanceTo(c2.Coordinates) >= 5 && c2.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) != null
+    //        }
+    //    };
+    //}
+
+    IList<HexCell> GetPathToWater()
     {
         return pathfinder.FindNearest(
             Location,
@@ -40,8 +57,6 @@ public class UnitAnimal : Unit
     protected override void ArrivedAtCell()
     {
         goal = "Drinking";
-        timeTilDeparture = Random.Range(5f, 20f);
+        timeTilDeparture = UnityEngine.Random.Range(5f, 20f);
     }
-
-
 }
