@@ -103,7 +103,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
         // Start the idle animation sequence after a random delay.
         StartCoroutine(StartIdleAnimation());
         // Attach to the GameTurnEvent to trigger unit action.
-        GameTime.Instance.GameTurnEvent += TakeTurn;
+        GameTime.Instance.AITurnStartedEvent += TakeTurn;
     }
 
     protected virtual void OnMouseDown()
@@ -127,7 +127,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     #endregion
 
-    void TakeTurn(int turn)
+    void TakeTurn(int turn, IList<IEnumerator> coroutines)
     {
         if (IsDead || IsMoving) {
             // Do nothing.

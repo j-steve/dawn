@@ -25,7 +25,7 @@ public class UIInGame : MonoBehaviour
     {
         unitInfoPanel.SetActive(false);
         // Listen for turn event and increment the turn number.
-        GameTime.Instance.GameTurnEvent += (turn) => turnNumber.text = turn.ToString();
+        GameTime.Instance.AITurnCompletedEvent += (turn) => turnNumber.text = turn.ToString();
     }
 
     void Update()
