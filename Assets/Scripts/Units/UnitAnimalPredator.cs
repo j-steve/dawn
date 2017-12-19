@@ -10,10 +10,11 @@ public class UnitAnimalPredator : UnitAnimal
         if (Random.value > 0.5f) {
             return base.GetNewGoal();
         } else {
-            var path = GetPathToPrey();
-            var unit = path.Last().units.FirstOrDefault();
-            goal = string.Format("Stalking {0}", unit == null ? "" : unit.UnitName);
-            return path;
+            var path = new Stack<HexCell>(GetPathToPrey());
+            var lastCell = path.Pop();
+            var prey = lastCell.units.Where(u => u.UnitName != UnitName).FirstOrDefault();
+            goal = string.Format("Stalking {0}", prey);
+            return path.ToList();
         }
     }
 
@@ -22,7 +23,7 @@ public class UnitAnimalPredator : UnitAnimal
         return pathfinder.FindNearest(
             Location,
             c => c != Location &&
-            c.GetNeighbors().Contains(cellContainsPrey));
+            c.units.Contains(u => u.UnitName != UnitName));
     }
 
     protected override void ArrivedAtCell()
@@ -39,10 +40,5 @@ public class UnitAnimalPredator : UnitAnimal
                 timeTilDeparture = Random.Range(1f, 10f);
             }
         }
-    }
-
-    bool cellContainsPrey(HexCell cell)
-    {
-        return cell.units.Contains(u => u.UnitName != UnitName);
     }
 }

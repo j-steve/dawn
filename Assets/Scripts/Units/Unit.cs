@@ -16,6 +16,8 @@ abstract public class Unit : MonoBehaviour, ISelectable
         return obj;
     }
 
+    static int maxId = 0;
+
     #endregion
 
     abstract protected float TravelSpeed { get; }
@@ -29,6 +31,8 @@ abstract public class Unit : MonoBehaviour, ISelectable
     [SerializeField] UnitAnimation unitAnimation;
 
     SkinnedMeshRenderer skinnedMeshRender;
+
+    int id;
 
     protected HexCell Location {
         get { return _location; }
@@ -69,6 +73,8 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     protected virtual void Initialize(HexCell cell)
     {
+        id = ++maxId;
+        name = string.Format("{0} [id={1}]", UnitName, id);
         Location = cell;
         transform.localPosition = cell.Center;
         transform.localRotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
