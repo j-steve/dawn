@@ -93,9 +93,9 @@ abstract public class Unit : MonoBehaviour, ISelectable
         originalColor = skinnedMeshRender.material.color;
         // Add mesh collider so unit can respond to OnMouseDown events.
         var meshCollider = gameObject.AddComponent<MeshCollider>();
+        meshCollider.sharedMesh = skinnedMeshRender.sharedMesh;
         meshCollider.convex = true;
         meshCollider.isTrigger = true;
-        meshCollider.sharedMesh = skinnedMeshRender.sharedMesh;
         // Start the idle animation sequence after a random delay.
         StartCoroutine(StartIdleAnimation());
     }
