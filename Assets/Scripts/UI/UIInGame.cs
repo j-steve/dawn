@@ -25,7 +25,14 @@ public class UIInGame : MonoBehaviour
     {
         unitInfoPanel.SetActive(false);
         // Listen for turn event and increment the turn number.
-        GameTime.Instance.AITurnCompletedEvent += (turn) => turnNumber.text = turn.ToString();
+        var originalTurnColor = turnNumber.color;
+        GameTime.Instance.AITurnStartedEvent += (e) => {
+            turnNumber.color = Color.blue;
+        };
+        GameTime.Instance.AITurnCompletedEvent += (turn) => {
+            turnNumber.text = turn.ToString();
+            turnNumber.color = originalTurnColor;
+        };
     }
 
     void Update()
@@ -38,6 +45,10 @@ public class UIInGame : MonoBehaviour
 
     public void SetSelected(ISelectable newSelection)
     {
+        // Handle case when this is called at game exit from OnDestroy handle of unit.
+        if (!unitInfoPanel)
+            return;
+
         if (selection != null) {
             selection.OnBlur();
         }

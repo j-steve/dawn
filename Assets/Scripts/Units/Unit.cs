@@ -134,17 +134,28 @@ abstract public class Unit : MonoBehaviour, ISelectable
         if (IsMoving) {
             // Do noithing.
         } else if (CombatOpponent) {
-            CombatOpponent.TakeDamage(AttackPower * Random.value);
-            if (CombatOpponent.IsDead) {
-                var exOponent = CombatOpponent;
-                CombatOpponent = null;
-                SetAnimation(UnitAnimationType.IDLE);
-                CombatWon(CombatOpponent);
-            }
-            e.coroutines.Add(() => CombatOpponent == null);
+            e.coroutines.Add(DoCombat);
         } else {
             TakeAction();
         }
+    }
+
+    IEnumerator DoCombat()
+    {
+        //for (var i = 0; i < 10; i++) {
+        //    Debug.LogWarningFormat(this, "{0}: i = {1} ({2}", name, i, Time.time);
+        //    yield return new WaitForSeconds(2);
+        //}
+        //Debug.LogWarningFormat(this, "{0}: Done!", name);
+
+        while (!IsDead && !CombatOpponent.IsDead) {
+            CombatOpponent.TakeDamage(AttackPower * Random.value * Time.deltaTime);
+            yield return null;
+        }
+        var exOponent = CombatOpponent;
+        CombatOpponent = null;
+        SetAnimation(UnitAnimationType.IDLE);
+        CombatWon(CombatOpponent);
     }
 
     protected abstract void TakeAction();
