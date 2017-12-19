@@ -24,7 +24,8 @@ public class UnitAnimal : Unit
             if (UIInGame.ActiveInGameUI.selection == (ISelectable)this) {
                 if (_destination != null)
                     _destination.UnHighlight();
-                value.Highlight(Color.blue);
+                if (value != null)
+                    value.Highlight(Color.blue);
             }
             _destination = value;
         }

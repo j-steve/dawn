@@ -102,6 +102,16 @@ abstract public class Unit : MonoBehaviour, ISelectable
         }
     }
 
+    /// <summary>
+    /// Cleans up all references to the unit upon its removal.
+    /// </summary>
+    void OnDestroy()
+    {
+        if ((object)UIInGame.ActiveInGameUI.selection == this) {
+            UIInGame.ActiveInGameUI.SetSelected(null);
+        }
+        Location = null;
+    }
 
     protected virtual void CombatWon(Unit opponent) { }
 
@@ -179,19 +189,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
         Debug.LogFormat(this, "{0} is dead!", this);
         SetAnimation(UnitAnimationType.DEATH);
         IsDead = true;
-        this.Invoke(RemoveFromGame, DECOMPOSE_TIME);
-    }
-
-    /// <summary>
-    /// Completely removes the unit from the game.
-    /// </summary>
-    void RemoveFromGame()
-    {
-        if (UIInGame.ActiveInGameUI.selection == (ISelectable)this) {
-            UIInGame.ActiveInGameUI.SetSelected(null);
-        }
-        Location = null;
-        Destroy(gameObject);
+        Destroy(gameObject, DECOMPOSE_TIME);
     }
 
     protected IEnumerator TravelToCell(IList<HexCell> path)
