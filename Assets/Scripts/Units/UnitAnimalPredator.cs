@@ -5,17 +5,32 @@ using System.Collections.Generic;
 
 public class UnitAnimalPredator : UnitAnimal
 {
+    Unit target;
+
+    HexCell prevTargetCell;
+
     protected override IList<HexCell> GetNewGoal()
     {
-        if (Random.value > 0.5f) {
+        if (Random.value > 0.9995f) { // TODO: FIX THIS!!!!!!!!!!!!!!!!!!!!!!!!!!! (lower value back to 0.5f)
             return base.GetNewGoal();
         } else {
-            var path = new Stack<HexCell>(GetPathToPrey());
-            var lastCell = path.Pop();
-            var prey = lastCell.units.Where(u => u.UnitName != UnitName).FirstOrDefault();
-            goal = string.Format("Stalking {0}", prey);
-            return path.ToList();
+            return Stalk();
         }
+    }
+
+    IList<HexCell> Stalk()
+    {
+        var path = GetPathToPrey();
+        if (path.Count > 0) {
+            var lastCell = path.Last();
+            target = lastCell.units.Where(u => u.UnitName != UnitName).FirstOrDefault();
+            goal = "Stalking {0}".Format(target);
+            path.RemoveAt(path.Count - 1);  // Goal is to get next to target.
+            if (prevTargetCell != null)
+                prevTargetCell.UnHighlight();
+            prevTargetCell = path.Last();
+        }
+        return path;
     }
 
     IList<HexCell> GetPathToPrey()
@@ -23,7 +38,7 @@ public class UnitAnimalPredator : UnitAnimal
         return pathfinder.FindNearest(
             Location,
             c => c != Location &&
-            c.units.Contains(u => u.UnitName != UnitName));
+            c.units.Contains(u => u.UnitName != UnitName)) ?? new List<HexCell>();
     }
 
     protected override void ArrivedAtCell()
@@ -31,14 +46,29 @@ public class UnitAnimalPredator : UnitAnimal
         if (goal == "Seeking water") {
             base.ArrivedAtCell();
         } else {
-            if (Location.GetNeighbors().FirstOrDefault(n => n.units.Count > 0) == null) {
+            if (!Attack(target)) {
                 // The stalked prey is gone, stalk again.
+                Debug.LogFormat(gameObject, "Prey is gone ({0} -> {1}), restalking {2}", Location, target.Location, target);
+                var path = Stalk();
+                Destination = path.LastOrDefault();
                 StopAllCoroutines();
-                StartCoroutine(TravelToCell(GetPathToPrey()));
-            } else {
-                goal = "Hunting";
-                timeTilDeparture = Random.Range(1f, 10f);
+                StartCoroutine(TravelToCell(path));
             }
         }
+    }
+
+    /// <summary>
+    /// Attacks the given victim unit. Returns false if unable to attack.
+    /// </summary>
+    bool Attack(Unit victim)
+    {
+        if (target.Location.Coordinates.DistanceTo(Location.Coordinates) != 1) {
+            return false;
+        }
+        Debug.LogFormat(gameObject, "Attacking target: {0}", victim);
+        victim.Defend();
+        goal = "Attacking {0}".Format(target);
+        timeTilDeparture = Random.Range(1f, 10f);
+        return true;
     }
 }

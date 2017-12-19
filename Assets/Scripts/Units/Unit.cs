@@ -20,6 +20,8 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     #endregion
 
+    #region Properties & Fields
+
     abstract protected float TravelSpeed { get; }
 
     public string UnitName { get { return _unitName; } }
@@ -34,7 +36,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     int id;
 
-    protected HexCell Location {
+    public HexCell Location {
         get { return _location; }
         set {
             if (_location != null) {
@@ -58,7 +60,11 @@ abstract public class Unit : MonoBehaviour, ISelectable
     }
     bool _isMoving;
 
+    protected bool isDefending;
+
     Color originalColor;
+
+    #endregion
 
     protected virtual void Awake()
     {
@@ -112,6 +118,18 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     #endregion
 
+
+    public void Defend()
+    {
+        if (IsMoving) {
+            IsMoving = false;
+            // Ensure centered & level on current tile.
+            //transform.localPosition = Location.Center;
+            //transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.ScaledBy(Vector3.up));
+        }
+        isDefending = true;
+    }
+
     protected IEnumerator TravelToCell(IList<HexCell> path)
     {
         IsMoving = true;
@@ -127,6 +145,10 @@ abstract public class Unit : MonoBehaviour, ISelectable
                 }
                 transform.localPosition = Vector3.Lerp(lastLocation.Center, cell.Center, t);
                 yield return null;
+                if (!IsMoving) {
+                    Debug.Log("Stopping, attacked!", gameObject);
+                    yield break;
+                }
             }
         }
         // Reset any vertical rotation so unit is level on map.
@@ -149,4 +171,5 @@ abstract public class Unit : MonoBehaviour, ISelectable
             unitAnimation.SetAnimation(UnitAnimationType.IDLE);
         }
     }
+
 }

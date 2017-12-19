@@ -119,7 +119,6 @@ public class HexBoardGenerator
 
     void SpreadOceans(HashSet<HexCell> oceanCells)
     {
-        Debug.Log("Spreading oceans...");
         while (oceanCells.Count > 0) {
             var tile = oceanCells.First();
             foreach (HexCell neighbor in NeighborsInBiome(tile, 0)) {
@@ -133,7 +132,6 @@ public class HexBoardGenerator
 
     void SetContinentElevation(Biome biome, HashSet<HexCell> continentCells)
     {
-        Debug.Log("Setting continent elevation...");
         //var numOfElevationChanges = continentCells.Count * biome.bumpiness * Random.value * 0.15f;
         var numOfElevationChanges = continentCells.Count * biome.bumpiness * 2 * Random.value;
         for (int i = 0; i < numOfElevationChanges; i++) {

@@ -14,14 +14,30 @@ public class UnitAnimal : Unit
 
     protected string goal;
 
+    protected HexCell Destination {
+        get { return _destination; }
+        set {
+            if (UIInGame.ActiveInGameUI.selection == (ISelectable)this) {
+                if (_destination != null)
+                    _destination.UnHighlight();
+                value.Highlight(Color.blue);
+            }
+            _destination = value;
+        }
+    }
+    HexCell _destination;
+
     void Update()
     {
-        if (!IsMoving) {
+        if (isDefending) {
+            goal = "Defending";
+        } else if (!IsMoving) {
             timeTilDeparture -= Time.deltaTime;
             if (timeTilDeparture <= 0) {
                 goal = "Seeking water";
                 var path = GetNewGoal();
                 if (path != null) {
+                    Destination = path.Last();
                     StopAllCoroutines();
                     StartCoroutine(TravelToCell(path));
                 }
@@ -56,7 +72,20 @@ public class UnitAnimal : Unit
 
     protected override void ArrivedAtCell()
     {
+        Destination = null;
         goal = "Drinking";
-        timeTilDeparture = UnityEngine.Random.Range(5f, 20f);
+        timeTilDeparture = UnityEngine.Random.Range(.5f, .20f); // TODO: FIX THIS!!!!!!!!!!!!!!!!!!!!!!!!!!! (set range to (5f, 20f))
+    }
+
+    public override void OnFocus()
+    {
+        base.OnFocus();
+        Destination.Highlight(Color.blue);
+    }
+
+    public override void OnBlur()
+    {
+        base.OnBlur();
+        Destination.UnHighlight();
     }
 }
