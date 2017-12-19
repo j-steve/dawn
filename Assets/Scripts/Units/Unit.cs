@@ -31,13 +31,10 @@ abstract public class Unit : MonoBehaviour, ISelectable
     SkinnedMeshRenderer skinnedMeshRender;
 
     protected HexCell Location {
-        get {
-            return _location;
-        }
+        get { return _location; }
         set {
-            if (_location != null) {
+            if (_location != null)
                 _location.units.Remove(this);
-            }
             _location = value;
             _location.units.Add(this);
         }
@@ -45,9 +42,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
     HexCell _location;
 
     protected bool IsMoving {
-        get {
-            return _isMoving;
-        }
+        get { return _isMoving; }
         set {
             if (value != _isMoving) {
                 var animationType = value ? UnitAnimationType.MOVE : UnitAnimationType.IDLE;
@@ -56,7 +51,6 @@ abstract public class Unit : MonoBehaviour, ISelectable
             }
         }
     }
-
     bool _isMoving;
 
     Color originalColor;
