@@ -2,6 +2,10 @@
 
 public class UnitAnimationLegacy : UnitAnimation
 {
+    [SerializeField] AnimationClip idle;
+    [SerializeField] AnimationClip moving;
+    [SerializeField] AnimationClip fighting;
+
     public override void SetAnimation(UnitAnimationType animationType)
     {
         GetComponentInChildren<Animation>().CrossFade(GetAnimationName(animationType));
@@ -11,10 +15,12 @@ public class UnitAnimationLegacy : UnitAnimation
     {
         switch (animationType) {
             case UnitAnimationType.MOVE:
-                return "Walking";
+                return moving != null ? moving.name : "Walking";
+            case UnitAnimationType.FIGHT:
+                return fighting != null ? fighting.name : "Fighting";
             case UnitAnimationType.IDLE:
             default:
-                return "Idle";
+                return idle != null ? idle.name : "Idle";
         }
     }
 }

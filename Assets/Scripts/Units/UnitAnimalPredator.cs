@@ -66,8 +66,10 @@ public class UnitAnimalPredator : UnitAnimal
             return false;
         }
         Debug.LogFormat(gameObject, "Attacking target: {0}", victim);
-        victim.Defend();
+        victim.AttackedBy(this);
         goal = "Attacking {0}".Format(target);
+        SetAnimation(UnitAnimationType.FIGHT);
+        transform.LookAt(victim.transform);
         timeTilDeparture = Random.Range(1f, 10f);
         return true;
     }

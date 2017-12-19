@@ -53,7 +53,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
         set {
             if (value != _isMoving) {
                 var animationType = value ? UnitAnimationType.MOVE : UnitAnimationType.IDLE;
-                unitAnimation.SetAnimation(animationType);
+                SetAnimation(animationType);
                 _isMoving = value;
             }
         }
@@ -119,7 +119,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
     #endregion
 
 
-    public void Defend()
+    public void AttackedBy(Unit attacker)
     {
         if (IsMoving) {
             IsMoving = false;
@@ -128,6 +128,8 @@ abstract public class Unit : MonoBehaviour, ISelectable
             //transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.ScaledBy(Vector3.up));
         }
         isDefending = true;
+        transform.LookAt(attacker.transform);
+        SetAnimation(UnitAnimationType.FIGHT);
     }
 
     protected IEnumerator TravelToCell(IList<HexCell> path)
@@ -168,8 +170,13 @@ abstract public class Unit : MonoBehaviour, ISelectable
         var secs = Random.Range(0f, 1f);
         yield return new WaitForSeconds(secs);
         if (!IsMoving) {
-            unitAnimation.SetAnimation(UnitAnimationType.IDLE);
+            SetAnimation(UnitAnimationType.IDLE);
         }
+    }
+
+    protected void SetAnimation(UnitAnimationType animationType)
+    {
+        unitAnimation.SetAnimation(animationType);
     }
 
 }

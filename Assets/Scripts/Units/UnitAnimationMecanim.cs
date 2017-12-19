@@ -5,6 +5,7 @@ public class UnitAnimationMecanim : UnitAnimation
 {
     static readonly int triggerMoving = Animator.StringToHash("Moving");
     static readonly int triggerIdle = Animator.StringToHash("Idle");
+    static readonly int triggerFighting = Animator.StringToHash("Fighting");
 
     public override void SetAnimation(UnitAnimationType animationType)
     {
@@ -16,6 +17,8 @@ public class UnitAnimationMecanim : UnitAnimation
         switch (animationType) {
             case UnitAnimationType.MOVE:
                 return triggerMoving;
+            case UnitAnimationType.FIGHT:
+                return triggerFighting;
             case UnitAnimationType.IDLE:
             default:
                 return triggerIdle;

@@ -1426,6 +1426,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd06340be14a5ac4a9db309fd890150c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  idle: {fileID: 7400002, guid: 9a770e6b9c09cb84b92301331434f917, type: 3}
+  moving: {fileID: 7400006, guid: 9a770e6b9c09cb84b92301331434f917, type: 3}
+  fighting: {fileID: 7400012, guid: 9a770e6b9c09cb84b92301331434f917, type: 3}
 --- !u!137 &137032292887990840
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
