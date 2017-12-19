@@ -36,14 +36,13 @@ public class UnitAnimal : Unit
     {
         if (CombatOpponent != null) {
             goal = "Defending";
-        } else if (!IsMoving) {
+        } else {
             timeTilDeparture -= Time.deltaTime;
             if (timeTilDeparture <= 0) {
                 goal = "Seeking water";
                 var path = GetNewGoal();
                 if (path != null && path.Count > 0) {
                     Destination = path.Last();
-                    StopAllCoroutines();
                     StartCoroutine(TravelToCell(path));
                 }
             }

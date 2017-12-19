@@ -61,7 +61,6 @@ public class UnitAnimalPredator : UnitAnimal
                 Debug.LogFormat(this, "Prey is gone ({0} -> {1}), restalking {2}", Location, target.Location, target);
                 var path = Stalk();
                 Destination = path.LastOrDefault();
-                StopAllCoroutines();
                 StartCoroutine(TravelToCell(path));
             }
         }

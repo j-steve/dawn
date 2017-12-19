@@ -102,8 +102,8 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     void Update()
     {
-        if (IsDead) {
-            // Stay dead.
+        if (IsDead || IsMoving) {
+            // Do nothing.
         } else if (CombatOpponent != null) {
             CombatOpponent.TakeDamage(Time.deltaTime * AttackPower * Random.value);
             if (CombatOpponent.IsDead) {
