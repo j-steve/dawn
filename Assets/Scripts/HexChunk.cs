@@ -68,15 +68,15 @@ public class HexChunk : MonoBehaviour
         treeMesh.Apply();
     }
 
+    static readonly Vector3 WATERLEVEL = new Vector3(0, HexConstants.ELEVATION_STEP * 1.5f, 0);
 
-    static private readonly Vector3 WATERLEVEL = new Vector3(0, HexConstants.ELEVATION_STEP * 1.5f, 0);
-    static private readonly Vector3[] HEX_VERTEX_OFFSETS = new Vector3[]  {
+    static readonly Vector3[] HEX_VERTEX_OFFSETS = new Vector3[]  {
         HexConstants.HEX_CELL_SEPERATION * new Vector3(0, 0, 1),
         HexConstants.HEX_CELL_SEPERATION * new Vector3((float)HexConstants.HEX_RADIUS, 0f, 0.5f),
         HexConstants.HEX_CELL_SEPERATION * new Vector3((float)HexConstants.HEX_RADIUS, 0f, -0.5f),
     };
 
-    private void TriangulateWater(HexCell cell)
+    void TriangulateWater(HexCell cell)
     {
         var mesh = cell.TerrainType == TerrainTexture.BLUEWATER ? oceanMesh : lakeMesh;
         int v0 = mesh.vertices.Count;
@@ -93,7 +93,7 @@ public class HexChunk : MonoBehaviour
         mesh.triangles.AddRange(new int[] { v0, v0 + 6, v0 + 1 });
     }
 
-    private void TriangulateTrees(HexCell cell)
+    void TriangulateTrees(HexCell cell)
     {
         var mesh = treeMesh;
         int v0 = mesh.vertices.Count;
@@ -138,8 +138,7 @@ public class HexChunk : MonoBehaviour
         TexturedEdge e2 = cell2.GetEdge(direction.Opposite());
         if (cell1.Elevation == cell2.Elevation) {
             terrainMesh.AddQuadWithTerrain(e1, e2);
-        }
-        else {
+        } else {
             var e1offset = new TexturedEdge(e1.Slerp(e2, .15f), TerrainTexture.CLIFF);
             var e2offset = new TexturedEdge(e2.Slerp(e1, .15f), TerrainTexture.CLIFF);
             if (Math.Abs(cell1.Elevation - cell2.Elevation) == 1) {
@@ -171,11 +170,9 @@ public class HexChunk : MonoBehaviour
         var elevations = new HexCell[] { cell1, cell2, cell3 }.Select(c => c.Elevation);
         if (Math.Abs(elevations.Max() - elevations.Min()) <= 1) {
             terrainMesh.AddTerrainType(cell1.TerrainType, cell2.TerrainType, cell3.TerrainType, 3);
-        }
-        else {
+        } else {
             terrainMesh.AddTerrainType(TerrainTexture.CLIFF, TerrainTexture.CLIFF, TerrainTexture.CLIFF, 3);
         }
     }
-
 }
 

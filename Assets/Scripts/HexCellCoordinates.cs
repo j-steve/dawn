@@ -131,8 +131,8 @@ public struct HexCellCoordinates
     {
         if (obj == null || GetType() != obj.GetType())
             return false;
-        HexCellCoordinates hc = (HexCellCoordinates)obj;
-        return hc.x == x && hc.z == z;
+        var coords = (HexCellCoordinates)obj;
+        return coords.x == x && coords.z == z;
     }
 
     #endregion

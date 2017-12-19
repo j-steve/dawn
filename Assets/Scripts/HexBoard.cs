@@ -43,7 +43,6 @@ public class HexBoard : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("HexBoard Start");
 #if UNITY_EDITOR
         mapSize = new RectangleInt(8, 8);
         continentsPerChunk = 0.5f;

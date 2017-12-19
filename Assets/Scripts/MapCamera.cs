@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class MapCamera : MonoBehaviour
 {
+    public float fastPanSpeed;
 
     public float panSpeedMinZoom, panSpeedMaxZoom;
-    public float fastPanSpeed;
 
     public float stickMinZoom, stickMaxZoom;
 
@@ -15,9 +15,7 @@ public class MapCamera : MonoBehaviour
 
     Transform swivel, stick;
 
-
     float zoom = 1f;
-
 
     // Use this for initialization
     void Awake()

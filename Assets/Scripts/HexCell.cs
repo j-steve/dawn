@@ -26,20 +26,14 @@ public class HexCell : MonoBehaviour, ISelectable
     /// Returns the vector cooresponding to the very center of the hexagon cell.
     /// </summary>
     public Vector3 Center {
-        get {
-            return transform.localPosition;
-        }
-        private set {
-            transform.localPosition = value;
-        }
+        get { return transform.localPosition; }
+        private set { transform.localPosition = value; }
     }
 
     public int Elevation {
-        get {
-            return elevation;
-        }
+        get { return _elevation; }
         set {
-            elevation = value;
+            _elevation = value;
             Vector3 position = Center;
             position.y = value * HexConstants.ELEVATION_STEP;
             Center = position;
@@ -51,6 +45,7 @@ public class HexCell : MonoBehaviour, ISelectable
             }
         }
     }
+    int _elevation = 0;
 
     public float Latitude {
         get {
@@ -66,10 +61,7 @@ public class HexCell : MonoBehaviour, ISelectable
 
     public readonly List<Unit> units = new List<Unit>();
 
-    int elevation = 0;
-
     Text label;
-
 
     /// <summary>
     /// Returns the hex cell's <code>HexCellCoordinates</code>, which is a 

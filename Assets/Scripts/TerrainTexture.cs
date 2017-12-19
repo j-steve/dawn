@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 /// <summary>
 /// Represents the various terrain textures stored in the texture array,
 /// which contains all the basic textures used for HexCell tiles.
@@ -30,7 +31,6 @@ public enum TerrainTexture
 public class TexturedEdge : Edge
 {
     public TerrainTexture texture;
-
 
     public TexturedEdge(Edge e1, TerrainTexture texture) : base(e1.vertex1, e1.vertex2)
     {
