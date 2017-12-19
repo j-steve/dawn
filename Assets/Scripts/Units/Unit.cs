@@ -119,9 +119,8 @@ abstract public class Unit : MonoBehaviour, ISelectable
             for (float t = 0f; t < 1f; t += Time.deltaTime * TravelSpeed) {
                 var rotation = t * 2;
                 if (rotation < 1f) {
-                    Quaternion fromRotation = transform.localRotation;
-                    Quaternion toRotation =
-                        Quaternion.LookRotation(cell.Center - transform.localPosition);
+                    var fromRotation = transform.localRotation;
+                    var toRotation = Quaternion.LookRotation(cell.Center - transform.localPosition);
                     transform.localRotation = Quaternion.Slerp(fromRotation, toRotation, rotation);
                 }
                 transform.localPosition = Vector3.Lerp(lastLocation.Center, cell.Center, t);
@@ -148,5 +147,4 @@ abstract public class Unit : MonoBehaviour, ISelectable
             unitAnimation.SetAnimation(UnitAnimationType.IDLE);
         }
     }
-
 }
