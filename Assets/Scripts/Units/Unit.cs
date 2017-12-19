@@ -72,6 +72,8 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     Color originalColor;
 
+    protected HexCell destination;
+
     #endregion
 
     protected virtual void Initialize(HexCell cell)
@@ -129,8 +131,8 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     void TakeTurn(int turn, IList<IEnumerator> coroutines)
     {
-        if (IsDead || IsMoving) {
-            // Do nothing.
+        if (IsMoving) {
+            // Do noithing.
         } else if (CombatOpponent != null) {
             CombatOpponent.TakeDamage(AttackPower * Random.value);
             if (CombatOpponent.IsDead) {
@@ -202,6 +204,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
         Debug.LogFormat(this, "{0} is dead!", this);
         SetAnimation(UnitAnimationType.DEATH);
         IsDead = true;
+        GameTime.Instance.AITurnStartedEvent -= TakeTurn;
         Destroy(gameObject, DECOMPOSE_TIME);
     }
 
