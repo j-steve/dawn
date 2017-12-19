@@ -33,8 +33,9 @@ abstract public class Unit : MonoBehaviour, ISelectable
     protected HexCell Location {
         get { return _location; }
         set {
-            if (_location != null)
+            if (_location != null) {
                 _location.units.Remove(this);
+            }
             _location = value;
             _location.units.Add(this);
         }
@@ -68,7 +69,6 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     protected virtual void Initialize(HexCell cell)
     {
-
         Location = cell;
         transform.localPosition = cell.Center;
         transform.localRotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);

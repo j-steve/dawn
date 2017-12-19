@@ -6,14 +6,28 @@ using System.Linq;
 
 public class UnitPlayer : Unit
 {
-    private HexCell currentHoverTarget;
-    private IList<HexCell> path;
-
     const float MOVEMENT_POINTS = 3;
 
     protected override float TravelSpeed { get { return 1f; } }
 
-    private void Update()
+    HexCell currentHoverTarget;
+
+    IList<HexCell> path;
+
+    public override void OnFocus()
+    {
+        base.OnFocus();
+        HexBoard.ActiveBoard.HexCellClickedEvent += OnHexCellClick;
+    }
+
+    public override void OnBlur()
+    {
+        base.OnBlur();
+        HexBoard.ActiveBoard.HexCellClickedEvent -= OnHexCellClick;
+        UnHighlightPath();
+    }
+
+    void Update()
     {
         if (UIInGame.ActiveInGameUI.selection == (ISelectable)this) {
             var cell = HexBoard.ActiveBoard.GetCellUnderCursor();
@@ -27,7 +41,7 @@ public class UnitPlayer : Unit
         }
     }
 
-    private void MapPathToTarget(HexCell target)
+    void MapPathToTarget(HexCell target)
     {
         path = pathfinder.Search(Location, target);
         float cost = 0;
@@ -40,19 +54,6 @@ public class UnitPlayer : Unit
             cell.Highlight(color, turns.ToString());
             prevCell = cell;
         }
-    }
-
-    public override void OnFocus()
-    {
-        base.OnFocus();
-        HexBoard.ActiveBoard.HexCellClickedEvent += OnHexCellClick;
-    }
-
-    public override void OnBlur()
-    {
-        base.OnBlur();
-        HexBoard.ActiveBoard.HexCellClickedEvent -= OnHexCellClick;
-        UnHighlightPath();
     }
 
     void OnHexCellClick(HexCellClickedEventArgs e)

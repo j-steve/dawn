@@ -12,16 +12,17 @@ public class UIInGame : MonoBehaviour
 
     public ISelectable selection { get; private set; }
 
-    // Use this for initialization
-    void Start()
-    {
-        ActiveInGameUI = this;
-        unitInfoPanel.SetActive(false);
-    }
-
+    /// <summary>
+    /// Sets active In-Game UI, on initialization or after script recompilation. 
+    /// </summary>
     void OnEnable()
     {
         ActiveInGameUI = this;
+    }
+
+    void Start()
+    {
+        unitInfoPanel.SetActive(false);
     }
 
     void Update()

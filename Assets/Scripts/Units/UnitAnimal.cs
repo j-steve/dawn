@@ -6,11 +6,11 @@ using System;
 
 public class UnitAnimal : Unit
 {
-    protected float timeTilDeparture;
+    public override string InGameUIDescription { get { return goal; } }
 
     protected override float TravelSpeed { get { return 0.75f; } }
 
-    public override string InGameUIDescription { get { return goal; } }
+    protected float timeTilDeparture;
 
     protected string goal;
 

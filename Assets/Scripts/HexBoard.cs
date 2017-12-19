@@ -33,19 +33,24 @@ public class HexBoard : MonoBehaviour
 
     public Unit[] unitPrefabs;
 
-    // Use this for initialization
+    /// <summary>
+    /// Sets active board, on initialization or after script recompilation. 
+    /// </summary>
+    void OnEnable()
+    {
+        ActiveBoard = this;
+    }
+
     void Start()
     {
+        Debug.Log("HexBoard Start");
 #if UNITY_EDITOR
         mapSize = new RectangleInt(8, 8);
         continentsPerChunk = 0.5f;
 #endif
-        ActiveBoard = this;
         StartCoroutine(new HexBoardGenerator(this).CreateMap());
-
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Game.Paused)
@@ -86,10 +91,4 @@ public class HexBoard : MonoBehaviour
         }
         return null;
     }
-
-    void OnEnable()
-    {
-        ActiveBoard = this;
-    }
-
 }
