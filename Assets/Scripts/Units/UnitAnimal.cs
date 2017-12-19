@@ -51,7 +51,7 @@ public class UnitAnimal : Unit
             Location,
             c => c != Location &&
             c.Coordinates.DistanceTo(Location.Coordinates) >= 5 &&
-            c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) != null);
+            c.GetNeighbors().Contains(n => n.Elevation == 0));
     }
 
     protected override void ArrivedAtCell()

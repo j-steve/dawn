@@ -22,7 +22,7 @@ public class UnitAnimalPredator : UnitAnimal
         return pathfinder.FindNearest(
             Location,
             c => c != Location &&
-            c.GetNeighbors().FirstOrDefault(n => n.units.Count > 0) != null);
+            c.GetNeighbors().Contains(cellContainsPrey));
     }
 
     protected override void ArrivedAtCell()
@@ -39,5 +39,10 @@ public class UnitAnimalPredator : UnitAnimal
                 timeTilDeparture = Random.Range(1f, 10f);
             }
         }
+    }
+
+    bool cellContainsPrey(HexCell cell)
+    {
+        return cell.units.Contains(u => u.UnitName != UnitName);
     }
 }

@@ -64,6 +64,16 @@ static public class Utils
         return String.Join(joinWith, stringVals.ToArray());
     }
 
+    static public bool Contains<T>(this IEnumerable<T> list, Func<T, bool> evaluator)
+    {
+        foreach (var item in list) {
+            if (evaluator(item)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static void EnqueueAll<T>(this Queue<T> queue, IEnumerable<T> values)
     {
         foreach (T value in values) { queue.Enqueue(value); }
