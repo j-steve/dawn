@@ -886,7 +886,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 467052d69dec23f4d8b0ab318ac8417b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: Human
+  _unitName: Human
+  _attackPower: 1
   unitAnimation: {fileID: 114559706213567910}
 --- !u!114 &114559706213567910
 MonoBehaviour:

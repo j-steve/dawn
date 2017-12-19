@@ -1412,7 +1412,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ccaf519379066941a7ffb445736f901, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: Wolf
+  _unitName: Wolf
+  _attackPower: 3.2
   unitAnimation: {fileID: 114760259564161440}
 --- !u!114 &114760259564161440
 MonoBehaviour:

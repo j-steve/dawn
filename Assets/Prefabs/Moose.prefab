@@ -1273,7 +1273,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c6806e2786fb1b439410c08e4a9fbc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: Moose
+  _unitName: Moose
+  _attackPower: 2.6
   unitAnimation: {fileID: 114016554706752964}
 --- !u!137 &137106104682804262
 SkinnedMeshRenderer:
