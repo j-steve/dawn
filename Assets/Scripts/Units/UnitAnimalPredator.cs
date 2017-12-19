@@ -36,7 +36,7 @@ public class UnitAnimalPredator : UnitAnimal
             target = lastCell.units.Where(u => u.UnitName != UnitName).FirstOrDefault();
             goal = "Stalking {0}".Format(target);
             path.RemoveAt(path.Count - 1);  // Goal is to get next to target.
-            if (prevTargetCell != null)
+            if (prevTargetCell)
                 prevTargetCell.UnHighlight();
             prevTargetCell = path.Last();
         }

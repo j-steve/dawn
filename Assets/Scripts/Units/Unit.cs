@@ -45,9 +45,9 @@ abstract public class Unit : MonoBehaviour, ISelectable
     public HexCell Location {
         get { return _location; }
         set {
-            if (_location != null)
+            if (_location)
                 _location.units.Remove(this);
-            if (value != null)
+            if (value)
                 value.units.Add(this);
             _location = value;
         }
@@ -104,7 +104,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
     {
         if (IsDead || IsMoving) {
             // Do nothing.
-        } else if (CombatOpponent != null) {
+        } else if (CombatOpponent) {
             CombatOpponent.TakeDamage(Time.deltaTime * AttackPower * Random.value);
             if (CombatOpponent.IsDead) {
                 var exOponent = CombatOpponent;
@@ -203,7 +203,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
     protected IEnumerator TravelToCell(IList<HexCell> path)
     {
         if (path == null || path.Count < 2) {
-            Debug.LogWarningFormat(this, "{0} has invalid TravelToCell path: {0}", name, path);
+            Debug.LogWarningFormat(this, "{0} has invalid TravelToCell path: {1}", name, path);
             yield break;
         }
         IsMoving = true;

@@ -38,6 +38,10 @@ public class UIInGame : MonoBehaviour
 
     public void SetSelected(ISelectable newSelection)
     {
+        // Prevent potential null exception on game termination.
+        if (!unitInfoPanel)
+            return;
+
         if (selection != null) {
             selection.OnBlur();
         }

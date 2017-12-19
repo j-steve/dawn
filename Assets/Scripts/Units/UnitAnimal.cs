@@ -8,7 +8,7 @@ public class UnitAnimal : Unit
 {
     public override string InGameUIDescription {
         get {
-            return IsDead ? "Dead" : CombatOpponent != null ? "Fighting {0}".Format(CombatOpponent) : goal;
+            return IsDead ? "Dead" : CombatOpponent ? "Fighting {0}".Format(CombatOpponent) : goal;
         }
     }
 
@@ -22,9 +22,9 @@ public class UnitAnimal : Unit
         get { return _destination; }
         set {
             if (UIInGame.ActiveInGameUI.selection == (ISelectable)this) {
-                if (_destination != null)
+                if (_destination)
                     _destination.UnHighlight();
-                if (value != null)
+                if (value)
                     value.Highlight(Color.blue);
             }
             _destination = value;
@@ -34,7 +34,7 @@ public class UnitAnimal : Unit
 
     protected override void TakeAction()
     {
-        if (CombatOpponent != null) {
+        if (CombatOpponent) {
             goal = "Defending";
         } else {
             timeTilDeparture -= Time.deltaTime;

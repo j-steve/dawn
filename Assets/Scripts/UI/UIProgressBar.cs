@@ -142,7 +142,7 @@ namespace DawnX.UI
         protected virtual void Start()
         {
             // Make sure the fill anchor reflects the pivot
-            if (m_Type == Type.Resize && m_FillSizing == FillSizing.Parent && m_TargetTransform != null) {
+            if (m_Type == Type.Resize && m_FillSizing == FillSizing.Parent && m_TargetTransform) {
                 float height = m_TargetTransform.rect.height;
                 m_TargetTransform.anchorMin = m_TargetTransform.pivot;
                 m_TargetTransform.anchorMax = m_TargetTransform.pivot;
@@ -163,7 +163,7 @@ namespace DawnX.UI
         protected void OnValidate()
         {
             // Make sure the fill anchor reflects the pivot
-            if (m_Type == Type.Resize && m_FillSizing == FillSizing.Parent && m_TargetTransform != null) {
+            if (m_Type == Type.Resize && m_FillSizing == FillSizing.Parent && m_TargetTransform) {
                 float height = m_TargetTransform.rect.height;
                 m_TargetTransform.anchorMin = m_TargetTransform.pivot;
                 m_TargetTransform.anchorMax = m_TargetTransform.pivot;
@@ -212,27 +212,23 @@ namespace DawnX.UI
                         RectTransform.Axis.Horizontal,
                         (m_MinWidth + ((m_MaxWidth - m_MinWidth) * fill))
                     );
-                }
-                else {
+                } else {
                     m_TargetTransform.SetSizeWithCurrentAnchors(
                         RectTransform.Axis.Horizontal,
                         ((m_TargetTransform.parent as RectTransform).rect.width * fill)
                     );
                 }
-            }
-            else if (m_Type == Type.Sprites) {
+            } else if (m_Type == Type.Sprites) {
                 int spriteIndex = Mathf.RoundToInt(fill * (float)m_Sprites.Length) - 1;
 
                 if (spriteIndex > -1) {
                     targetImage.overrideSprite = m_Sprites[spriteIndex];
                     targetImage.canvasRenderer.SetAlpha(1f);
-                }
-                else {
+                } else {
                     targetImage.overrideSprite = null;
                     targetImage.canvasRenderer.SetAlpha(0f);
                 }
-            }
-            else {
+            } else {
                 // Update the image fill amount
                 m_TargetImage.fillAmount = fill;
             }
@@ -245,8 +241,7 @@ namespace DawnX.UI
         {
             if (m_Steps > 0) {
                 currentStep = currentStep + 1;
-            }
-            else {
+            } else {
                 fillAmount = fillAmount + 0.1f;
             }
         }
@@ -258,8 +253,7 @@ namespace DawnX.UI
         {
             if (m_Steps > 0) {
                 currentStep = currentStep - 1;
-            }
-            else {
+            } else {
                 fillAmount = fillAmount - 0.1f;
             }
         }
