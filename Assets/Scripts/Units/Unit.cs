@@ -96,25 +96,14 @@ abstract public class Unit : MonoBehaviour, ISelectable
         meshCollider.sharedMesh = skinnedMeshRender.sharedMesh;
         meshCollider.convex = true;
         meshCollider.isTrigger = true;
-        // Start the idle animation sequence after a random delay.
-        StartCoroutine(StartIdleAnimation());
     }
 
-    void Update()
+    void Start()
     {
-        if (IsDead || IsMoving) {
-            // Do nothing.
-        } else if (CombatOpponent != null) {
-            CombatOpponent.TakeDamage(Time.deltaTime * AttackPower * Random.value);
-            if (CombatOpponent.IsDead) {
-                var exOponent = CombatOpponent;
-                CombatOpponent = null;
-                SetAnimation(UnitAnimationType.IDLE);
-                CombatWon(CombatOpponent);
-            }
-        } else {
-            TakeAction();
-        }
+        // Start the idle animation sequence after a random delay.
+        StartCoroutine(StartIdleAnimation());
+        // Attach to the GameTurnEvent to trigger unit action.
+        GameTime.Instance.GameTurnEvent += TakeTurn;
     }
 
     protected virtual void OnMouseDown()
@@ -138,7 +127,22 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     #endregion
 
-    protected virtual void CombatWon(Unit opponent) { }
+    void TakeTurn(int turn)
+    {
+        if (IsDead || IsMoving) {
+            // Do nothing.
+        } else if (CombatOpponent != null) {
+            CombatOpponent.TakeDamage(AttackPower * Random.value);
+            if (CombatOpponent.IsDead) {
+                var exOponent = CombatOpponent;
+                CombatOpponent = null;
+                SetAnimation(UnitAnimationType.IDLE);
+                CombatWon(CombatOpponent);
+            }
+        } else {
+            TakeAction();
+        }
+    }
 
     protected abstract void TakeAction();
 
@@ -168,6 +172,8 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     #endregion
 
+    #region Combat
+
     public void AttackedBy(Unit attacker)
     {
         if (IsMoving) {
@@ -186,9 +192,8 @@ abstract public class Unit : MonoBehaviour, ISelectable
         if (!IsDead) {
             Debug.LogFormat(this, "{0} attacked {1} for {2} dmg", this, CombatOpponent, damage);
             Health -= damage;
-            if (Health <= 0) {
+            if (Health <= 0)
                 Die();
-            }
         }
     }
 
@@ -199,6 +204,12 @@ abstract public class Unit : MonoBehaviour, ISelectable
         IsDead = true;
         Destroy(gameObject, DECOMPOSE_TIME);
     }
+
+    protected virtual void CombatWon(Unit opponent) { }
+
+    #endregion
+
+    #region Movement
 
     protected IEnumerator TravelToCell(IList<HexCell> path)
     {
@@ -232,6 +243,8 @@ abstract public class Unit : MonoBehaviour, ISelectable
     }
 
     protected virtual void ArrivedAtCell() { }
+
+    #endregion
 
     /// <summary>
     /// Wait a short random interval before starting the idle animation loop,
