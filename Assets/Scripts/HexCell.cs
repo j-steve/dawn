@@ -38,7 +38,7 @@ public class HexCell : MonoBehaviour, ISelectable
             position.y = value * HexConstants.ELEVATION_STEP;
             Center = position;
             SetVertices();
-            if (label != null) {
+            if (label) {
                 var labelPosition = label.rectTransform.localPosition;
                 labelPosition.z = -position.y;
                 label.rectTransform.localPosition = labelPosition;

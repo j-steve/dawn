@@ -45,9 +45,9 @@ abstract public class Unit : MonoBehaviour, ISelectable
     public HexCell Location {
         get { return _location; }
         set {
-            if (_location != null)
+            if (_location)
                 _location.units.Remove(this);
-            if (value != null)
+            if (value)
                 value.units.Add(this);
             _location = value;
         }
@@ -133,7 +133,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
     {
         if (IsMoving) {
             // Do noithing.
-        } else if (CombatOpponent != null) {
+        } else if (CombatOpponent) {
             CombatOpponent.TakeDamage(AttackPower * Random.value);
             if (CombatOpponent.IsDead) {
                 var exOponent = CombatOpponent;

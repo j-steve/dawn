@@ -51,11 +51,11 @@ public class HexChunk : MonoBehaviour
                 TriangulateTrees(cell);
             foreach (EdgeDirection direction in EASTERLY_DIRECTIONS) {
                 HexCell neighbor = cell.GetNeighbor(direction);
-                if (neighbor != null) {
+                if (neighbor) {
                     TriangulateBridge(direction, cell, neighbor);
                     if (direction != EdgeDirection.SE) {
                         HexCell neighbor2 = cell.GetNeighbor(direction.Next());
-                        if (neighbor2 != null) {
+                        if (neighbor2) {
                             TriangulateCorner(direction, cell, neighbor, neighbor2);
                         }
                     }
