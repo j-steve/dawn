@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -47,8 +48,7 @@ static public class UnityExtensions
     {
         if (doEnable) {
             material.EnableKeyword(keyword);
-        }
-        else {
+        } else {
             material.DisableKeyword(keyword);
         }
     }
@@ -65,5 +65,20 @@ static public class UnityExtensions
             Debug.LogErrorFormat(obj, "Expected to find component of type \"{0}\" but found none", typeof(T));
         }
         return component;
+    }
+
+    /// <summary>
+    /// Invokes the specified action after the given number of seconds.
+    /// Note that the seconds starts counting from the end of the current frame update.
+    /// </summary>
+    public static void Invoke(this MonoBehaviour me, Action action, float delaySeconds)
+    {
+        me.StartCoroutine(ExecuteAfterTime(action, delaySeconds));
+    }
+
+    static IEnumerator ExecuteAfterTime(Action action, float delaySeconds)
+    {
+        yield return new WaitForSeconds(delaySeconds);
+        action();
     }
 }

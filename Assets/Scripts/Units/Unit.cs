@@ -36,8 +36,6 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     public float Health { get; private set; }
 
-    float? deathTime;
-
     [SerializeField] UnitAnimation unitAnimation;
 
     SkinnedMeshRenderer skinnedMeshRender;
@@ -56,7 +54,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
     }
     HexCell _location;
 
-    public bool IsDead { get { return deathTime.HasValue; } }
+    public bool IsDead { get; private set; }
 
     protected virtual bool IsMoving {
         get { return _isMoving; }
@@ -90,9 +88,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
     void Update()
     {
         if (IsDead) {
-            if (Time.time - deathTime > DECOMPOSE_TIME) {
-                RemoveFromGame();
-            }
+            // Stay dead.
         } else if (CombatOpponent != null) {
             CombatOpponent.TakeDamage(Time.deltaTime * AttackPower * Random.value);
             if (CombatOpponent.IsDead) {
@@ -182,7 +178,8 @@ abstract public class Unit : MonoBehaviour, ISelectable
     {
         Debug.LogFormat(this, "{0} is dead!", this);
         SetAnimation(UnitAnimationType.DEATH);
-        deathTime = Time.time;
+        IsDead = true;
+        this.Invoke(RemoveFromGame, DECOMPOSE_TIME);
     }
 
     /// <summary>

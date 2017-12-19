@@ -59,8 +59,7 @@ public class UnitPlayer : Unit
     void OnHexCellClick(HexCellClickedEventArgs e)
     {
         Debug.LogFormat("{0} knows you clicked {1}", UnitName, e.Cell);
-        if (e.Cell != Location) {
-            StopAllCoroutines();
+        if (!IsDead && !IsMoving && e.Cell != Location) {
             StartCoroutine(TravelToCell(path));
             UnHighlightPath();
             e.Cancel = true;
