@@ -7,8 +7,6 @@ abstract public class Unit : MonoBehaviour, ISelectable
 {
     #region Static
 
-    static protected HexPathfinder pathfinder = new HexPathfinder();
-
     static public Unit Create(Unit prefab, HexCell cell)
     {
         Unit obj = Instantiate(prefab);
@@ -23,6 +21,8 @@ abstract public class Unit : MonoBehaviour, ISelectable
     #endregion
 
     #region Properties & Fields
+
+    protected HexPathfinder pathfinder = new HexPathfinder();
 
     abstract protected float TravelSpeed { get; }
 
@@ -199,14 +199,11 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     protected IEnumerator TravelToCell(IList<HexCell> path)
     {
-
+        if (path == null || path.Count < 2) {
+            Debug.LogWarningFormat(this, "{0} has invalid TravelToCell path: {0}", name, path);
+            yield break;
+        }
         IsMoving = true;
-        if (path == null)
-            Debug.LogWarning("Null Path", this);
-        if (path.Count == 0)
-            Debug.LogWarning("Empty Path", this);
-        if (path.Count == 1)
-            Debug.LogWarning("Path Length 1", this);
         foreach (var cell in path.Skip(1)) {
             var lastLocation = Location;
             Location = cell;

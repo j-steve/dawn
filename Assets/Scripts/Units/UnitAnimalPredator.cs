@@ -21,7 +21,7 @@ public class UnitAnimalPredator : UnitAnimal
 
     protected override IList<HexCell> GetNewGoal()
     {
-        if (Random.value > 0.9995f) { // TODO: FIX THIS!!!!!!!!!!!!!!!!!!!!!!!!!!! (lower value back to 0.5f)
+        if (Random.value > 0.5) {
             return base.GetNewGoal();
         } else {
             return Stalk();
@@ -58,7 +58,7 @@ public class UnitAnimalPredator : UnitAnimal
         } else {
             if (!Attack(target)) {
                 // The stalked prey is gone, stalk again.
-                Debug.LogFormat(gameObject, "Prey is gone ({0} -> {1}), restalking {2}", Location, target.Location, target);
+                Debug.LogFormat(this, "Prey is gone ({0} -> {1}), restalking {2}", Location, target.Location, target);
                 var path = Stalk();
                 Destination = path.LastOrDefault();
                 StopAllCoroutines();
@@ -75,7 +75,7 @@ public class UnitAnimalPredator : UnitAnimal
         if (target.IsDead || target.Location.Coordinates.DistanceTo(Location.Coordinates) != 1) {
             return false;
         }
-        Debug.LogFormat(gameObject, "Attacking target: {0}", victim);
+        Debug.LogFormat(this, "Attacking target: {0}", victim);
         goal = "Attacking {0}".Format(target);
         AttackedBy(victim);
         victim.AttackedBy(this);

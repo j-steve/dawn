@@ -78,7 +78,7 @@ public class UnitAnimal : Unit
     {
         Destination = null;
         goal = "Drinking";
-        timeTilDeparture = UnityEngine.Random.Range(.5f, .20f); // TODO: FIX THIS!!!!!!!!!!!!!!!!!!!!!!!!!!! (set range to (5f, 20f))
+        timeTilDeparture = UnityEngine.Random.Range(5f, 10f);
     }
 
     public override void OnFocus()
