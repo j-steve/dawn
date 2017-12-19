@@ -84,6 +84,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
         transform.localPosition = cell.Center;
         transform.localRotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
         Health = MaxHealth;
+        UnitMaster.AddUnit(this);
     }
 
     #region Unity Event Handlers
@@ -104,8 +105,6 @@ abstract public class Unit : MonoBehaviour, ISelectable
     {
         // Start the idle animation sequence after a random delay.
         StartCoroutine(StartIdleAnimation());
-        // Attach to the GameTurnEvent to trigger unit action.
-        GameTime.Instance.AITurnStartedEvent += TakeTurn;
     }
 
     protected virtual void OnMouseDown()
@@ -129,12 +128,12 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     #endregion
 
-    void TakeTurn(AITurnStartedEventArgs e)
+    public IEnumerator TakeTurn()
     {
         if (IsMoving) {
             // Do noithing.
         } else if (CombatOpponent) {
-            e.coroutines.Add(DoCombat);
+            yield return DoCombat();
         } else {
             TakeAction();
         }
@@ -216,7 +215,6 @@ abstract public class Unit : MonoBehaviour, ISelectable
         Debug.LogFormat(this, "{0} is dead!", this);
         SetAnimation(UnitAnimationType.DEATH);
         IsDead = true;
-        GameTime.Instance.AITurnStartedEvent -= TakeTurn;
         Destroy(gameObject, DECOMPOSE_TIME);
     }
 
