@@ -12,7 +12,7 @@ public class UnitPlayer : Unit
 
     HexCell currentHoverTarget;
 
-    IList<HexCell> path;
+    IList<PathStep> pathSteps;
 
     public override void OnFocus()
     {
@@ -43,16 +43,12 @@ public class UnitPlayer : Unit
 
     void MapPathToTarget(HexCell target)
     {
-        path = pathfinder.Search(Location, target);
-        float cost = 0;
-        HexCell prevCell = Location;
-        HexCell lastCell = path.Last();
-        foreach (var cell in path) {
-            cost += pathfinder.MovementCost(prevCell, cell);
-            int turns = Mathf.FloorToInt(cost / MOVEMENT_POINTS);
-            var color = cell == lastCell ? Color.green : Color.white;
-            cell.Highlight(color, turns.ToString());
-            prevCell = cell;
+        pathSteps = pathfinder.Search(Location, target);
+        var lastStep = pathSteps.LastOrDefault();
+        foreach (var step in pathSteps) {
+            int turns = Mathf.FloorToInt(step.cost / MOVEMENT_POINTS);
+            var color = step == lastStep ? Color.green : Color.white;
+            step.cell.Highlight(color, turns.ToString());
         }
     }
 
@@ -60,7 +56,7 @@ public class UnitPlayer : Unit
     {
         Debug.LogFormat("{0} knows you clicked {1}", UnitName, e.Cell);
         if (!IsDead && !IsMoving && e.Cell != Location) {
-            StartCoroutine(TravelToCell(path));
+            StartCoroutine(TravelToCell(pathSteps.Select(p => p.cell).ToList()));
             UnHighlightPath();
             e.Cancel = true;
             UIInGame.ActiveInGameUI.SetSelected(null);
@@ -70,11 +66,11 @@ public class UnitPlayer : Unit
 
     void UnHighlightPath()
     {
-        if (path != null) {
-            foreach (var cell in path) {
-                cell.UnHighlight();
+        if (pathSteps != null) {
+            foreach (var step in pathSteps) {
+                step.cell.UnHighlight();
             }
-            path = null;
+            pathSteps = null;
         }
     }
 }

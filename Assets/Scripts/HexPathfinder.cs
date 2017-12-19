@@ -5,7 +5,7 @@ using Priority_Queue;
 
 public class HexPathfinder
 {
-    public IList<HexCell> FindNearest(HexCell origin, Func<HexCell, bool> goalCondition)
+    public IList<PathStep> FindNearest(HexCell origin, Func<HexCell, bool> goalCondition)
     {
         var cameFrom = new Dictionary<HexCell, HexCell>();
         var gScore = new Dictionary<HexCell, float>() { { origin, 0 } };
@@ -16,7 +16,7 @@ public class HexPathfinder
         HexCell current;
         while (openSet.TryDequeue(out current)) {
             if (goalCondition(current)) {
-                return ReconstructPath(cameFrom, current);
+                return ReconstructPath(cameFrom, current, gScore);
             }
             foreach (var neighbor in current.GetNeighbors()) {
                 if (closedSet.Contains(neighbor))
@@ -48,7 +48,7 @@ public class HexPathfinder
     /// where each entry represents the next step in the journey, starting with
     /// the origin cell itself and ending with the goal cell.
     /// </returns>
-    public IList<HexCell> Search(HexCell origin, HexCell goal)
+    public IList<PathStep> Search(HexCell origin, HexCell goal)
     {
         // The set of nodes already evaluated
         var closedSet = new HashSet<HexCell>();
@@ -75,7 +75,7 @@ public class HexPathfinder
         HexCell current;
         while (openSet.TryDequeue(out current)) {
             if (current == goal) {
-                return ReconstructPath(cameFrom, current);
+                return ReconstructPath(cameFrom, current, gScore);
             }
             foreach (var neighbor in current.GetNeighbors()) {
                 if (closedSet.Contains(neighbor)) {
@@ -135,13 +135,26 @@ public class HexPathfinder
     /// A mapping of cells to the cheapest cell from which they can be reached,
     /// where the key is the arrival cell and the key is the departure cell.
     /// </param>
-    IList<HexCell> ReconstructPath(Dictionary<HexCell, HexCell> cameFrom, HexCell destination)
+    IList<PathStep> ReconstructPath(Dictionary<HexCell, HexCell> cameFrom, HexCell destination, Dictionary<HexCell, float> gScore)
     {
-        var path = new List<HexCell>() { destination };
+        var path = new List<PathStep>() { new PathStep(destination, gScore[destination]) };
         while (cameFrom.TryGetValue(destination, out destination)) {
-            path.Add(destination);
+            path.Add(new PathStep(destination, gScore[destination]));
         }
         path.Reverse();
         return path;
+    }
+
+}
+
+
+public class PathStep
+{
+    public readonly HexCell cell;
+    public readonly float cost;
+    internal PathStep(HexCell cell, float cost)
+    {
+        this.cell = cell;
+        this.cost = cost;
     }
 }

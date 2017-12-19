@@ -52,7 +52,7 @@ public class UnitAnimal : Unit
     protected virtual IList<HexCell> GetNewGoal()
     {
         goal = "Seeking water";
-        return GetPathToWater();
+        return GetPathToWater().Select(c => c.cell).ToList();
     }
 
     //protected virtual Dictionary<string, Func<HexCell, HexCell, bool>> GetGoals()
@@ -65,13 +65,13 @@ public class UnitAnimal : Unit
     //    };
     //}
 
-    IList<HexCell> GetPathToWater()
+    IList<PathStep> GetPathToWater()
     {
         return pathfinder.FindNearest(
             Location,
             c => c != Location &&
             c.Coordinates.DistanceTo(Location.Coordinates) >= 5 &&
-            c.GetNeighbors().Contains(n => n.Elevation == 0));
+            c.GetNeighbors().Contains(n => n.Elevation == 0)) ?? new List<PathStep>();
     }
 
     protected override void ArrivedAtCell()

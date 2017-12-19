@@ -30,7 +30,7 @@ public class UnitAnimalPredator : UnitAnimal
 
     IList<HexCell> Stalk()
     {
-        var path = GetPathToPrey();
+        var path = GetPathToPrey().Select(c => c.cell).ToList();
         if (path.Count > 0) {
             var lastCell = path.Last();
             target = lastCell.units.Where(u => u.UnitName != UnitName).FirstOrDefault();
@@ -43,12 +43,12 @@ public class UnitAnimalPredator : UnitAnimal
         return path;
     }
 
-    IList<HexCell> GetPathToPrey()
+    IList<PathStep> GetPathToPrey()
     {
         return pathfinder.FindNearest(
             Location,
             c => c != Location && c.units.Contains(u => !u.IsDead && u.UnitName != UnitName)
-            ) ?? new List<HexCell>();
+            ) ?? new List<PathStep>();
     }
 
     protected override void ArrivedAtCell()
