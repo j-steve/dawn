@@ -74,14 +74,29 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     #endregion
 
+    protected virtual void Initialize(HexCell cell)
+    {
+        id = ++maxId;
+        name = string.Format("{0} [id={1}]", UnitName, id);
+        Location = cell;
+        transform.localPosition = cell.Center;
+        transform.localRotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
+        Health = MaxHealth;
+    }
+
+    #region Unity Event Handlers
+
     protected virtual void Awake()
     {
+        // Identify the skinned mesh renderer to change its color when unit is clicked.
+        skinnedMeshRender = GetComponentInChildren<SkinnedMeshRenderer>();
+        originalColor = skinnedMeshRender.material.color;
+        // Add mesh collider so unit can respond to OnMouseDown events.
         var meshCollider = gameObject.AddComponent<MeshCollider>();
         meshCollider.convex = true;
         meshCollider.isTrigger = true;
-        skinnedMeshRender = GetComponentInChildren<SkinnedMeshRenderer>();
         meshCollider.sharedMesh = skinnedMeshRender.sharedMesh;
-        originalColor = skinnedMeshRender.material.color;
+        // Start the idle animation sequence after a random delay.
         StartCoroutine(StartIdleAnimation());
     }
 
@@ -102,36 +117,30 @@ abstract public class Unit : MonoBehaviour, ISelectable
         }
     }
 
-    /// <summary>
-    /// Cleans up all references to the unit upon its removal.
-    /// </summary>
-    void OnDestroy()
-    {
-        if ((object)UIInGame.ActiveInGameUI.selection == this) {
-            UIInGame.ActiveInGameUI.SetSelected(null);
-        }
-        Location = null;
-    }
-
-    protected virtual void CombatWon(Unit opponent) { }
-
-    protected abstract void TakeAction();
-
-    protected virtual void Initialize(HexCell cell)
-    {
-        id = ++maxId;
-        name = string.Format("{0} [id={1}]", UnitName, id);
-        Location = cell;
-        transform.localPosition = cell.Center;
-        transform.localRotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
-        Health = MaxHealth;
-    }
-
     protected virtual void OnMouseDown()
     {
         Debug.LogFormat("You clicked {0}", name);
         UIInGame.ActiveInGameUI.SetSelected(this);
     }
+
+    /// <summary>
+    /// Cleans up all references to the unit upon its removal.
+    /// </summary>
+    void OnDestroy()
+    {
+        // Deselect the unit if it is the current selection.
+        if ((object)UIInGame.ActiveInGameUI.selection == this) {
+            UIInGame.ActiveInGameUI.SetSelected(null);
+        }
+        // Remove the current location cell's reference to this unit.
+        Location = null;
+    }
+
+    #endregion
+
+    protected virtual void CombatWon(Unit opponent) { }
+
+    protected abstract void TakeAction();
 
     #region ISelectable
 
@@ -231,16 +240,13 @@ abstract public class Unit : MonoBehaviour, ISelectable
     /// </summary>
     IEnumerator StartIdleAnimation()
     {
-        var secs = Random.Range(0f, 1f);
-        yield return new WaitForSeconds(secs);
-        if (!IsMoving) {
+        yield return new WaitForSeconds(Random.Range(0f, 1f));
+        if (!IsMoving)
             SetAnimation(UnitAnimationType.IDLE);
-        }
     }
 
     protected void SetAnimation(UnitAnimationType animationType)
     {
         unitAnimation.SetAnimation(animationType);
     }
-
 }
