@@ -168,7 +168,6 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     #endregion
 
-
     public void AttackedBy(Unit attacker)
     {
         if (IsMoving) {
