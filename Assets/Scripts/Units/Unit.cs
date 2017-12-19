@@ -129,7 +129,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     #endregion
 
-    void TakeTurn(int turn, IList<IEnumerator> coroutines)
+    void TakeTurn(AITurnStartedEventArgs e)
     {
         if (IsMoving) {
             // Do noithing.
@@ -141,6 +141,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
                 SetAnimation(UnitAnimationType.IDLE);
                 CombatWon(CombatOpponent);
             }
+            e.coroutines.Add(() => CombatOpponent == null);
         } else {
             TakeAction();
         }

@@ -3,6 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class AITurnStartedEventArgs : EventArgs
+{
+    public readonly int Turn;
+    public readonly IList<Func<bool>> coroutines = new List<Func<bool>>();
+    public AITurnStartedEventArgs(int turn) { Turn = turn; }
+}
+
 public class GameTime : MonoBehaviour
 {
     #region Const/Static
@@ -15,7 +22,7 @@ public class GameTime : MonoBehaviour
     static GameTime _Instance;
 
     #endregion
-    public event Action<int, IList<IEnumerator>> AITurnStartedEvent;
+    public event Action<AITurnStartedEventArgs> AITurnStartedEvent;
 
     public event Action<int> AITurnCompletedEvent;
 
@@ -31,8 +38,11 @@ public class GameTime : MonoBehaviour
         while (true) {
             CurrentTurn++;
             if (AITurnStartedEvent != null) {
-                var coroutines = new List<IEnumerator>();
-                AITurnStartedEvent(CurrentTurn, coroutines);
+                var eventArgs = new AITurnStartedEventArgs(CurrentTurn);
+                AITurnStartedEvent(eventArgs);
+                foreach (var coroutine in eventArgs.coroutines) {
+                    yield return new WaitUntil(coroutine);
+                }
                 // TODO: yield return wait for all coroutines to complete.
             }
             if (AITurnCompletedEvent != null)
