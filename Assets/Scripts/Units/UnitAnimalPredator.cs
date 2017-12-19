@@ -9,6 +9,16 @@ public class UnitAnimalPredator : UnitAnimal
 
     HexCell prevTargetCell;
 
+    protected override bool IsMoving {
+        get { return base.IsMoving; }
+        set {
+            base.IsMoving = value;
+            if (value && goal.StartsWith("Stalking")) {
+                SetAnimation(UnitAnimationType.STALK);
+            }
+        }
+    }
+
     protected override IList<HexCell> GetNewGoal()
     {
         if (Random.value > 0.9995f) { // TODO: FIX THIS!!!!!!!!!!!!!!!!!!!!!!!!!!! (lower value back to 0.5f)
@@ -37,8 +47,8 @@ public class UnitAnimalPredator : UnitAnimal
     {
         return pathfinder.FindNearest(
             Location,
-            c => c != Location &&
-            c.units.Contains(u => u.UnitName != UnitName)) ?? new List<HexCell>();
+            c => c != Location && c.units.Contains(u => !u.IsDead && u.UnitName != UnitName)
+            ) ?? new List<HexCell>();
     }
 
     protected override void ArrivedAtCell()
@@ -62,15 +72,22 @@ public class UnitAnimalPredator : UnitAnimal
     /// </summary>
     bool Attack(Unit victim)
     {
-        if (target.Location.Coordinates.DistanceTo(Location.Coordinates) != 1) {
+        if (target.IsDead || target.Location.Coordinates.DistanceTo(Location.Coordinates) != 1) {
             return false;
         }
         Debug.LogFormat(gameObject, "Attacking target: {0}", victim);
-        victim.AttackedBy(this);
         goal = "Attacking {0}".Format(target);
-        SetAnimation(UnitAnimationType.FIGHT);
-        transform.LookAt(victim.transform);
+        AttackedBy(victim);
+        victim.AttackedBy(this);
         timeTilDeparture = Random.Range(1f, 10f);
         return true;
+    }
+
+    protected override void CombatWon(Unit opponent)
+    {
+        base.CombatWon(opponent);
+        SetAnimation(UnitAnimationType.EAT);
+        goal = "Eating {0}".Format(opponent);
+        timeTilDeparture = Random.Range(5f, 10f);
     }
 }

@@ -370,7 +370,7 @@ ModelImporter:
       takeName: 
       firstFrame: 213
       lastFrame: 257
-      wrapMode: 0
+      wrapMode: 2
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
@@ -594,7 +594,7 @@ ModelImporter:
       takeName: 
       firstFrame: 405
       lastFrame: 461
-      wrapMode: 0
+      wrapMode: 1
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
@@ -985,12 +985,12 @@ ModelImporter:
       name: Crawling
       takeName: 
       firstFrame: 1008
-      lastFrame: 1070
-      wrapMode: 0
+      lastFrame: 1070.2
+      wrapMode: 2
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
-      loop: 1
+      loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0
@@ -1042,11 +1042,11 @@ ModelImporter:
       takeName: 
       firstFrame: 1116
       lastFrame: 1168
-      wrapMode: 0
+      wrapMode: 2
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
-      loop: 1
+      loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 0
       loopBlend: 0

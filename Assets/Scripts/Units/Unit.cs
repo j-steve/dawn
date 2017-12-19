@@ -18,6 +18,8 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     static int maxId = 0;
 
+    const float DECOMPOSE_TIME = 10;
+
     #endregion
 
     #region Properties & Fields
@@ -30,6 +32,12 @@ abstract public class Unit : MonoBehaviour, ISelectable
     public float AttackPower { get { return _attackPower; } }
     [SerializeField] float _attackPower;
 
+    public float MaxHealth { get { return AttackPower * 5; } }
+
+    public float Health { get; private set; }
+
+    float? deathTime;
+
     [SerializeField] UnitAnimation unitAnimation;
 
     SkinnedMeshRenderer skinnedMeshRender;
@@ -39,16 +47,18 @@ abstract public class Unit : MonoBehaviour, ISelectable
     public HexCell Location {
         get { return _location; }
         set {
-            if (_location != null) {
+            if (_location != null)
                 _location.units.Remove(this);
-            }
+            if (value != null)
+                value.units.Add(this);
             _location = value;
-            _location.units.Add(this);
         }
     }
     HexCell _location;
 
-    protected bool IsMoving {
+    public bool IsDead { get { return deathTime.HasValue; } }
+
+    protected virtual bool IsMoving {
         get { return _isMoving; }
         set {
             if (value != _isMoving) {
@@ -60,7 +70,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
     }
     bool _isMoving;
 
-    protected bool isDefending;
+    public Unit CombatOpponent { get; private set; }
 
     Color originalColor;
 
@@ -77,6 +87,30 @@ abstract public class Unit : MonoBehaviour, ISelectable
         StartCoroutine(StartIdleAnimation());
     }
 
+    void Update()
+    {
+        if (IsDead) {
+            if (Time.time - deathTime > DECOMPOSE_TIME) {
+                RemoveFromGame();
+            }
+        } else if (CombatOpponent != null) {
+            CombatOpponent.TakeDamage(Time.deltaTime * AttackPower * Random.value);
+            if (CombatOpponent.IsDead) {
+                var exOponent = CombatOpponent;
+                CombatOpponent = null;
+                SetAnimation(UnitAnimationType.IDLE);
+                CombatWon(CombatOpponent);
+            }
+        } else {
+            TakeAction();
+        }
+    }
+
+
+    protected virtual void CombatWon(Unit opponent) { }
+
+    protected abstract void TakeAction();
+
     protected virtual void Initialize(HexCell cell)
     {
         id = ++maxId;
@@ -84,6 +118,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
         Location = cell;
         transform.localPosition = cell.Center;
         transform.localRotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
+        Health = MaxHealth;
     }
 
     protected virtual void OnMouseDown()
@@ -96,7 +131,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     public virtual string InGameUITitle {
         get {
-            return UnitName;
+            return string.Format("{0} (health: {1:0.0}/{2:0.0})", UnitName, Health, MaxHealth);
         }
     }
 
@@ -127,14 +162,51 @@ abstract public class Unit : MonoBehaviour, ISelectable
             //transform.localPosition = Location.Center;
             //transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.ScaledBy(Vector3.up));
         }
-        isDefending = true;
+        CombatOpponent = attacker;
         transform.LookAt(attacker.transform);
         SetAnimation(UnitAnimationType.FIGHT);
     }
 
+    public void TakeDamage(float damage)
+    {
+        if (!IsDead) {
+            Debug.LogFormat(this, "{0} attacked {1} for {2} dmg", this, CombatOpponent, damage);
+            Health -= damage;
+            if (Health <= 0) {
+                Die();
+            }
+        }
+    }
+
+    public void Die()
+    {
+        Debug.LogFormat(this, "{0} is dead!", this);
+        SetAnimation(UnitAnimationType.DEATH);
+        deathTime = Time.time;
+    }
+
+    /// <summary>
+    /// Completely removes the unit from the game.
+    /// </summary>
+    void RemoveFromGame()
+    {
+        if (UIInGame.ActiveInGameUI.selection == (ISelectable)this) {
+            UIInGame.ActiveInGameUI.SetSelected(null);
+        }
+        Location = null;
+        Destroy(gameObject);
+    }
+
     protected IEnumerator TravelToCell(IList<HexCell> path)
     {
+
         IsMoving = true;
+        if (path == null)
+            Debug.LogWarning("Null Path", this);
+        if (path.Count == 0)
+            Debug.LogWarning("Empty Path", this);
+        if (path.Count == 1)
+            Debug.LogWarning("Path Length 1", this);
         foreach (var cell in path.Skip(1)) {
             var lastLocation = Location;
             Location = cell;

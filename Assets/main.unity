@@ -1172,7 +1172,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 350.00006, y: -15}
-  m_SizeDelta: {x: 500, y: 100}
+  m_SizeDelta: {x: 1000, y: 100}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &415082071
 MonoBehaviour:
@@ -1206,7 +1206,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Name
+  m_Text: Name12345123451234512345
 --- !u!222 &415082072
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4850,9 +4850,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01cedbda93df3944eaa450952ec20a25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fastPanSpeed: 4
   panSpeedMinZoom: 100
   panSpeedMaxZoom: 10
-  fastPanSpeed: 4
   stickMinZoom: -500
   stickMaxZoom: 15
   swivelMinZoom: 90
@@ -4982,5 +4982,5 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 350, y: -70.01}
-  m_SizeDelta: {x: 650, y: 100}
+  m_SizeDelta: {x: 1000, y: 100}
   m_Pivot: {x: 0, y: 0.5}

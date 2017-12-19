@@ -27,7 +27,7 @@ public class UnitPlayer : Unit
         UnHighlightPath();
     }
 
-    void Update()
+    protected override void TakeAction()
     {
         if (UIInGame.ActiveInGameUI.selection == (ISelectable)this) {
             var cell = HexBoard.ActiveBoard.GetCellUnderCursor();

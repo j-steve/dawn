@@ -6,7 +6,11 @@ using System;
 
 public class UnitAnimal : Unit
 {
-    public override string InGameUIDescription { get { return goal; } }
+    public override string InGameUIDescription {
+        get {
+            return IsDead ? "Dead" : CombatOpponent != null ? "Fighting {0}".Format(CombatOpponent) : goal;
+        }
+    }
 
     protected override float TravelSpeed { get { return 0.75f; } }
 
@@ -27,16 +31,16 @@ public class UnitAnimal : Unit
     }
     HexCell _destination;
 
-    void Update()
+    protected override void TakeAction()
     {
-        if (isDefending) {
+        if (CombatOpponent != null) {
             goal = "Defending";
         } else if (!IsMoving) {
             timeTilDeparture -= Time.deltaTime;
             if (timeTilDeparture <= 0) {
                 goal = "Seeking water";
                 var path = GetNewGoal();
-                if (path != null) {
+                if (path != null && path.Count > 0) {
                     Destination = path.Last();
                     StopAllCoroutines();
                     StartCoroutine(TravelToCell(path));
@@ -80,12 +84,16 @@ public class UnitAnimal : Unit
     public override void OnFocus()
     {
         base.OnFocus();
-        Destination.Highlight(Color.blue);
+        if (Destination) {
+            Destination.Highlight(Color.blue);
+        }
     }
 
     public override void OnBlur()
     {
         base.OnBlur();
-        Destination.UnHighlight();
+        if (Destination) {
+            Destination.UnHighlight();
+        }
     }
 }

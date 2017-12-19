@@ -3,7 +3,9 @@
 public enum UnitAnimationType
 {
     IDLE,
+    EAT,
     MOVE,
+    STALK,
     FIGHT,
     HIT,
     DEATH,
