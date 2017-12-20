@@ -18,6 +18,7 @@ public class UnitAnimationMecanim : UnitAnimation
     {
         switch (animationType) {
             case UnitAnimationType.EAT:
+            case UnitAnimationType.DRINK:
                 return triggerEating;
             case UnitAnimationType.MOVE:
             case UnitAnimationType.STALK:

@@ -1427,7 +1427,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idle: {fileID: 7400002, guid: 9a770e6b9c09cb84b92301331434f917, type: 3}
-  eating: {fileID: 7400060, guid: 9a770e6b9c09cb84b92301331434f917, type: 3}
+  eating: {fileID: 7400046, guid: 9a770e6b9c09cb84b92301331434f917, type: 3}
+  drinking: {fileID: 7400060, guid: 9a770e6b9c09cb84b92301331434f917, type: 3}
   moving: {fileID: 7400006, guid: 9a770e6b9c09cb84b92301331434f917, type: 3}
   stalking: {fileID: 0}
   fighting: {fileID: 7400012, guid: 9a770e6b9c09cb84b92301331434f917, type: 3}

@@ -4,6 +4,7 @@ public class UnitAnimationLegacy : UnitAnimation
 {
     [SerializeField] AnimationClip idle;
     [SerializeField] AnimationClip eating;
+    [SerializeField] AnimationClip drinking;
     [SerializeField] AnimationClip moving;
     [SerializeField] AnimationClip stalking;
     [SerializeField] AnimationClip fighting;
@@ -27,6 +28,8 @@ public class UnitAnimationLegacy : UnitAnimation
                 return death ? death.name : "Death";
             case UnitAnimationType.EAT:
                 return eating ? eating.name : GetAnimationName(UnitAnimationType.IDLE);
+            case UnitAnimationType.DRINK:
+                return drinking ? drinking.name : GetAnimationName(UnitAnimationType.EAT);
             case UnitAnimationType.IDLE:
             default:
                 return idle ? idle.name : "Idle";

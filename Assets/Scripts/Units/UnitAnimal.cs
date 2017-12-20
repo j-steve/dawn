@@ -113,6 +113,8 @@ public class UnitAnimal : Unit
                 AttackedBy(victim);
                 victim.AttackedBy(this);
                 timeTilDeparture = 0;
+            } else if (goal == MoveGoal.DRINK) {
+                SetAnimation(UnitAnimationType.DRINK);
             } else {
                 SetAnimation(UnitAnimationType.EAT);
             }
