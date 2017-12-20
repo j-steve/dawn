@@ -124,7 +124,6 @@ abstract public class Unit : MonoBehaviour, ISelectable
                 var exOponent = CombatOpponent;
                 SetAnimation(UnitAnimationType.IDLE);
                 CombatOpponent = null;
-                CombatWon(exOponent);
             }
         } else {
             TakeAction();
@@ -151,8 +150,6 @@ abstract public class Unit : MonoBehaviour, ISelectable
     }
 
     #endregion
-
-    protected virtual void CombatWon(Unit opponent) { }
 
     protected abstract void TakeAction();
 

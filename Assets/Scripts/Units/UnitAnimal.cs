@@ -112,7 +112,7 @@ public class UnitAnimal : Unit
                 var victim = target.units.FirstOrDefault(u => u.UnitName != UnitName);
                 AttackedBy(victim);
                 victim.AttackedBy(this);
-                timeTilDeparture = float.MaxValue;
+                timeTilDeparture = 0;
             } else {
                 SetAnimation(UnitAnimationType.EAT);
             }
