@@ -68,7 +68,9 @@ public class HexBoard : MonoBehaviour
             HexCellClickedEvent.Invoke(eventArgs);
             if (eventArgs.Cancel) { return; }
         }
-        if (clickedCell == null || (ISelectable)clickedCell != UIInGame.ActiveInGameUI.selection) {
+        if (clickedCell == null) {
+            UIInGame.ActiveInGameUI.SetSelected(null);
+        } else if (!UIInGame.ActiveInGameUI.IsSelected(clickedCell)) {
             UIInGame.ActiveInGameUI.SetSelected(clickedCell);
         } else if (clickedCell.units.Count > 0) {
             UIInGame.ActiveInGameUI.SetSelected(clickedCell.units.First());

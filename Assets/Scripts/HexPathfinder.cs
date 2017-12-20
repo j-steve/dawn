@@ -5,6 +5,13 @@ using Priority_Queue;
 
 public class HexPathfinder
 {
+    readonly float maxDistance;
+
+    public HexPathfinder(float maxDistance)
+    {
+        this.maxDistance = maxDistance;
+    }
+
     public IList<PathStep> FindNearest(HexCell origin, Func<HexCell, bool> goalCondition)
     {
         var cameFrom = new Dictionary<HexCell, HexCell>();
@@ -15,6 +22,8 @@ public class HexPathfinder
 
         HexCell current;
         while (openSet.TryDequeue(out current)) {
+            if (gScore[current] > maxDistance)
+                break;
             if (goalCondition(current)) {
                 return ReconstructPath(cameFrom, current, gScore);
             }
@@ -36,7 +45,7 @@ public class HexPathfinder
             }
         }
         Debug.LogWarningFormat("No suitable path from {0} to goal condition cell! Checked {1}", origin, closedSet.Count);
-        return null;
+        return new List<PathStep>();
     }
 
     /// <summary>
@@ -121,7 +130,7 @@ public class HexPathfinder
     /// <returns></returns>
     public float MovementCost(HexCell c1, HexCell c2)
     {
-        if ((c1.Elevation == 0) != (c2.Elevation == 0)) {
+        if (c1.Elevation == 0 || c2.Elevation == 0) {
             return 100;
         }
         return Math.Abs(c1.Elevation - c2.Elevation) * 2 + 1;

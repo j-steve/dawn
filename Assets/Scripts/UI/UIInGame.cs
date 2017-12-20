@@ -53,6 +53,11 @@ public class UIInGame : MonoBehaviour
             unitInfoName.text = newSelection.InGameUIDescription;
         }
     }
+
+    public bool IsSelected(ISelectable target)
+    {
+        return selection == target;
+    }
 }
 
 public interface ISelectable

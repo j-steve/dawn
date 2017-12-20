@@ -22,7 +22,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     #region Properties & Fields
 
-    protected HexPathfinder pathfinder = new HexPathfinder();
+    protected HexPathfinder pathfinder = new HexPathfinder(50);
 
     abstract protected float TravelSpeed { get; }
 
@@ -129,7 +129,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
     void OnDestroy()
     {
         // Deselect the unit if it is the current selection.
-        if ((object)UIInGame.ActiveInGameUI.selection == this) {
+        if (UIInGame.ActiveInGameUI.IsSelected(this)) {
             UIInGame.ActiveInGameUI.SetSelected(null);
         }
         // Remove the current location cell's reference to this unit.
