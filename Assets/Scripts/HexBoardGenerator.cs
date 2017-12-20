@@ -36,7 +36,7 @@ public class HexBoardGenerator
         UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.8f, "Moosifying...");
         var x = new HashSet<HexCell>(hexBoard.hexCells.Values.Where(c => c.Elevation > 0 && c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) == null));
         var unitCount = 0;
-        while (x.Count > 0 && unitCount < 20) {
+        while (x.Count > 0 && unitCount < 10) {
             var cell = x.GetRandom();
             var prefab = hexBoard.unitPrefabs.GetRandom();
             Unit.Create(prefab, cell);

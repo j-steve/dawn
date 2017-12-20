@@ -36,9 +36,17 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     public float Health { get; private set; }
 
-    public float Hunger { get; protected set; }
+    public float Hunger {
+        get { return _hunger; }
+        protected set { _hunger = Mathf.Clamp(value, 0, 100); }
+    }
+    float _hunger;
 
-    public float Thirst { get; protected set; }
+    public float Thirst {
+        get { return _thirst; }
+        protected set { _thirst = Mathf.Clamp(value, 0, 100); }
+    }
+    float _thirst;
 
     [SerializeField] UnitAnimation unitAnimation;
 
@@ -106,7 +114,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
         StartCoroutine(StartIdleAnimation());
     }
 
-    void Update()
+    protected virtual void Update()
     {
         if (IsDead || IsMoving) {
             // Do nothing.
@@ -114,9 +122,9 @@ abstract public class Unit : MonoBehaviour, ISelectable
             CombatOpponent.TakeDamage(Time.deltaTime * AttackPower * Random.value);
             if (CombatOpponent.IsDead) {
                 var exOponent = CombatOpponent;
-                CombatOpponent = null;
                 SetAnimation(UnitAnimationType.IDLE);
-                CombatWon(CombatOpponent);
+                CombatOpponent = null;
+                CombatWon(exOponent);
             }
         } else {
             TakeAction();
@@ -209,7 +217,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
     protected IEnumerator TravelToCell(IList<HexCell> path)
     {
         if (path == null || path.Count < 2) {
-            Debug.LogWarningFormat(this, "{0} has invalid TravelToCell path: {1}", name, path);
+            Debug.LogWarningFormat(this, "{0} has invalid TravelToCell path (length={1})", name, path.Count);
             yield break;
         }
         IsMoving = true;

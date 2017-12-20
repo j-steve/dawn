@@ -2,10 +2,14 @@
 using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
-using System;
 
 public class UnitAnimal : Unit
 {
+    static Dictionary<string, MoveGoal[]> goals = new Dictionary<string, MoveGoal[]> {
+        {"Moose",  new MoveGoal[] { MoveGoal.DRINK, MoveGoal.GRAZE, MoveGoal.MIGRATE} },
+        {"Wolf",  new MoveGoal[] { MoveGoal.DRINK, MoveGoal.EAT_CORPSE, MoveGoal.HUNT, MoveGoal.MIGRATE } },
+    };
+
     public override string InGameUITitle {
         get {
             return string.Format("{0} hunger:{1:00}% thirst:{2:00}%", base.InGameUITitle, Hunger, Thirst);
@@ -13,7 +17,7 @@ public class UnitAnimal : Unit
     }
     public override string InGameUIDescription {
         get {
-            return IsDead ? "Dead" : CombatOpponent ? "Fighting {0}".Format(CombatOpponent) : goal;
+            return IsDead ? "Dead" : CombatOpponent ? "Fighting {0}".Format(CombatOpponent) : goal.goalName;
         }
     }
 
@@ -21,7 +25,9 @@ public class UnitAnimal : Unit
 
     protected float timeTilDeparture;
 
-    protected string goal;
+    protected MoveGoal goal;
+
+    protected bool atGoal;
 
     protected HexCell Destination {
         get { return _destination; }
@@ -37,54 +43,83 @@ public class UnitAnimal : Unit
     }
     HexCell _destination;
 
-    protected override void TakeAction()
+    protected override void Update()
     {
         Hunger -= Time.deltaTime * .005f * Hunger;
-        Thirst -= Time.deltaTime * .005f * Thirst;
+        Thirst -= Time.deltaTime * .010f * Thirst;
+        base.Update();
+    }
+
+    protected override void TakeAction()
+    {
         if (!CombatOpponent) {
             timeTilDeparture -= Time.deltaTime;
+            if (atGoal) {
+                if (goal == MoveGoal.GRAZE || goal == MoveGoal.EAT_CORPSE) {
+                    Hunger += Time.deltaTime * 5;
+                } else if (goal == MoveGoal.DRINK) {
+                    Thirst += Time.deltaTime * 10;
+                }
+            }
             if (timeTilDeparture <= 0) {
-                goal = "Seeking water";
-                var path = GetNewGoal();
-                if (path != null && path.Count > 0) {
-                    Destination = path.Last();
+                atGoal = false;
+                var path = GetNewGoalPath();
+                Destination = path.LastOrDefault();
+                if (path.Count == 1) {
+                    ArrivedAtCell();
+                } else {
                     StartCoroutine(TravelToCell(path));
                 }
             }
         }
     }
 
-    protected virtual IList<HexCell> GetNewGoal()
+    IList<HexCell> GetNewGoalPath()
     {
-        goal = "Seeking water";
-        return GetPathToWater().Select(c => c.cell).ToList();
-    }
-
-
-    //protected virtual Dictionary<string, Func<HexCell, HexCell, bool>> GetGoals()
-    //{
-    //    return new Dictionary<string, Func<HexCell, HexCell, bool>>() {
-    //        {
-    //            "water",
-    //            (HexCell c1, HexCell c2) => c1.Coordinates.DistanceTo(c2.Coordinates) >= 5 && c2.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) != null
-    //        }
-    //    };
-    //}
-
-    IList<PathStep> GetPathToWater()
-    {
-        return pathfinder.FindNearest(
-            Location,
-            c => c != Location &&
-            c.Coordinates.DistanceTo(Location.Coordinates) >= 5 &&
-            c.GetNeighbors().Contains(n => n.Elevation == 0)) ?? new List<PathStep>();
+        var rankedGoals = new Priority_Queue.SimplePriorityQueue<MoveGoal>();
+        foreach (var potentialGoal in goals[UnitName]) {
+            float priority = potentialGoal.priority(this) * Random.value;
+            rankedGoals.Enqueue(potentialGoal, priority);
+        }
+        while (rankedGoals.TryDequeue(out goal)) {
+            var path = pathfinder.FindNearest(
+                Location,
+                c => c.GetNeighbors().Contains(n => goal.neighborContains(this, n)));
+            if (path.Count > 0) {
+                return path.Select(c => c.cell).ToList();
+            }
+        }
+        Debug.LogWarning(name + ": No valid goals.", this);
+        goal = null;
+        timeTilDeparture = 10; // Check again in 10 seconds.
+        return new List<HexCell>();
     }
 
     protected override void ArrivedAtCell()
     {
-        Destination = null;
-        goal = "Drinking";
-        timeTilDeparture = UnityEngine.Random.Range(5f, 10f);
+        if (goal == MoveGoal.MIGRATE) {
+            // No action required on reaching this destination. Move on.
+            timeTilDeparture = 0;
+            return;
+        }
+        var target = Location.GetNeighbors().FirstOrDefault(n => goal.neighborContains(this, n));
+        if (target) {
+            transform.LookAt(target.Center);
+            atGoal = true;
+            timeTilDeparture = Random.Range(5f, 10f);
+            Debug.LogFormat(this, "{0} arrived at cell for {1}, til {2}", name, goal, timeTilDeparture);
+            if (goal == MoveGoal.HUNT) {
+                var victim = target.units.FirstOrDefault(u => u.UnitName != UnitName);
+                AttackedBy(victim);
+                victim.AttackedBy(this);
+                timeTilDeparture = float.MaxValue;
+            } else {
+                SetAnimation(UnitAnimationType.EAT);
+            }
+        } else {
+            Debug.LogWarningFormat(this, "{0} reached destination for {1} but no good!", name, goal);
+        }
+
     }
 
     public override void OnFocus()
