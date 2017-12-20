@@ -77,7 +77,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
     protected virtual void Initialize(HexCell cell)
     {
         id = ++maxId;
-        name = string.Format("{0} [id={1}]", UnitName, id);
+        name = string.Format("{0} (U{1:000})", UnitName, id);
         Location = cell;
         transform.localPosition = cell.Center;
         transform.localRotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
