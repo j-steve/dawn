@@ -45,8 +45,10 @@ public class UnitAnimal : Unit
 
     protected override void Update()
     {
-        Hunger -= Time.deltaTime * .005f * Hunger;
-        Thirst -= Time.deltaTime * .010f * Thirst;
+        if (!IsDead) {
+            Hunger -= Time.deltaTime * .005f * Hunger;
+            Thirst -= Time.deltaTime * .010f * Thirst;
+        }
         base.Update();
     }
 
