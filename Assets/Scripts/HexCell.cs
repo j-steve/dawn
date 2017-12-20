@@ -155,6 +155,14 @@ public class HexCell : MonoBehaviour, ISelectable
         return new TexturedEdge(Vertices[direction.vertex1], Vertices[direction.vertex2], TerrainType);
     }
 
+    /// <summary>
+    /// Returns the distance to the given cell.
+    /// </summary>
+    public int DistanceTo(HexCell other)
+    {
+        return Coordinates.DistanceTo(other.Coordinates);
+    }
+
     #region ISelectable
 
     string ISelectable.InGameUITitle {

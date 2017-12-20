@@ -78,7 +78,7 @@ public class HexPathfinder
         // For each node, the total cost of getting from the start node to the goal
         // by passing by that node. That value is partly known, partly heuristic.
         var fScore = new Dictionary<HexCell, float>() {
-            { goal, MovementCostEstimate(origin, goal) }
+            { goal, origin.DistanceTo(goal) }
         };
 
         HexCell current;
@@ -97,7 +97,7 @@ public class HexPathfinder
                     // This path is cheapest yet seen for this neighbor.
                     cameFrom[neighbor] = current;
                     gScore[neighbor] = tentativeGScore;
-                    fScore[neighbor] = tentativeGScore + MovementCostEstimate(neighbor, goal);
+                    fScore[neighbor] = tentativeGScore + neighbor.DistanceTo(goal);
 
                     if (existingScore)
                         openSet.UpdatePriority(neighbor, fScore[neighbor]);
@@ -109,16 +109,6 @@ public class HexPathfinder
         }
         Debug.LogWarningFormat("No path from {0} to {1}! Checked {2}", origin, goal, closedSet.Count);
         return null;
-    }
-
-    /// <summary>
-    /// A heuristic estimate of the cost of moving between the two given cells,
-    /// which may not neccesarily be adjacent (aka neighbors).  May be as simple
-    /// as the distance between the two cells.
-    /// </summary>
-    float MovementCostEstimate(HexCell c1, HexCell c2)
-    {
-        return c1.Coordinates.DistanceTo(c2.Coordinates);
     }
 
     /// <summary>
