@@ -6,6 +6,11 @@ using System;
 
 public class UnitAnimal : Unit
 {
+    public override string InGameUITitle {
+        get {
+            return string.Format("{0} hunger:{1:00}% thirst:{2:00}%", base.InGameUITitle, Hunger, Thirst);
+        }
+    }
     public override string InGameUIDescription {
         get {
             return IsDead ? "Dead" : CombatOpponent ? "Fighting {0}".Format(CombatOpponent) : goal;
@@ -34,9 +39,9 @@ public class UnitAnimal : Unit
 
     protected override void TakeAction()
     {
-        if (CombatOpponent) {
-            goal = "Defending";
-        } else {
+        Hunger -= Time.deltaTime * .005f * Hunger;
+        Thirst -= Time.deltaTime * .005f * Thirst;
+        if (!CombatOpponent) {
             timeTilDeparture -= Time.deltaTime;
             if (timeTilDeparture <= 0) {
                 goal = "Seeking water";
@@ -54,6 +59,7 @@ public class UnitAnimal : Unit
         goal = "Seeking water";
         return GetPathToWater().Select(c => c.cell).ToList();
     }
+
 
     //protected virtual Dictionary<string, Func<HexCell, HexCell, bool>> GetGoals()
     //{

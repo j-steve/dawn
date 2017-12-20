@@ -36,6 +36,10 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     public float Health { get; private set; }
 
+    public float Hunger { get; protected set; }
+
+    public float Thirst { get; protected set; }
+
     [SerializeField] UnitAnimation unitAnimation;
 
     SkinnedMeshRenderer skinnedMeshRender;
@@ -82,6 +86,8 @@ abstract public class Unit : MonoBehaviour, ISelectable
         transform.localPosition = cell.Center;
         transform.localRotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
         Health = MaxHealth;
+        Hunger = 100;
+        Thirst = 100;
     }
 
     #region Unity Event Handlers
@@ -146,7 +152,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     public virtual string InGameUITitle {
         get {
-            return string.Format("{0} (health: {1:0.0}/{2:0.0})", UnitName, Health, MaxHealth);
+            return string.Format("{0} ({1:0.0}/{2:0.0})", UnitName, Health, MaxHealth);
         }
     }
 
