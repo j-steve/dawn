@@ -99,7 +99,7 @@ public class UnitAnimal : Unit
 
     protected override void ArrivedAtCell()
     {
-        if (goal == MoveGoal.MIGRATE) {
+        if (goal == MoveGoal.WANDER) {
             // No action required on reaching this destination. Move on.
             timeTilDeparture = 0;
             return;
