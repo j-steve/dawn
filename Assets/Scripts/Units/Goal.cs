@@ -18,7 +18,7 @@ public class MoveGoal : Goal
 
     static public MoveGoal DRINK = new MoveGoal(thirstPriority, "Drinking", (unit, cell) => cell.TerrainType == TerrainTexture.TEALWATER);
     static public MoveGoal EAT_CORPSE = new MoveGoal((u) => hungerPriority(u) / 10, "Feeding", (unit, cell) => cell.units.Contains(u => u.IsDead && u.UnitName != unit.UnitName));
-    static public MoveGoal MIGRATE = new MoveGoal((u) => Random.value * 10, "Migrating", (unit, cell) => unit.Location.DistanceTo(cell) > 10);
+    static public MoveGoal WANDER = new MoveGoal((u) => Random.value * 10, "Wandering", (unit, cell) => unit.Location.DistanceTo(cell) > 10);
     static public MoveGoal GRAZE = new MoveGoal(hungerPriority, "Grazing", (unit, cell) => true);
     static public MoveGoal HUNT = new MoveGoal((u) => hungerPriority(u) * 2, "Hunting", (unit, cell) => cell.units.Contains(u => u.UnitName != unit.UnitName));
 

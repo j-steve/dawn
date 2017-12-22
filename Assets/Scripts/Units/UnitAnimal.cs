@@ -6,8 +6,8 @@ using System.Collections.Generic;
 public class UnitAnimal : Unit
 {
     static Dictionary<string, MoveGoal[]> goals = new Dictionary<string, MoveGoal[]> {
-        {"Moose",  new MoveGoal[] { MoveGoal.DRINK, MoveGoal.GRAZE, MoveGoal.MIGRATE} },
-        {"Wolf",  new MoveGoal[] { MoveGoal.DRINK, MoveGoal.EAT_CORPSE, MoveGoal.HUNT, MoveGoal.MIGRATE } },
+        {"Moose",  new MoveGoal[] { MoveGoal.DRINK, MoveGoal.GRAZE, MoveGoal.WANDER} },
+        {"Wolf",  new MoveGoal[] { MoveGoal.DRINK, MoveGoal.EAT_CORPSE, MoveGoal.HUNT, MoveGoal.WANDER } },
     };
 
     public override string InGameUITitle {
