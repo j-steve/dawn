@@ -424,7 +424,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hexCanvas: {fileID: 223868246946830968}
   terrainMesh: {fileID: 114134620289960372}
-  treeMesh: {fileID: 114515568544479082}
+  treeMesh: {fileID: 0}
   oceanMesh: {fileID: 114120725066422328}
   lakeMesh: {fileID: 114717795018300164}
 --- !u!114 &114994075169720472
@@ -475,7 +475,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1651053412262640}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4668841033916126}

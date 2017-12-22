@@ -42,12 +42,13 @@ public class HexChunk : MonoBehaviour
         terrainMesh.Clear();
         oceanMesh.Clear();
         lakeMesh.Clear();
-        treeMesh.Clear();
+        if (treeMesh)
+            treeMesh.Clear();
         foreach (HexCell cell in hexCells) {
             TriangulateHexCell(cell);
             if (cell.Elevation == 0)
                 TriangulateWater(cell);
-            if (cell.TerrainType == TerrainTexture.MIXEDTREES)
+            if (treeMesh && cell.TerrainType == TerrainTexture.MIXEDTREES)
                 TriangulateTrees(cell);
             foreach (EdgeDirection direction in EASTERLY_DIRECTIONS) {
                 HexCell neighbor = cell.GetNeighbor(direction);
@@ -65,7 +66,8 @@ public class HexChunk : MonoBehaviour
         terrainMesh.Apply();
         oceanMesh.Apply();
         lakeMesh.Apply();
-        treeMesh.Apply();
+        if (treeMesh)
+            treeMesh.Apply();
     }
 
     static readonly Vector3 WATERLEVEL = new Vector3(0, HexConstants.ELEVATION_STEP * 1.5f, 0);
