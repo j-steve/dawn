@@ -29,7 +29,7 @@ public class UnitPlayer : Unit
 
     protected override void TakeAction()
     {
-        if (UIInGame.ActiveInGameUI.IsSelected(this)) {
+        if (UIInGame.Instance.IsSelected(this)) {
             var cell = HexBoard.ActiveBoard.GetCellUnderCursor();
             if (cell != currentHoverTarget) {
                 UnHighlightPath();
@@ -59,7 +59,7 @@ public class UnitPlayer : Unit
             StartCoroutine(TravelToCell(pathSteps.Select(p => p.cell).ToList()));
             UnHighlightPath();
             e.Cancel = true;
-            UIInGame.ActiveInGameUI.SetSelected(null);
+            UIInGame.Instance.SetSelected(null);
 
         }
     }

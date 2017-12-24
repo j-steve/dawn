@@ -133,7 +133,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
     protected virtual void OnMouseDown()
     {
         Debug.LogFormat("You clicked {0}", name);
-        UIInGame.ActiveInGameUI.SetSelected(this);
+        UIInGame.Instance.SetSelected(this);
     }
 
     /// <summary>
@@ -142,8 +142,8 @@ abstract public class Unit : MonoBehaviour, ISelectable
     void OnDestroy()
     {
         // Deselect the unit if it is the current selection.
-        if (UIInGame.ActiveInGameUI.IsSelected(this)) {
-            UIInGame.ActiveInGameUI.SetSelected(null);
+        if (UIInGame.Instance.IsSelected(this)) {
+            UIInGame.Instance.SetSelected(null);
         }
         // Remove the current location cell's reference to this unit.
         Location = null;

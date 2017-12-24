@@ -1,10 +1,12 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class UIInGame : MonoBehaviour
 {
-    public static UIInGame ActiveInGameUI;
+    public static UIInGame Instance {
+        get { return _Instance ?? (_Instance = FindObjectOfType<UIInGame>()); }
+    }
+    static UIInGame _Instance;
 
     [SerializeField] GameObject unitInfoPanel;
     [SerializeField] Text unitInfoTitle;
@@ -12,14 +14,6 @@ public class UIInGame : MonoBehaviour
     [SerializeField] Text turnNumber;
 
     public ISelectable selection { get; private set; }
-
-    /// <summary>
-    /// Sets active In-Game UI, on initialization or after script recompilation. 
-    /// </summary>
-    void OnEnable()
-    {
-        ActiveInGameUI = this;
-    }
 
     void Start()
     {

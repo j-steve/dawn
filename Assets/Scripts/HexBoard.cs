@@ -70,13 +70,13 @@ public class HexBoard : MonoBehaviour
             if (eventArgs.Cancel) { return; }
         }
         if (clickedCell == null) {
-            UIInGame.ActiveInGameUI.SetSelected(null);
-        } else if (!UIInGame.ActiveInGameUI.IsSelected(clickedCell)) {
-            UIInGame.ActiveInGameUI.SetSelected(clickedCell);
+            UIInGame.Instance.SetSelected(null);
+        } else if (!UIInGame.Instance.IsSelected(clickedCell)) {
+            UIInGame.Instance.SetSelected(clickedCell);
         } else if (clickedCell.units.Count > 0) {
-            UIInGame.ActiveInGameUI.SetSelected(clickedCell.units.First());
+            UIInGame.Instance.SetSelected(clickedCell.units.First());
         } else {
-            UIInGame.ActiveInGameUI.SetSelected(null);
+            UIInGame.Instance.SetSelected(null);
         }
     }
 
