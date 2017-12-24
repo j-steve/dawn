@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Linq;
+using System.IO;
 
-public class HexCell : MonoBehaviour, ISelectable
+public class HexCell : MonoBehaviour, ISelectable, ISaveable
 {
     #region Static
 
@@ -229,6 +230,18 @@ public class HexCell : MonoBehaviour, ISelectable
     {
         return obj != null && obj.GetType() == GetType() &&
             ((HexCell)obj).Coordinates.Equals(Coordinates);
+    }
+
+    public void Save(BinaryWriter writer)
+    {
+        writer.Write((Int16)TerrainType);
+        writer.Write((Int16)Elevation);
+    }
+
+    public void Load(BinaryReader reader)
+    {
+        TerrainType = (TerrainTexture)reader.ReadInt16();
+        Elevation = reader.ReadInt16();
     }
 
     #endregion

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Linq;
 using System;
+using System.IO;
 
 public class HexCellClickedEventArgs : System.ComponentModel.CancelEventArgs
 {
@@ -91,5 +92,20 @@ public class HexBoard : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void SaveMap(BinaryWriter writer)
+    {
+        writer.Write((short)mapSize.Height);
+        writer.Write((short)mapSize.Width);
+        foreach (var cell in hexCells.Values) {
+            cell.Save(writer);
+        }
+    }
+
+    public void LoadMap(string path)
+    {
+        var mapGenerator = new HexBoardGenerator(this);
+        StartCoroutine(mapGenerator.LoadMap(path));
     }
 }

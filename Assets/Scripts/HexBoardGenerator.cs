@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using DawnX.UI;
 using System.Collections;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 public class HexBoardGenerator
 {
@@ -44,9 +46,49 @@ public class HexBoardGenerator
             unitCount++;
             yield return null;
         }
-
         UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(1);
+    }
 
+    public IEnumerator LoadMap(string path)
+    {
+        using (var reader = new BinaryReader(File.Open(path, FileMode.Open))) {
+            hexBoard.mapSize.Height = reader.ReadInt16();
+            hexBoard.mapSize.Width = reader.ReadInt16();
+            hexBoard.hexCells.Clear();
+            UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.1f, "Generating mesh chunks...");
+            yield return null;
+            var hexChunks = GetHexMeshChunks();
+
+            foreach (var cell in hexBoard.hexCells.Values) {
+                cell.Load(reader);
+            }
+            //UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.25f, "Generating terrain...");
+            //yield return null;
+            //GenerateTerrain();
+            UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.4f, "Triangulating Cells...");
+            yield return null;
+            // Triangulate each HexMeshChunk to make the map visible.
+            var completion = .4f;
+            var chunkValue = (.8f - completion) / hexChunks.Count;
+            foreach (var entry in hexChunks) {
+                entry.Key.Triangulate(entry.Value);
+                completion += chunkValue;
+                UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(completion);
+                yield return null;
+            }
+            //UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.8f, "Moosifying...");
+            //var x = new HashSet<HexCell>(hexBoard.hexCells.Values.Where(c => c.Elevation > 0 && c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) == null));
+            //var unitCount = 0;
+            //while (x.Count > 0 && unitCount < 25) {
+            //    var cell = x.GetRandom();
+            //    var prefab = hexBoard.unitPrefabs.GetRandom();
+            //    Unit.Create(prefab, cell);
+            //    x.Remove(cell);
+            //    unitCount++;
+            //    yield return null;
+            //}
+            UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(1);
+        }
     }
 
     Dictionary<HexChunk, IEnumerable<HexCell>> GetHexMeshChunks()

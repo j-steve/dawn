@@ -6,11 +6,16 @@ namespace DawnX.UI
 {
     public class UIEscapeMenu : MonoBehaviour
     {
+        public static UIEscapeMenu Instance {
+            get { return _Instance ?? (_Instance = FindObjectOfType<UIEscapeMenu>()); }
+        }
+        static UIEscapeMenu _Instance;
 
         public Canvas GuiMenuCanvas;
         public UnityEngine.UI.Button ReturnToGameButton;
         public UnityEngine.UI.Button QuitToDesktopButton;
         public UnityEngine.UI.Button SaveButton;
+        public UnityEngine.UI.Button LoadButton;
 
         // Use this for initialization
         void Start()
@@ -18,6 +23,8 @@ namespace DawnX.UI
             HideMenu();
             ReturnToGameButton.onClick.AddListener(HideMenu);
             QuitToDesktopButton.onClick.AddListener(QuitToDesktop);
+            SaveButton.onClick.AddListener(Game.Save);
+            LoadButton.onClick.AddListener(Game.Load);
         }
 
         // Update is called once per frame
@@ -34,7 +41,7 @@ namespace DawnX.UI
             GuiMenuCanvas.gameObject.SetActive(doShow);
         }
 
-        void HideMenu()
+        public void HideMenu()
         {
             ToggleMenu(false);
         }

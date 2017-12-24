@@ -26,20 +26,11 @@ namespace DawnX.UI
 
         [SerializeField] private Text loadStatusText;
 
-        float totalElapsedTime;
-
-        void Awake()
+        void OnEnable()
         {
             ActiveLoadingOverlay = this;
             EnsureTopLayer();
             canvasGroup.alpha = 1;
-            //canvasGroup.alpha = 0;
-            //StartCoroutine(Fade(FadeType.IN));
-        }
-
-        void OnEnable()
-        {
-            ActiveLoadingOverlay = this;
         }
 
         void EnsureTopLayer()
@@ -56,19 +47,14 @@ namespace DawnX.UI
             }
         }
 
-        void Update()
-        {
-            totalElapsedTime += Time.deltaTime;
-        }
-
         IEnumerator Fade(FadeType fadeType)
         {
             gameObject.SetActive(true);
-            float startTime = totalElapsedTime;
+            float startTime = Time.unscaledTime;
             //int alphaModifier = fadeType == FadeType.IN ? 1 : -1;
             float completion = 0;
             while (completion < 1) {
-                completion = (totalElapsedTime - startTime) / fadeDuration;
+                completion = (Time.unscaledTime - startTime) / fadeDuration;
                 canvasGroup.alpha = 1 - completion;
                 yield return null;
             }
@@ -87,6 +73,7 @@ namespace DawnX.UI
             progressBar.fillAmount = completeRatio;
             if (completeRatio >= 1) {
                 StartCoroutine(Fade(FadeType.OUT));
+
             }
         }
 
