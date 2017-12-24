@@ -14,7 +14,10 @@ namespace DawnX.UI
     [RequireComponent(typeof(Canvas)), RequireComponent(typeof(GraphicRaycaster))]
     public class UILoadingOverlay : MonoBehaviour
     {
-        public static UILoadingOverlay ActiveLoadingOverlay;
+        public static UILoadingOverlay Instance {
+            get { return _Instance ?? (_Instance = FindObjectOfType<UILoadingOverlay>()); }
+        }
+        static UILoadingOverlay _Instance;
 
         enum FadeType { IN, OUT }
 
@@ -28,7 +31,6 @@ namespace DawnX.UI
 
         void OnEnable()
         {
-            ActiveLoadingOverlay = this;
             EnsureTopLayer();
             canvasGroup.alpha = 1;
         }

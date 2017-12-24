@@ -25,7 +25,7 @@ public static class Game
     {
         string path = Path.Combine(Application.persistentDataPath, "test.map");
         UIInGame.Instance.SetSelected(null);
-        UILoadingOverlay.ActiveLoadingOverlay.gameObject.SetActive(true);
+        UILoadingOverlay.Instance.gameObject.SetActive(true);
         foreach (var chunk in Object.FindObjectsOfType<HexChunk>()) {
             Object.Destroy(chunk.gameObject);
         }

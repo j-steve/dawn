@@ -18,13 +18,13 @@ public class HexBoardGenerator
     public IEnumerator CreateMap()
     {
         hexBoard.hexCells.Clear();
-        UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.1f, "Generating mesh chunks...");
+        UILoadingOverlay.Instance.UpdateLoad(.1f, "Generating mesh chunks...");
         yield return null;
         var hexChunks = GetHexMeshChunks();
-        UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.25f, "Generating terrain...");
+        UILoadingOverlay.Instance.UpdateLoad(.25f, "Generating terrain...");
         yield return null;
         GenerateTerrain();
-        UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.4f, "Triangulating Cells...");
+        UILoadingOverlay.Instance.UpdateLoad(.4f, "Triangulating Cells...");
         yield return null;
         // Triangulate each HexMeshChunk to make the map visible.
         var completion = .4f;
@@ -32,10 +32,10 @@ public class HexBoardGenerator
         foreach (var entry in hexChunks) {
             entry.Key.Triangulate(entry.Value);
             completion += chunkValue;
-            UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(completion);
+            UILoadingOverlay.Instance.UpdateLoad(completion);
             yield return null;
         }
-        UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.8f, "Moosifying...");
+        UILoadingOverlay.Instance.UpdateLoad(.8f, "Moosifying...");
         var x = new HashSet<HexCell>(hexBoard.hexCells.Values.Where(c => c.Elevation > 0 && c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) == null));
         var unitCount = 0;
         while (x.Count > 0 && unitCount < 25) {
@@ -46,7 +46,7 @@ public class HexBoardGenerator
             unitCount++;
             yield return null;
         }
-        UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(1);
+        UILoadingOverlay.Instance.UpdateLoad(1);
     }
 
     public IEnumerator LoadMap(string path)
@@ -55,7 +55,7 @@ public class HexBoardGenerator
             hexBoard.mapSize.Height = reader.ReadInt16();
             hexBoard.mapSize.Width = reader.ReadInt16();
             hexBoard.hexCells.Clear();
-            UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.1f, "Generating mesh chunks...");
+            UILoadingOverlay.Instance.UpdateLoad(.1f, "Generating mesh chunks...");
             yield return null;
             var hexChunks = GetHexMeshChunks();
 
@@ -65,7 +65,7 @@ public class HexBoardGenerator
             //UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.25f, "Generating terrain...");
             //yield return null;
             //GenerateTerrain();
-            UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.4f, "Triangulating Cells...");
+            UILoadingOverlay.Instance.UpdateLoad(.4f, "Triangulating Cells...");
             yield return null;
             // Triangulate each HexMeshChunk to make the map visible.
             var completion = .4f;
@@ -73,7 +73,7 @@ public class HexBoardGenerator
             foreach (var entry in hexChunks) {
                 entry.Key.Triangulate(entry.Value);
                 completion += chunkValue;
-                UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(completion);
+                UILoadingOverlay.Instance.UpdateLoad(completion);
                 yield return null;
             }
             //UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.8f, "Moosifying...");
@@ -87,7 +87,7 @@ public class HexBoardGenerator
             //    unitCount++;
             //    yield return null;
             //}
-            UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(1);
+            UILoadingOverlay.Instance.UpdateLoad(1);
         }
     }
 
