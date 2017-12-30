@@ -35,6 +35,7 @@ public static class Game
         UIEscapeMenu.Instance.HideMenu();
         HexBoard.ActiveBoard.LoadMap(path);
     }
+
 }
 
 
