@@ -1,289 +1,287 @@
-{
-    "tiles": [
-        {
-            "biome": "(n/a)",
-            "tile": "Plains",
-            "impedence": 1,
-            "camoflage": 1
-        },
-        {
-            "biome": "(n/a)",
-            "tile": "Verdant Plains",
-            "parent": "Plains",
-            "resources": "Herbs: 2 [+½]\nVegetables (Wild): 10 [+½]",
-            "impedence": 1.25,
-            "camoflage": 1.15
-        },
-        {
-            "biome": "(n/a)",
-            "tile": "Hill",
-            "parent": "Plains",
-            "impedence": 1.5,
-            "camoflage": 1.25
-        },
-        {
-            "biome": "(n/a)",
-            "tile": "Forest",
-            "resources": "Wood: 250 [+2]\nFruit (Berries): 10 [+½]\nHerbs: 2 [+¼]",
-            "impedence": 2,
-            "camoflage": 2
-        },
-        {
-            "biome": "(n/a)",
-            "tile": "Dense Forest",
-            "parent": "Forest",
-            "resources": "[ALL]: ×200%",
-            "impedence": 3,
-            "camoflage": 3
-        },
-        {
-            "biome": "(n/a)",
-            "tile": "Light Forest",
-            "parent": "Forest",
-            "resources": "[ALL]: ×50%\nGrass: 10 [+5]\nHerbs: 1 [+¼]",
-            "impedence": 1.25,
-            "camoflage": 1.5
-        },
-        {
-            "biome": "(n/a)",
-            "tile": "Wetlands",
-            "impedence": 3,
-            "camoflage": 2
-        },
-        {
-            "biome": "ANY",
-            "tile": "Rocky Outcrop",
-            "parent": "Hill",
-            "resources": "Stone/Coal/Metal:500 [+0] \n",
-            "imageUrl": "http://www.rgbstock.com/cache1nIf9p/users/m/mi/micromoth/300/mitCmwK.jpg"
-        },
-        {
-            "biome": "Ice Caps",
-            "tile": "Ice Sheet",
-            "resources": "Snow: ∞",
-            "impedence": 8,
-            "camoflage": 3,
-            "imageUrl": "http://www.washington.edu/news/files/2014/05/Thwaites_Grounding_Line_NASA.jpg"
-        },
-        {
-            "biome": "Tundra"
-        },
-        {
-            "biome": "Alpine"
-        },
-        {
-            "biome": "Taiga",
-            "tile": "Conifer Forest",
-            "parent": "Forest",
-            "imageUrl": "https://www.carbonbrief.org/wp-content/uploads/2015/08/stock-forest-wood-england-UK.jpg"
-        },
-        {
-            "biome": "Taiga",
-            "tile": "Dense Conifer Forest",
-            "parent": "Dense Forest",
-            "imageUrl": "https://cdn1.epicgames.com/ue/item/Store_ForestCollection_screenshot_05-1920x1080-291b63ae13041cd145a2684025c6174b.png"
-        },
-        {
-            "biome": "Taiga",
-            "tile": "Boreal Woodlands",
-            "parent": "Light Forest",
-            "imageUrl": "http://www.ecosostenibile.org/Immagini/taiga.jpg"
-        },
-        {
-            "biome": "Taiga",
-            "tile": "Boreal Plains",
-            "parent": "Plains",
-            "imageUrl": "http://sierraclub.bc.ca/wp-content/uploads/Boreal-Plains-Layerslider-1030x393.jpg"
-        },
-        {
-            "biome": "Taiga",
-            "tile": "Bog",
-            "parent": "Wetlands",
-            "imageUrl": "http://www.nhdfl.org/uploads/NHB%20photos/starlake.jpg"
-        },
-        {
-            "biome": "Temperate Forest",
-            "tile": "Broadleaf Forest",
-            "parent": "Forest",
-            "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/ac/La_for%C3%AAt_de_Roumare_au_printemps.JPG"
-        },
-        {
-            "biome": "Temperate Forest",
-            "tile": "Dense Broadleaf Forest",
-            "parent": "Dense Forest",
-            "imageUrl": "https://c1.staticflickr.com/8/7296/8847022426_1d8de04c8c_b.jpg"
-        },
-        {
-            "biome": "Temperate Forest",
-            "tile": "Temperate Woodlands",
-            "parent": "Light Forest",
-            "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/2e/Belianske_Tatry.JPG"
-        },
-        {
-            "biome": "Temperate Forest",
-            "tile": "Forest Glade",
-            "parent": "Plains",
-            "imageUrl": "https://st.depositphotos.com/1011976/2996/i/950/depositphotos_29966161-stock-photo-clearing-in-the-forest.jpg"
-        },
-        {
-            "biome": "Temperate Forest",
-            "tile": "Swamp",
-            "parent": "Wetlands",
-            "imageUrl": "https://images6.alphacoders.com/409/409811.jpg"
-        },
-        {
-            "biome": "Rainforest",
-            "tile": "Lowlands Jungle",
-            "parent": "Forest",
-            "impedence": 2.5,
-            "camoflage": 3,
-            "imageUrl": "https://belize-travel-blog.chaacreek.com/wp-content/uploads/2011/06/beautifull-nature-13.jpg"
-        },
-        {
-            "biome": "Rainforest",
-            "tile": "Ancient Grove",
-            "parent": "Lowlands Jungle",
-            "resources": "Herbs: ×200%",
-            "impedence": 3.5,
-            "camoflage": 4,
-            "imageUrl": "http://phenomena.nationalgeographic.com/files/2014/05/5939291158_1d5a5cfe1c_b-1024x684.jpg"
-        },
-        {
-            "biome": "Rainforest",
-            "tile": "Cloud Forest",
-            "parent": "Forest",
-            "elevationChange": 1,
-            "": 2,
-            "impedence": 2,
-            "camoflage": 2,
-            "imageUrl": "http://mms.businesswire.com/media/20170404006146/en/579167/5/Pic_for_GWC_press_release.jpg"
-        },
-        {
-            "biome": "Rainforest",
-            "tile": "Dense Jungle",
-            "parent": "Dense Forest",
-            "impedence": 3.5,
-            "camoflage": 4,
-            "imageUrl": "http://www.yourdictionary.com/images/definitions/lg/6702.jungle.jpg"
-        },
-        {
-            "biome": "Rainforest",
-            "tile": "Jungle Clearing",
-            "parent": "Plains",
-            "elevationChange": 1,
-            "": 3,
-            "imageUrl": "https://images.fineartamerica.com/images/artworkimages/medium/1/tasmanian-rain-forest-glade-ryan-jorgensen.jpg"
-        },
-        {
-            "biome": "Rainforest",
-            "tile": "Flooded Forest",
-            "parent": "Wetlands",
-            "imageUrl": "https://i.pinimg.com/originals/35/8c/61/358c61c286b8357141d2fc6eef1deddf.jpg"
-        },
-        {
-            "biome": "Grassland",
-            "tile": "Tallgrass Prarie",
-            "parent": "Verdant Plains",
-            "resources": "Grass: 50 [+25]",
-            "impedence": 1.5,
-            "camoflage": 1.5,
-            "imageUrl": "http://www.project-eden.org/wp-content/uploads/2014/08/Tallgrass-Prairie-Illinois.jpg"
-        },
-        {
-            "biome": "Grassland",
-            "tile": "Shortgrass Prarie",
-            "parent": "Plains",
-            "imageUrl": "https://pioneerhearts.files.wordpress.com/2015/11/grass2.jpg"
-        },
-        {
-            "biome": "Grassland",
-            "tile": "Hillock (aka Knoll)",
-            "parent": "Hill",
-            "description": "Small isolated hill.",
-            "size": 1,
-            "": 1,
-            "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/SilburyHill_gobeirne.jpg/1200px-SilburyHill_gobeirne.jpg"
-        },
-        {
-            "biome": "Grassland",
-            "tile": "Rolling Hills",
-            "parent": "Hill",
-            "size": 1,
-            "": 5,
-            "imageUrl": "https://c1.staticflickr.com/2/1554/25366514875_8b9bbeee0c_b.jpg"
-        },
-        {
-            "biome": "Savannah",
-            "tile": "Savannah Plains",
-            "parent": "Plains",
-            "size": 5,
-            "": 0,
-            "elevationChange": 0,
-            "resources": "Wood: 25 [+1]",
-            "imageUrl": "https://ak7.picdn.net/shutterstock/videos/1488367/thumb/1.jpg"
-        },
-        {
-            "biome": "Savannah",
-            "tile": "Termite Mounds",
-            "parent": "Serengeti Plains",
-            "size": 1,
-            "": 0,
-            "elevationChange": 0,
-            "imageUrl": "http://www.withoutahitch.com.au/wp-content/uploads/2016/06/Termite-mounds-near-Onslow-Pilbara-WA.jpg"
-        },
-        {
-            "biome": "Savannah",
-            "tile": "Kopje",
-            "parent": "Hill",
-            "description": "Isolated rocky outcrop.",
-            "size": 1,
-            "": 1,
-            "elevationChange": 1,
-            "imageUrl": "http://afrotourism.com/wp-content/uploads/2016/03/Kopje-Harare.jpg"
-        },
-        {
-            "biome": "Savannah",
-            "tile": "Acacia Woodlands",
-            "parent": "Light Forest",
-            "size": 1,
-            "": 1,
-            "elevationChange": -1,
-            "imageUrl": "http://data.fao.org/ref/87aaa26d-f917-437d-8600-322cba9adbe8/medium"
-        },
-        {
-            "biome": "Shrubland",
-            "tile": "Heath (aka Healthland)",
-            "parent": "Verdant Plains",
-            "description": "Open and plant-rich, low-growing woody vegetation.",
-            "imageUrl": "http://www.first-nature.com/waleswildlife/~site-images/n-rspb-southstack1.jpg"
-        },
-        {
-            "biome": "Desert",
-            "tile": "Salt Flats (aka Salt Pan)",
-            "resources": "(none)",
-            "impedence": 3,
-            "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f2/Iran_-_D%C3%A9sert_de_sel_-_Salt_desert_%289258500125%29.jpg"
-        },
-        {
-            "biome": "Desert",
-            "tile": "Sand Dunes",
-            "resources": "Sand: ∞",
-            "impedence": 5,
-            "imageUrl": "http://www.quinncreative.com/wp-content/uploads/28172122.jpg"
-        },
-        {
-            "biome": "Desert",
-            "tile": "Oasis",
-            "resources": "Sand: ∞\nWater: 1000 [+2]\nGrass: 10 [+1]\nWood: 10 [+½]",
-            "impedence": 1.5,
-            "camoflage": 1.5,
-            "imageUrl": "http://media.gettyimages.com/photos/oasis-with-date-palms-in-sahara-desert-picture-id74226383"
-        },
-        {
-            "biome": "DELETED",
-            "tile": "Forest Savanna Mosaic",
-            "parent": "Light Forest",
-            "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/37/Australian_savanna.jpg"
-        }
-    ]
-}
+ [
+    {
+        "biome": "(n/a)",
+        "tile": "Plains",
+        "impedence": 1,
+        "camoflage": 1
+    },
+    {
+        "biome": "(n/a)",
+        "tile": "Verdant Plains",
+        "parent": "Plains",
+        "resources": "Herbs: 2 [+½]\nVegetables (Wild): 10 [+½]",
+        "impedence": 1.25,
+        "camoflage": 1.15
+    },
+    {
+        "biome": "(n/a)",
+        "tile": "Hill",
+        "parent": "Plains",
+        "impedence": 1.5,
+        "camoflage": 1.25
+    },
+    {
+        "biome": "(n/a)",
+        "tile": "Forest",
+        "resources": "Wood: 250 [+2]\nFruit (Berries): 10 [+½]\nHerbs: 2 [+¼]",
+        "impedence": 2,
+        "camoflage": 2
+    },
+    {
+        "biome": "(n/a)",
+        "tile": "Dense Forest",
+        "parent": "Forest",
+        "resources": "[ALL]: ×200%",
+        "impedence": 3,
+        "camoflage": 3
+    },
+    {
+        "biome": "(n/a)",
+        "tile": "Light Forest",
+        "parent": "Forest",
+        "resources": "[ALL]: ×50%\nGrass: 10 [+5]\nHerbs: 1 [+¼]",
+        "impedence": 1.25,
+        "camoflage": 1.5
+    },
+    {
+        "biome": "(n/a)",
+        "tile": "Wetlands",
+        "impedence": 3,
+        "camoflage": 2
+    },
+    {
+        "biome": "ANY",
+        "tile": "Rocky Outcrop",
+        "parent": "Hill",
+        "resources": "Stone/Coal/Metal:500 [+0] \n",
+        "imageUrl": "http://www.rgbstock.com/cache1nIf9p/users/m/mi/micromoth/300/mitCmwK.jpg"
+    },
+    {
+        "biome": "Ice Caps",
+        "tile": "Ice Sheet",
+        "resources": "Snow: ∞",
+        "impedence": 8,
+        "camoflage": 3,
+        "imageUrl": "http://www.washington.edu/news/files/2014/05/Thwaites_Grounding_Line_NASA.jpg"
+    },
+    {
+        "biome": "Tundra"
+    },
+    {
+        "biome": "Alpine"
+    },
+    {
+        "biome": "Taiga",
+        "tile": "Conifer Forest",
+        "parent": "Forest",
+        "imageUrl": "https://www.carbonbrief.org/wp-content/uploads/2015/08/stock-forest-wood-england-UK.jpg"
+    },
+    {
+        "biome": "Taiga",
+        "tile": "Dense Conifer Forest",
+        "parent": "Dense Forest",
+        "imageUrl": "https://cdn1.epicgames.com/ue/item/Store_ForestCollection_screenshot_05-1920x1080-291b63ae13041cd145a2684025c6174b.png"
+    },
+    {
+        "biome": "Taiga",
+        "tile": "Boreal Woodlands",
+        "parent": "Light Forest",
+        "imageUrl": "http://www.ecosostenibile.org/Immagini/taiga.jpg"
+    },
+    {
+        "biome": "Taiga",
+        "tile": "Boreal Plains",
+        "parent": "Plains",
+        "imageUrl": "http://sierraclub.bc.ca/wp-content/uploads/Boreal-Plains-Layerslider-1030x393.jpg"
+    },
+    {
+        "biome": "Taiga",
+        "tile": "Bog",
+        "parent": "Wetlands",
+        "imageUrl": "http://www.nhdfl.org/uploads/NHB%20photos/starlake.jpg"
+    },
+    {
+        "biome": "Temperate Forest",
+        "tile": "Broadleaf Forest",
+        "parent": "Forest",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/a/ac/La_for%C3%AAt_de_Roumare_au_printemps.JPG"
+    },
+    {
+        "biome": "Temperate Forest",
+        "tile": "Dense Broadleaf Forest",
+        "parent": "Dense Forest",
+        "imageUrl": "https://c1.staticflickr.com/8/7296/8847022426_1d8de04c8c_b.jpg"
+    },
+    {
+        "biome": "Temperate Forest",
+        "tile": "Temperate Woodlands",
+        "parent": "Light Forest",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/2e/Belianske_Tatry.JPG"
+    },
+    {
+        "biome": "Temperate Forest",
+        "tile": "Forest Glade",
+        "parent": "Plains",
+        "imageUrl": "https://st.depositphotos.com/1011976/2996/i/950/depositphotos_29966161-stock-photo-clearing-in-the-forest.jpg"
+    },
+    {
+        "biome": "Temperate Forest",
+        "tile": "Swamp",
+        "parent": "Wetlands",
+        "imageUrl": "https://images6.alphacoders.com/409/409811.jpg"
+    },
+    {
+        "biome": "Rainforest",
+        "tile": "Lowlands Jungle",
+        "parent": "Forest",
+        "impedence": 2.5,
+        "camoflage": 3,
+        "imageUrl": "https://belize-travel-blog.chaacreek.com/wp-content/uploads/2011/06/beautifull-nature-13.jpg"
+    },
+    {
+        "biome": "Rainforest",
+        "tile": "Ancient Grove",
+        "parent": "Lowlands Jungle",
+        "resources": "Herbs: ×200%",
+        "impedence": 3.5,
+        "camoflage": 4,
+        "imageUrl": "http://phenomena.nationalgeographic.com/files/2014/05/5939291158_1d5a5cfe1c_b-1024x684.jpg"
+    },
+    {
+        "biome": "Rainforest",
+        "tile": "Cloud Forest",
+        "parent": "Forest",
+        "elevationChange": 1,
+        "": 2,
+        "impedence": 2,
+        "camoflage": 2,
+        "imageUrl": "http://mms.businesswire.com/media/20170404006146/en/579167/5/Pic_for_GWC_press_release.jpg"
+    },
+    {
+        "biome": "Rainforest",
+        "tile": "Dense Jungle",
+        "parent": "Dense Forest",
+        "impedence": 3.5,
+        "camoflage": 4,
+        "imageUrl": "http://www.yourdictionary.com/images/definitions/lg/6702.jungle.jpg"
+    },
+    {
+        "biome": "Rainforest",
+        "tile": "Jungle Clearing",
+        "parent": "Plains",
+        "elevationChange": 1,
+        "": 3,
+        "imageUrl": "https://images.fineartamerica.com/images/artworkimages/medium/1/tasmanian-rain-forest-glade-ryan-jorgensen.jpg"
+    },
+    {
+        "biome": "Rainforest",
+        "tile": "Flooded Forest",
+        "parent": "Wetlands",
+        "imageUrl": "https://i.pinimg.com/originals/35/8c/61/358c61c286b8357141d2fc6eef1deddf.jpg"
+    },
+    {
+        "biome": "Grassland",
+        "tile": "Tallgrass Prarie",
+        "parent": "Verdant Plains",
+        "resources": "Grass: 50 [+25]",
+        "impedence": 1.5,
+        "camoflage": 1.5,
+        "imageUrl": "http://www.project-eden.org/wp-content/uploads/2014/08/Tallgrass-Prairie-Illinois.jpg"
+    },
+    {
+        "biome": "Grassland",
+        "tile": "Shortgrass Prarie",
+        "parent": "Plains",
+        "imageUrl": "https://pioneerhearts.files.wordpress.com/2015/11/grass2.jpg"
+    },
+    {
+        "biome": "Grassland",
+        "tile": "Hillock (aka Knoll)",
+        "parent": "Hill",
+        "description": "Small isolated hill.",
+        "size": 1,
+        "": 1,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/SilburyHill_gobeirne.jpg/1200px-SilburyHill_gobeirne.jpg"
+    },
+    {
+        "biome": "Grassland",
+        "tile": "Rolling Hills",
+        "parent": "Hill",
+        "size": 1,
+        "": 5,
+        "imageUrl": "https://c1.staticflickr.com/2/1554/25366514875_8b9bbeee0c_b.jpg"
+    },
+    {
+        "biome": "Savannah",
+        "tile": "Savannah Plains",
+        "parent": "Plains",
+        "size": 5,
+        "": 0,
+        "elevationChange": 0,
+        "resources": "Wood: 25 [+1]",
+        "imageUrl": "https://ak7.picdn.net/shutterstock/videos/1488367/thumb/1.jpg"
+    },
+    {
+        "biome": "Savannah",
+        "tile": "Termite Mounds",
+        "parent": "Serengeti Plains",
+        "size": 1,
+        "": 0,
+        "elevationChange": 0,
+        "imageUrl": "http://www.withoutahitch.com.au/wp-content/uploads/2016/06/Termite-mounds-near-Onslow-Pilbara-WA.jpg"
+    },
+    {
+        "biome": "Savannah",
+        "tile": "Kopje",
+        "parent": "Hill",
+        "description": "Isolated rocky outcrop.",
+        "size": 1,
+        "": 1,
+        "elevationChange": 1,
+        "imageUrl": "http://afrotourism.com/wp-content/uploads/2016/03/Kopje-Harare.jpg"
+    },
+    {
+        "biome": "Savannah",
+        "tile": "Acacia Woodlands",
+        "parent": "Light Forest",
+        "size": 1,
+        "": 1,
+        "elevationChange": -1,
+        "imageUrl": "http://data.fao.org/ref/87aaa26d-f917-437d-8600-322cba9adbe8/medium"
+    },
+    {
+        "biome": "Shrubland",
+        "tile": "Heath (aka Healthland)",
+        "parent": "Verdant Plains",
+        "description": "Open and plant-rich, low-growing woody vegetation.",
+        "imageUrl": "http://www.first-nature.com/waleswildlife/~site-images/n-rspb-southstack1.jpg"
+    },
+    {
+        "biome": "Desert",
+        "tile": "Salt Flats (aka Salt Pan)",
+        "resources": "(none)",
+        "impedence": 3,
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f2/Iran_-_D%C3%A9sert_de_sel_-_Salt_desert_%289258500125%29.jpg"
+    },
+    {
+        "biome": "Desert",
+        "tile": "Sand Dunes",
+        "resources": "Sand: ∞",
+        "impedence": 5,
+        "imageUrl": "http://www.quinncreative.com/wp-content/uploads/28172122.jpg"
+    },
+    {
+        "biome": "Desert",
+        "tile": "Oasis",
+        "resources": "Sand: ∞\nWater: 1000 [+2]\nGrass: 10 [+1]\nWood: 10 [+½]",
+        "impedence": 1.5,
+        "camoflage": 1.5,
+        "imageUrl": "http://media.gettyimages.com/photos/oasis-with-date-palms-in-sahara-desert-picture-id74226383"
+    },
+    {
+        "biome": "DELETED",
+        "tile": "Forest Savanna Mosaic",
+        "parent": "Light Forest",
+        "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/37/Australian_savanna.jpg"
+    }
+]

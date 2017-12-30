@@ -4,18 +4,14 @@ static public class GameDataLoader
 {
 
     // Use this for initialization
-    static public Tiles LoadTileData()
+    static public Tile[] LoadTileData()
     {
         var targetFile = Resources.Load<TextAsset>("GameData/tiles");
-        return JsonUtility.FromJson<Tiles>(targetFile.text);
+        var text = "{\"data\":" + targetFile.text + "}";
+        return JsonUtility.FromJson<JsonDataList<Tile>>(text).data;
     }
-}
 
-
-[System.Serializable]
-public class Tiles
-{
-    public Tile[] tiles;
+    struct JsonDataList<T> { public T[] data; }
 }
 
 [System.Serializable]

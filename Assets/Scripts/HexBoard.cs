@@ -47,7 +47,7 @@ public class HexBoard : MonoBehaviour
 #if UNITY_EDITOR
         mapSize = new RectangleInt(8, 8);
         continentsPerChunk = 0.5f;
-        var tiles = GameDataLoader.LoadTileData().tiles;
+        var tiles = GameDataLoader.LoadTileData();
         Debug.LogFormat("Tiles Loaded: {0} loaded, first is {1}", tiles.Length, tiles[0].biome);
 #endif
         StartCoroutine(new HexBoardGenerator(this).CreateMap());
