@@ -121,7 +121,7 @@ public class UnitAnimal : Unit
                 SetAnimation(UnitAnimationType.EAT);
             }
         } else {
-            Debug.LogWarningFormat(this, "{0} reached destination for {1} but no good!", name, goal);
+            Debug.LogWarningFormat(this, "{0} reached destination for {1} but target is gone!", name, goal);
         }
 
     }

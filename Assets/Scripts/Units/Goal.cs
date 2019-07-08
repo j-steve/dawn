@@ -22,8 +22,11 @@ public class MoveGoal : Goal
     static public MoveGoal GRAZE = new MoveGoal(hungerPriority, "Grazing", (unit, cell) => true);
     static public MoveGoal HUNT = new MoveGoal((u) => hungerPriority(u) * 2, "Hunting", (unit, cell) => cell.units.Contains(u => u.UnitName != unit.UnitName));
 
+    /** The method for calculating the priority value of this goal for a particular unit. */
     public readonly UnitNeedsDelegate priority;
+    /** The human-readable name for this goal to display while the action is being performed. */
     public readonly string goalName;
+    /** The condition for determining suitable destination cells for this goal. */
     public readonly HexCellContains neighborContains;
 
     MoveGoal(UnitNeedsDelegate priority, string goalName, HexCellContains neighborContains)
