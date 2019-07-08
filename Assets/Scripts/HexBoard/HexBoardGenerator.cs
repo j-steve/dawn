@@ -108,7 +108,6 @@ public class HexBoardGenerator
 
     void GenerateTerrain()
     {
-        //var biomes = Biome.Values.Where(b => b.terrainTexture != TerrainTexture.TEALWATER);
         int continents = Mathf.FloorToInt(hexBoard.continentsPerChunk * hexBoard.mapSize.Area);
         var oceanCells = new HashSet<HexCell>();
         var blankCells = new HashSet<HexCell>(hexBoard.hexCells.Values);
@@ -160,7 +159,6 @@ public class HexBoardGenerator
 
     void SetContinentElevation(Biome biome, HashSet<HexCell> continentCells)
     {
-        //var numOfElevationChanges = continentCells.Count * biome.bumpiness * Random.value * 0.15f;
         var numOfElevationChanges = continentCells.Count * biome.bumpiness * 2 * Random.value;
         for (int i = 0; i < numOfElevationChanges; i++) {
             continentCells.GetRandom().Elevation += 1;
