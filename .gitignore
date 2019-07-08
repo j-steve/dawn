@@ -17,7 +17,7 @@ packages/
 # ================= #
 # Game Output Files #
 # ================= #
-game_Data/ 
+*_Data/ 
 UnityPlayer.dll
-game.exe
+*.exe
 *.zip
