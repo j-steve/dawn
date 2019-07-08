@@ -62,9 +62,6 @@ public class HexBoardGenerator
             foreach (var cell in hexBoard.hexCells.Values) {
                 cell.Load(reader);
             }
-            //UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.25f, "Generating terrain...");
-            //yield return null;
-            //GenerateTerrain();
             UILoadingOverlay.Instance.UpdateLoad(.4f, "Triangulating Cells...");
             yield return null;
             // Triangulate each HexMeshChunk to make the map visible.
@@ -76,17 +73,6 @@ public class HexBoardGenerator
                 UILoadingOverlay.Instance.UpdateLoad(completion);
                 yield return null;
             }
-            //UILoadingOverlay.ActiveLoadingOverlay.UpdateLoad(.8f, "Moosifying...");
-            //var x = new HashSet<HexCell>(hexBoard.hexCells.Values.Where(c => c.Elevation > 0 && c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) == null));
-            //var unitCount = 0;
-            //while (x.Count > 0 && unitCount < 25) {
-            //    var cell = x.GetRandom();
-            //    var prefab = hexBoard.unitPrefabs.GetRandom();
-            //    Unit.Create(prefab, cell);
-            //    x.Remove(cell);
-            //    unitCount++;
-            //    yield return null;
-            //}
             UILoadingOverlay.Instance.UpdateLoad(1);
         }
     }
