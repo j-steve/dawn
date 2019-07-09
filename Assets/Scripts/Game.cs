@@ -17,7 +17,7 @@ public static class Game
     {
         string path = Path.Combine(Application.persistentDataPath, "test.map");
         using (var writer = new BinaryWriter(File.Open(path, FileMode.Create))) {
-            HexBoard.ActiveBoard.SaveMap(writer);
+            HexBoard.Active.SaveMap(writer);
         }
     }
 
@@ -33,7 +33,7 @@ public static class Game
             Object.Destroy(obj.gameObject);
         }
         UIEscapeMenu.Instance.HideMenu();
-        HexBoard.ActiveBoard.LoadMap(path);
+        HexBoard.Active.LoadMap(path);
     }
 
 }

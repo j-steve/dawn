@@ -34,7 +34,7 @@ public class HexChunk : MonoBehaviour
         this.row = row;
         this.column = column;
         name = "HexChunk ({0}, {1})".Format(row, column);
-        transform.SetParent(HexBoard.ActiveBoard.transform);
+        transform.SetParent(HexBoard.Active.transform);
     }
 
     internal void Triangulate(IEnumerable<HexCell> hexCells)

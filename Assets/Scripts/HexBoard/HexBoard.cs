@@ -13,7 +13,7 @@ public class HexCellClickedEventArgs : System.ComponentModel.CancelEventArgs
 
 public class HexBoard : MonoBehaviour
 {
-    public static HexBoard ActiveBoard;
+    static public HexBoard Active;
 
     public event Action<HexCellClickedEventArgs> HexCellClickedEvent;
 
@@ -41,7 +41,7 @@ public class HexBoard : MonoBehaviour
     /// </summary>
     void OnEnable()
     {
-        ActiveBoard = this;
+        Active = this;
     }
 
     void Start()

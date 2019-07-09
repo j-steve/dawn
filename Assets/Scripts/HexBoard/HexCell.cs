@@ -50,7 +50,7 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
 
     public float Latitude {
         get {
-            return (float)Coordinates.Z / (HexBoard.ActiveBoard.mapSize.Height * HexConstants.CELLS_PER_CHUNK_ROW / 2) - 1f;
+            return (float)Coordinates.Z / (HexBoard.Active.mapSize.Height * HexConstants.CELLS_PER_CHUNK_ROW / 2) - 1f;
         }
     }
 
@@ -101,7 +101,7 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
 
     void CreateLabel(Canvas hexCanvas)
     {
-        label = Instantiate(HexBoard.ActiveBoard.hexLabelPrefab);
+        label = Instantiate(HexBoard.Active.hexLabelPrefab);
         label.name = "HexLabel " + Coordinates.ToString();
         label.rectTransform.SetParent(hexCanvas.transform, false);
         label.rectTransform.anchoredPosition = new Vector2(Center.x, Center.z);
@@ -130,7 +130,7 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
     {
         HexCellCoordinates offset = HexCellCoordinates.OFFSET[direction];
         HexCell neighbor;
-        HexBoard.ActiveBoard.hexCells.TryGetValue(Coordinates + offset, out neighbor);
+        HexBoard.Active.hexCells.TryGetValue(Coordinates + offset, out neighbor);
         return neighbor;
     }
 

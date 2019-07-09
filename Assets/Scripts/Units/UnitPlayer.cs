@@ -17,20 +17,20 @@ public class UnitPlayer : Unit
     public override void OnFocus()
     {
         base.OnFocus();
-        HexBoard.ActiveBoard.HexCellClickedEvent += OnHexCellClick;
+        HexBoard.Active.HexCellClickedEvent += OnHexCellClick;
     }
 
     public override void OnBlur()
     {
         base.OnBlur();
-        HexBoard.ActiveBoard.HexCellClickedEvent -= OnHexCellClick;
+        HexBoard.Active.HexCellClickedEvent -= OnHexCellClick;
         UnHighlightPath();
     }
 
     protected override void TakeAction()
     {
         if (UIInGame.Instance.IsSelected(this)) {
-            var cell = HexBoard.ActiveBoard.GetCellUnderCursor();
+            var cell = HexBoard.Active.GetCellUnderCursor();
             if (cell != currentHoverTarget) {
                 UnHighlightPath();
                 if (cell != Location) {
