@@ -36,16 +36,21 @@ public class HexBoardGenerator
             yield return null;
         }
         UILoadingOverlay.Instance.UpdateLoad(.8f, "Moosifying...");
-        var x = new HashSet<HexCell>(hexBoard.hexCells.Values.Where(c => c.Elevation > 0 && c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) == null));
+        var spawnableTiles = new HashSet<HexCell>(hexBoard.hexCells.Values.Where(c => c.Elevation > 0 && c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) == null));
         var unitCount = 0;
-        while (x.Count > 0 && unitCount < 25) {
-            var cell = x.GetRandom();
+        while (spawnableTiles.Count > 0 && unitCount < 25) {
+            var cell = spawnableTiles.GetRandom();
             var prefab = hexBoard.unitPrefabs.GetRandom();
             Unit.Create(prefab, cell);
-            x.Remove(cell);
+            spawnableTiles.Remove(cell);
             unitCount++;
             yield return null;
         }
+        // Create the human player's starting position.
+        var startTile = spawnableTiles.GetRandom();
+        var playerUnit = Unit.Create(hexBoard.playerPrefab, startTile);
+        MapCamera.Active.CenterCameraOn(startTile);
+
         UILoadingOverlay.Instance.UpdateLoad(1);
     }
 
@@ -162,15 +167,6 @@ public class HexBoardGenerator
         var numOfElevationChanges = continentCells.Count * biome.bumpiness * 2 * Random.value;
         for (int i = 0; i < numOfElevationChanges; i++) {
             continentCells.GetRandom().Elevation += 1;
-            //    var cellsToChange = continentCells.Count.DividedBy(numOfElevationChanges) * Random.value * 0.15f;
-            //    UnityUtils.Log("Cells To Change  {0}", cellsToChange);
-            //    var frontierCells = new Queue<HexCell>();
-            //    frontierCells.Enqueue(continentCells.GetRandom());
-            //    for (int j = 0; j < cellsToChange; j++) {
-            //        var nextCell = frontierCells.Dequeue();
-            //        nextCell.Elevation += Random.Range(0, 2) == 0 ? -1 : 1;
-            //        frontierCells.EnqueueAll(NeighborsInBiome(nextCell, nextCell.Biome));
-            //    }
         }
         foreach (var cell in continentCells) {
             var oldEl = cell.Elevation;

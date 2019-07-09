@@ -33,6 +33,8 @@ public class HexBoard : MonoBehaviour
     public readonly Dictionary<HexCellCoordinates, HexCell> hexCells = new Dictionary<HexCellCoordinates, HexCell>();
 
     public Unit[] unitPrefabs;
+    public UnitPlayer playerPrefab;
+    public int playerStartingUnits;
 
     /// <summary>
     /// Sets active board, on initialization or after script recompilation. 

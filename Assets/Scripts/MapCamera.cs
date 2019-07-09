@@ -5,7 +5,11 @@ using UnityEngine;
 
 public class MapCamera : MonoBehaviour
 {
+    static public MapCamera Active;
+
     public float fastPanSpeed;
+
+    public float startingZoom;
 
     public float panSpeedMinZoom, panSpeedMaxZoom;
 
@@ -17,11 +21,15 @@ public class MapCamera : MonoBehaviour
 
     float zoom = 1f;
 
-    // Use this for initialization
-    void Awake()
+    /// <summary>
+    /// Sets active board, on initialization or after script recompilation. 
+    /// </summary>
+    void OnEnable()
     {
+        Active = this;
         swivel = transform.GetChild(0);
         stick = swivel.GetChild(0);
+        AdjustZoom(startingZoom - zoom);
     }
 
     // Update is called once per frame
@@ -72,5 +80,11 @@ public class MapCamera : MonoBehaviour
         //position.x = Mathf.Clamp(0, 50, lastCell.Center.x);
         //position.z = Mathf.Clamp(0, 50, lastCell.Center.z);
         return position;
+    }
+
+    public void CenterCameraOn(HexCell hexCell)
+    {
+        //TODO: Subtracting a bit from "z" on the prior line seems to center the player on the camera, but find a more robust way to handle this.
+        transform.position = new Vector3(hexCell.transform.position.x, transform.position.y, hexCell.transform.position.z - 25);
     }
 }
