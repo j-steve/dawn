@@ -35,7 +35,19 @@ public class HexBoardGenerator
             UILoadingOverlay.Instance.UpdateLoad(completion);
             yield return null;
         }
-        UILoadingOverlay.Instance.UpdateLoad(.8f, "Moosifying...");
+        UILoadingOverlay.Instance.UpdateLoad(.8f, "Planting forests...");
+        foreach(HexCell cell in hexBoard.hexCells.Values) {
+            var trees = Resources.LoadAll<GameObject>("Trees/" + cell.Biome.name);
+            if (Random.value > cell.Biome.treeProbability || trees.Length == 0) { continue; }
+            for (int i = 0; i < Random.Range(1, 6); i++) {  // Between 1 and 6 trees will appear.
+                var offset = UnityExtensions.RandomPointOnCircle() * HexConstants.HEX_SIZE * .8f;  // Trees appear 20% from edge of hex.
+                var spawn = cell.transform.position + new Vector3(offset.x, 0, offset.y);
+                var tree = Object.Instantiate(trees.GetRandom(), spawn, Quaternion.identity, cell.transform);
+                tree.transform.localScale = tree.transform.localScale.ScaledBy(cell.Biome.treeSizeModifier);
+                if (Random.value > cell.Biome.treeProbability) { break; }
+            }
+        }
+        UILoadingOverlay.Instance.UpdateLoad(.9f, "Moosifying...");
         var spawnableTiles = new HashSet<HexCell>(hexBoard.hexCells.Values.Where(c => c.Elevation > 0 && c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) == null));
         var unitCount = 0;
         while (spawnableTiles.Count > 0 && unitCount < 25) {
@@ -129,15 +141,15 @@ public class HexBoardGenerator
                 HexCell nextCell = frontierCells.GetRandom();
                 if (blankCells.Remove(nextCell)) {
                     continentCells.Add(nextCell);
-                    var neighbors = nextCell.GetNeighbors().Where(c => c.Biome == 0);
+                    var neighbors = nextCell.GetNeighbors().Where(c => c.BiomeNumber == 0);
                     frontierCells.UnionWith(neighbors);
                 }
                 frontierCells.Remove(nextCell);
             }
             if (continentCells.Count >= biome.minSize) {
                 foreach (HexCell cell in continentCells) {
-                    cell.TerrainType = biome.terrainTexture;
-                    cell.Biome = continent + 1;
+                    cell.Biome = biome;
+                    cell.BiomeNumber = continent + 1;
                     cell.Elevation = cell.TerrainType == TerrainTexture.BLUEWATER ? 0 : 2;
                 }
                 if (biome.terrainTexture == TerrainTexture.BLUEWATER) {
@@ -154,8 +166,8 @@ public class HexBoardGenerator
         while (oceanCells.Count > 0) {
             var tile = oceanCells.First();
             foreach (HexCell neighbor in NeighborsInBiome(tile, 0)) {
+                neighbor.BiomeNumber = tile.BiomeNumber;
                 neighbor.Biome = tile.Biome;
-                neighbor.TerrainType = tile.TerrainType;
                 oceanCells.Add(neighbor);
             }
             oceanCells.Remove(tile);
@@ -183,7 +195,7 @@ public class HexBoardGenerator
     static IEnumerable<HexCell> NeighborsInBiome(HexCell cell, int biomeId)
     {
         foreach (var neighbor in cell.GetNeighbors()) {
-            if (neighbor.Biome == biomeId) {
+            if (neighbor.BiomeNumber == biomeId) {
                 yield return neighbor;
             }
         }

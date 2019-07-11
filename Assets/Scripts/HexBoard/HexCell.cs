@@ -54,11 +54,13 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
         }
     }
 
-    public TerrainTexture TerrainType;
+    public int ContinentNumber = 0;
 
-    public int Biome = 0;
+    public int BiomeNumber = 0;
 
-    public int Continent = 0;
+    public Biome Biome { get; internal set; }
+
+    public TerrainTexture TerrainType { get { return Biome.terrainTexture; } }
 
     public readonly List<Unit> units = new List<Unit>();
 
@@ -96,7 +98,7 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
         SetVertices();
         CreateLabel(chunk.hexCanvas);
 
-        TerrainType = TerrainTexture.TEALWATER;
+        Biome = Biome.LAKE;
     }
 
     void CreateLabel(Canvas hexCanvas)
@@ -234,13 +236,13 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
 
     public void Save(BinaryWriter writer)
     {
-        writer.Write((Int16)TerrainType);
+        writer.Write((Int16)Biome.id);
         writer.Write((Int16)Elevation);
     }
 
     public void Load(BinaryReader reader)
     {
-        TerrainType = (TerrainTexture)reader.ReadInt16();
+        Biome = Biome.GetByID(reader.ReadInt16());
         Elevation = reader.ReadInt16();
     }
 

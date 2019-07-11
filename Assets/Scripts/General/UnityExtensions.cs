@@ -71,7 +71,7 @@ static public class UnityExtensions
     /// Invokes the specified action after the given number of seconds.
     /// Note that the seconds starts counting from the end of the current frame update.
     /// </summary>
-    public static void Invoke(this MonoBehaviour me, Action action, float delaySeconds)
+    static public void Invoke(this MonoBehaviour me, Action action, float delaySeconds)
     {
         me.StartCoroutine(ExecuteAfterTime(action, delaySeconds));
     }
@@ -80,5 +80,11 @@ static public class UnityExtensions
     {
         yield return new WaitForSeconds(delaySeconds);
         action();
+    }
+
+    static public Vector2 RandomPointOnCircle()
+    {
+        float randomAngle = UnityEngine.Random.Range(0f, Mathf.PI * 2f);
+        return new Vector2(Mathf.Sin(randomAngle), Mathf.Cos(randomAngle)).normalized;
     }
 }
