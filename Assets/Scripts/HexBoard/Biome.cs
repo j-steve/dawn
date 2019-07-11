@@ -13,7 +13,7 @@ public class Biome
         new Biome(6, "Plains", TerrainTexture.TWISTED_GRASS, 50, Range.Of(1, 3), .4f, Range.Of(15, 75), 0.15f),
         new Biome(7, "Jungle", TerrainTexture.MIXEDTREES, 30, Range.Of(1, 5), .75f, Range.Of(0, 50), 1, new Vector3(2, 3, 2)),
         new Biome(8, "Savannah", TerrainTexture.SAVANNAH, 50, Range.Of(1, 2), .25f, Range.Of(0, 50), .15f),
-        new Biome(9, "Scrubland", TerrainTexture.STEPPE, 20, Range.Of(1, 5), .75f, Range.Of(0, 50), .25f),
+        new Biome(9, "Scrubland", TerrainTexture.STEPPE, 20, Range.Of(1, 5), .75f, Range.Of(0, 50), 1),
         new Biome(10, "Desert", TerrainTexture.SAND_DUNES, 10, Range.Of(1, 3), .3f, Range.Of(0, 30), .05f),
     };
 
