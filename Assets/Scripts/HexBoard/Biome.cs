@@ -7,7 +7,7 @@ public class Biome
         new Biome(0, "Ocean", TerrainTexture.BLUEWATER, 20, Range.Of(0, 0), 0f, Range.Of(0, 100)),
         new Biome(1, "Ocean", TerrainTexture.BLUEWATER, 100, Range.Of(0, 0), 0f, Range.Of(0, 100)),
         new Biome(2, "Ice Caps", TerrainTexture.GLACIER, 20, Range.Of(1, 3), .2f, Range.Of(95, 100)),
-        new Biome(3, "Tundra", TerrainTexture.ROCKY_SNOW, 30, Range.Of(1, 4), .3f, Range.Of(70, 90), 0.05f),
+        new Biome(3, "Tundra", TerrainTexture.ROCKY_SNOW, 30, Range.Of(1, 4), .3f, Range.Of(70, 90), 0.25f),
         new Biome(4, "Taiga", TerrainTexture.GREENTREES, 30, Range.Of(1, 4), .5f, Range.Of(50, 85), 1),
         new Biome(5, "Forest", TerrainTexture.TEMPERATE_FOREST, 30, Range.Of(1, 4), .5f, Range.Of(15, 75), 1),
         new Biome(6, "Plains", TerrainTexture.TWISTED_GRASS, 50, Range.Of(1, 3), .4f, Range.Of(15, 75), 0.15f),
