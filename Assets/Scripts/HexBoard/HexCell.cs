@@ -168,13 +168,19 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
 
     #region ISelectable
 
-    string ISelectable.InGameUITitle {
+    string ISelectable.InfoPanelTitle {
         get {
-            return Coordinates.ToString();
+            return Biome.ToString();
         }
     }
 
-    string ISelectable.InGameUIDescription {
+    string ISelectable.InfoPanelDescription {
+        get {
+            return "Continent #{0}, Biome #{1}".Format(ContinentNumber + 1, BiomeNumber + 1);
+        }
+    }
+
+    string ISelectable.InfoPanelDetails {
         get {
             return units.Select(x => x.UnitName).Join(", ");
         }

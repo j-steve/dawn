@@ -10,12 +10,12 @@ public class UnitAnimal : Unit
         {"Wolf",  new MoveGoal[] { MoveGoal.DRINK, MoveGoal.EAT_CORPSE, MoveGoal.HUNT, MoveGoal.WANDER } },
     };
 
-    public override string InGameUITitle {
+    public override string InfoPanelTitle {
         get {
-            return string.Format("{0} hunger:{1:00}% thirst:{2:00}%", base.InGameUITitle, Hunger, Thirst);
+            return string.Format("{0} hunger:{1:00}% thirst:{2:00}%", base.InfoPanelTitle, Hunger, Thirst);
         }
     }
-    public override string InGameUIDescription {
+    public override string InfoPanelDescription {
         get {
             return IsDead ? "Dead" : CombatOpponent ? "Fighting {0}".Format(CombatOpponent) : goal.goalName;
         }
@@ -32,7 +32,7 @@ public class UnitAnimal : Unit
     protected HexCell Destination {
         get { return _destination; }
         set {
-            if (UIInGame.Instance.selection == (ISelectable)this) {
+            if (SelectionInfoPanel.Instance.selection == (ISelectable)this) {
                 if (_destination)
                     _destination.UnHighlight();
                 if (value)

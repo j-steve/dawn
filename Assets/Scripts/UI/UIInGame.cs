@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class UIInGame : MonoBehaviour
+public class SelectionInfoPanel : MonoBehaviour
 {
-    public static UIInGame Instance {
-        get { return _Instance ?? (_Instance = FindObjectOfType<UIInGame>()); }
+    static public SelectionInfoPanel Instance {
+        get { return _Instance ?? (_Instance = FindObjectOfType<SelectionInfoPanel>()); }
     }
-    static UIInGame _Instance;
+    static SelectionInfoPanel _Instance;
 
     [SerializeField] GameObject unitInfoPanel;
-    [SerializeField] Text unitInfoTitle;
-    [SerializeField] Text unitInfoName;
+    [SerializeField] Text labelTitle;
+    [SerializeField] Text labelDescription;
+    [SerializeField] Text labelDetails;
     [SerializeField] Text turnNumber;
 
     public ISelectable selection { get; private set; }
@@ -25,8 +26,9 @@ public class UIInGame : MonoBehaviour
     void Update()
     {
         if (selection != null) {
-            unitInfoTitle.text = selection.InGameUITitle;
-            unitInfoName.text = selection.InGameUIDescription;
+            labelTitle.text = selection.InfoPanelTitle;
+            labelDescription.text = selection.InfoPanelDescription;
+            labelDetails.text = selection.InfoPanelDetails;
         }
     }
 
@@ -43,8 +45,8 @@ public class UIInGame : MonoBehaviour
         selection = newSelection;
         if (newSelection != null) {
             selection.OnFocus();
-            unitInfoTitle.text = newSelection.InGameUITitle;
-            unitInfoName.text = newSelection.InGameUIDescription;
+            labelTitle.text = newSelection.InfoPanelTitle;
+            labelDescription.text = newSelection.InfoPanelDescription;
         }
     }
 
@@ -58,6 +60,7 @@ public interface ISelectable
 {
     void OnFocus();
     void OnBlur();
-    string InGameUITitle { get; }
-    string InGameUIDescription { get; }
+    string InfoPanelTitle { get; }
+    string InfoPanelDescription { get; }
+    string InfoPanelDetails { get; }
 }

@@ -133,7 +133,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
     protected virtual void OnMouseDown()
     {
         Debug.LogFormat("You clicked {0}", name);
-        UIInGame.Instance.SetSelected(this);
+        SelectionInfoPanel.Instance.SetSelected(this);
     }
 
     /// <summary>
@@ -142,8 +142,8 @@ abstract public class Unit : MonoBehaviour, ISelectable
     void OnDestroy()
     {
         // Deselect the unit if it is the current selection.
-        if (UIInGame.Instance.IsSelected(this)) {
-            UIInGame.Instance.SetSelected(null);
+        if (SelectionInfoPanel.Instance.IsSelected(this)) {
+            SelectionInfoPanel.Instance.SetSelected(null);
         }
         // Remove the current location cell's reference to this unit.
         Location = null;
@@ -155,13 +155,19 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     #region ISelectable
 
-    public virtual string InGameUITitle {
+    public virtual string InfoPanelTitle {
         get {
             return string.Format("{0} ({1:0.0}/{2:0.0})", UnitName, Health, MaxHealth);
         }
     }
 
-    public virtual string InGameUIDescription {
+    public virtual string InfoPanelDescription {
+        get {
+            return "";
+        }
+    }
+
+    public virtual string InfoPanelDetails {
         get {
             return "";
         }
