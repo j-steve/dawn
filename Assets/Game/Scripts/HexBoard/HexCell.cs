@@ -182,7 +182,7 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
 
     string ISelectable.InfoPanelDetails {
         get {
-            return units.Select(x => x.UnitName).Join(", ");
+            return units.Count == 0 ? "" : "UNITS: " + units.Select(x => x.UnitName).Join(", ") ;
         }
     }
 

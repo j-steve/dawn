@@ -41,6 +41,19 @@ public class UnitPlayer : Unit
         }
     }
 
+    internal void CreateVillage()
+    {
+        Debug.LogError("Villaging");
+        var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        cube.GetComponent<Renderer>().material.color = Color.red;
+        cube.transform.localScale *= 5;
+        cube.transform.parent = Location.transform;
+        var newpos  = Location.transform.position;
+        newpos.y += cube.transform.localScale.y / 2;
+        cube.transform.position = newpos;
+        Destroy(gameObject);
+    }
+
     void MapPathToTarget(HexCell target)
     {
         pathSteps = pathfinder.Search(Location, target);

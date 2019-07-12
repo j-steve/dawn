@@ -13,6 +13,7 @@ public class SelectionInfoPanel : MonoBehaviour
     [SerializeField] Text labelDescription;
     [SerializeField] Text labelDetails;
     [SerializeField] Text turnNumber;
+    [SerializeField] Button createVillage;
 
     public ISelectable selection { get; private set; }
 
@@ -21,6 +22,13 @@ public class SelectionInfoPanel : MonoBehaviour
         unitInfoPanel.SetActive(false);
         // Listen for turn event and increment the turn number.
         GameTime.Instance.GameTurnEvent += (turn) => turnNumber.text = turn.ToString();
+        createVillage.onClick.AddListener(() => {
+            if (selection.GetType() == typeof(UnitPlayer)) {
+                ((UnitPlayer)selection).CreateVillage();
+            } else {
+                Debug.LogErrorFormat("Cannot create village, active selection is {0}.", selection);
+            }
+        });
     }
 
     void Update()
@@ -29,6 +37,7 @@ public class SelectionInfoPanel : MonoBehaviour
             labelTitle.text = selection.InfoPanelTitle;
             labelDescription.text = selection.InfoPanelDescription;
             labelDetails.text = selection.InfoPanelDetails;
+            createVillage.gameObject.SetActive(selection.GetType() == typeof(UnitPlayer));
         }
     }
 
