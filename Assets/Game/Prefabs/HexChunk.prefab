@@ -109,7 +109,6 @@ GameObject:
   - component: {fileID: 224873423468773230}
   - component: {fileID: 223868246946830968}
   - component: {fileID: 114994075169720472}
-  - component: {fileID: 114488374674139576}
   m_Layer: 0
   m_Name: HexCanvas
   m_TagString: Untagged
@@ -373,22 +372,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96acc06d4d8cfcc4f9acd0dd14e5992c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114488374674139576
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1651053412262640}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!114 &114515568544479082
 MonoBehaviour:
   m_ObjectHideFlags: 1

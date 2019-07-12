@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class HexMeshTerrain : HexMesh
 {
@@ -33,8 +34,9 @@ public class HexMeshTerrain : HexMesh
 
     void OnMouseDown()
     {
-        Debug.LogFormat("You clicked {0}", name);
-        HexBoard.Active.OnMapClick();
+        if (!EventSystem.current.IsPointerOverGameObject()) { 
+            HexBoard.Active.OnMapClick();
+        }
     }
 
     public void AddQuadWithTerrain(TexturedEdge e1, TexturedEdge e2)

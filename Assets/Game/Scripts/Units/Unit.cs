@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.EventSystems;
 
 abstract public class Unit : MonoBehaviour, ISelectable
 {
@@ -132,8 +133,9 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     protected virtual void OnMouseDown()
     {
-        Debug.LogFormat("You clicked {0}", name);
-        SelectionInfoPanel.Instance.SetSelected(this);
+        if (!EventSystem.current.IsPointerOverGameObject()) {
+            SelectionInfoPanel.Instance.SetSelected(this);
+        }
     }
 
     /// <summary>
