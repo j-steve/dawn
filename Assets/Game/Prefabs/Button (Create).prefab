@@ -58,7 +58,6 @@ GameObject:
   - component: {fileID: 222817330589799264}
   - component: {fileID: 114367462155276426}
   - component: {fileID: 114396752199514450}
-  - component: {fileID: 114966321576627852}
   m_Layer: 5
   m_Name: Button (Create)
   m_TagString: Untagged
@@ -241,21 +240,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114966321576627852
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1934193656945460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21ffe216b5b498140bfe83b5681b7fb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Scene: 4
-  m_UseLoadingOverlay: 0
-  m_InputKey: 0
-  m_HookToButton: {fileID: 114224962324290972}
 --- !u!222 &222225006152875090
 CanvasRenderer:
   m_ObjectHideFlags: 1
