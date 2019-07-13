@@ -8,13 +8,13 @@ public class SelectionInfoPanel : MonoBehaviour
     }
     static SelectionInfoPanel _Instance;
 
-    [SerializeField] GameObject unitInfoPanel;
-    [SerializeField] Text labelTitle;
-    [SerializeField] Text labelDescription;
-    [SerializeField] Text labelDetails;
-    [SerializeField] Text turnNumber;
-    [SerializeField] Button createVillage;
-    [SerializeField] Dialog createVillageDialog;
+    [SerializeField] GameObject unitInfoPanel = null;
+    [SerializeField] Text labelTitle = null;
+    [SerializeField] Text labelDescription = null;
+    [SerializeField] Text labelDetails = null;
+    [SerializeField] Text turnNumber = null;
+    [SerializeField] Button createVillage = null;
+    [SerializeField] Dialog createVillageDialog = null;
 
     string turnNumberFormat;
 

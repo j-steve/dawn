@@ -21,8 +21,16 @@ public class HexBoard : MonoBehaviour
     /// The size of the map, as a number of HexMeshChunks in the X and Y axes.
     /// </summary>
     public RectangleInt mapSize;
-
     public float continentsPerChunk;
+    /// <summary>
+    /// The minimum size of a biome, which also influences its max size. Multiplied by each biome's min tile count.
+    /// </summary>
+    public float biomeMinSize;
+    /// <summary>
+    /// The maximum size of a biome relative to its minimum size.  Multiplied by effective min size to get the max value.
+    /// Determines the range of sizes available. Setting to 1 would mean no variation in biome size.
+    /// </summary>
+    public float biomeMaxSize;
 
     public Material terrainMaterial;
 

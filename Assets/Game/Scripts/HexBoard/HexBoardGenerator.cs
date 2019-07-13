@@ -134,7 +134,8 @@ public class HexBoardGenerator
             var potentialCells = blankCells.Where(c => LatitudeInRange(c, biome));
             if (potentialCells.Count() == 0) { continue; }
             var firstCell = potentialCells.GetRandom();
-            int targetSize = Random.Range(biome.minSize, biome.minSize * 4 + 1);
+            int biomeMinSize = Mathf.RoundToInt(biome.minSize * hexBoard.biomeMinSize);
+            int targetSize = Random.Range(biomeMinSize, Mathf.RoundToInt(biomeMinSize * hexBoard.biomeMaxSize + 1));
             var continentCells = new HashSet<HexCell>() { firstCell };
             var frontierCells = new HashSet<HexCell>(NeighborsInBiome(firstCell, 0));
             while (continentCells.Count < targetSize && frontierCells.Count > 0 && blankCells.Count > 0) {

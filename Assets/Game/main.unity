@@ -1130,7 +1130,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: C
+  m_Text: Crapville
 --- !u!222 &567796741
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3673,9 +3673,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mapSize:
-    Height: 15
-    Width: 25
+    Height: 25
+    Width: 30
   continentsPerChunk: 0.15
+  biomeMinSize: 2
+  biomeMaxSize: 4
   terrainMaterial: {fileID: 2100000, guid: da21c4b7cfd02814a943562532d7ff2f, type: 2}
   hexChunkPrefab: {fileID: 114928752991546890, guid: 790f4dae637102246b086a8a25df9b04,
     type: 2}
