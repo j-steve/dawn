@@ -47,17 +47,20 @@ public class HexBoardGenerator
                 if (Random.value > cell.Biome.treeProbability) { break; }
             }
         }
+        yield return null;
         UILoadingOverlay.Instance.UpdateLoad(.9f, "Moosifying...");
         var spawnableTiles = new HashSet<HexCell>(hexBoard.hexCells.Values.Where(c => c.Elevation > 0 && c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) == null));
         var unitCount = 0;
-        while (spawnableTiles.Count > 0 && unitCount < 25) {
+        while (spawnableTiles.Count > 0 && unitCount < 15) {
             var cell = spawnableTiles.GetRandom();
             var prefab = hexBoard.unitPrefabs.GetRandom();
-            Unit.Create(prefab, cell);
+            if (prefab.preferredBiomes.Contains(cell.Biome.name)) {
+                Unit.Create(prefab, cell);
+                unitCount++;
+            }
             spawnableTiles.Remove(cell);
-            unitCount++;
-            yield return null;
         }
+        yield return null;
         // Create the human player's starting position.
         var startTile = spawnableTiles.GetRandom();
         var playerUnit = Unit.Create(hexBoard.playerPrefab, startTile);

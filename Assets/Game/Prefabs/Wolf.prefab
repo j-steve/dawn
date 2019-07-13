@@ -1415,6 +1415,10 @@ MonoBehaviour:
   _unitName: Wolf
   _attackPower: 3.2
   unitAnimation: {fileID: 114760259564161440}
+  preferredBiomes:
+  - Tundra
+  - Taiga`
+  - Forest
 --- !u!114 &114760259564161440
 MonoBehaviour:
   m_ObjectHideFlags: 1

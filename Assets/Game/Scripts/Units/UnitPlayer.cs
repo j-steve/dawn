@@ -55,7 +55,7 @@ public class UnitPlayer : Unit
 
     void MapPathToTarget(HexCell target)
     {
-        pathSteps = pathfinder.Search(Location, target);
+        pathSteps = pathfinder.AStarSearch(Location, target);
         var lastStep = pathSteps.LastOrDefault();
         foreach (var step in pathSteps) {
             int turns = Mathf.FloorToInt(step.cost / MOVEMENT_POINTS);
@@ -84,5 +84,11 @@ public class UnitPlayer : Unit
             }
             pathSteps = null;
         }
+    }
+
+    protected override float calculateMovementCost(HexCell c1, HexCell c2)
+    {
+        if (c2.Elevation == 0) { return 100; }
+        return Math.Abs(c1.Elevation - c2.Elevation) * 2 + 1;
     }
 }

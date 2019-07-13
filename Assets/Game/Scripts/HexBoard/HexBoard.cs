@@ -40,7 +40,7 @@ public class HexBoard : MonoBehaviour
 
     public readonly Dictionary<HexCellCoordinates, HexCell> hexCells = new Dictionary<HexCellCoordinates, HexCell>();
 
-    public Unit[] unitPrefabs;
+    public UnitAnimal[] unitPrefabs;
     public UnitPlayer playerPrefab;
     public int playerStartingUnits;
 

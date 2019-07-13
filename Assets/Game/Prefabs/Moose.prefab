@@ -1276,6 +1276,9 @@ MonoBehaviour:
   _unitName: Moose
   _attackPower: 2.6
   unitAnimation: {fileID: 114016554706752964}
+  preferredBiomes:
+  - Tundra
+  - Taiga
 --- !u!137 &137106104682804262
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

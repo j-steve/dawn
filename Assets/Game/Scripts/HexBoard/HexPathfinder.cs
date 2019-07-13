@@ -5,14 +5,25 @@ using Priority_Queue;
 
 public class HexPathfinder
 {
-    readonly float maxDistance;
-
-    public HexPathfinder(float maxDistance)
+    /// <summary>
+    /// The exact cost of moving between the two given cells, which will always
+    /// be adjacent (neighboring) cells.
+    /// </summary>
+    readonly Func<HexCell, HexCell, float> movementCostFunction;
+    
+    public HexPathfinder(Func<HexCell, HexCell, float> movementCostFunction)
     {
-        this.maxDistance = maxDistance;
+        this.movementCostFunction = movementCostFunction;
     }
 
-    public IList<PathStep> FindNearest(HexCell origin, Func<HexCell, bool> goalCondition)
+    /// <summary>
+    /// Identifies the fastest path to reach a cell matching the given goal condition.
+    /// </summary>
+    /// <param name="origin"></param>
+    /// <param name="goalCondition"></param>
+    /// <param name="maxSearchDistance">The max allowable movement cost.</param>
+    /// <returns></returns>
+    public IList<PathStep> BreadthFirstSearch(HexCell origin, Func<HexCell, bool> goalCondition, int? maxSearchDistance=null)
     {
         var cameFrom = new Dictionary<HexCell, HexCell>();
         var gScore = new Dictionary<HexCell, float>() { { origin, 0 } };
@@ -22,8 +33,6 @@ public class HexPathfinder
 
         HexCell current;
         while (openSet.TryDequeue(out current)) {
-            if (gScore[current] > maxDistance)
-                break;
             if (goalCondition(current)) {
                 return ReconstructPath(cameFrom, current, gScore);
             }
@@ -31,8 +40,10 @@ public class HexPathfinder
                 if (closedSet.Contains(neighbor))
                     continue;
                 var existingScore = gScore.ContainsKey(neighbor);
-                var tentativeGScore = gScore[current] + MovementCost(current, neighbor);
-                if (!existingScore || tentativeGScore < gScore[neighbor]) {
+                var tentativeGScore = gScore[current] + movementCostFunction(current, neighbor);
+                var isWithinRange = !maxSearchDistance.HasValue || tentativeGScore < maxSearchDistance;
+                //Debug.LogWarningFormat("{0} is within range of {1}? {2}", tentativeGScore, maxSearchDistance, isWithinRange);
+                if (isWithinRange && (!existingScore || tentativeGScore < gScore[neighbor])) {
                     // This path is cheapest yet seen for this neighbor.
                     cameFrom[neighbor] = current;
                     gScore[neighbor] = tentativeGScore;
@@ -43,6 +54,7 @@ public class HexPathfinder
                         openSet.Enqueue(neighbor, tentativeGScore);
                 }
             }
+           closedSet.Add(current);
         }
         Debug.LogWarningFormat("No suitable path from {0} to goal condition cell! Checked {1}", origin, closedSet.Count);
         return new List<PathStep>();
@@ -57,7 +69,7 @@ public class HexPathfinder
     /// where each entry represents the next step in the journey, starting with
     /// the origin cell itself and ending with the goal cell.
     /// </returns>
-    public IList<PathStep> Search(HexCell origin, HexCell goal)
+    public IList<PathStep> AStarSearch(HexCell origin, HexCell goal)
     {
         // The set of nodes already evaluated
         var closedSet = new HashSet<HexCell>();
@@ -92,7 +104,7 @@ public class HexPathfinder
                 }
                 // The movement cost for moving from current to this neighbor.
                 var existingScore = gScore.ContainsKey(neighbor);
-                var tentativeGScore = gScore[current] + MovementCost(current, neighbor);
+                var tentativeGScore = gScore[current] + movementCostFunction(current, neighbor);
                 if (!existingScore || tentativeGScore < gScore[neighbor]) {
                     // This path is cheapest yet seen for this neighbor.
                     cameFrom[neighbor] = current;
@@ -109,21 +121,6 @@ public class HexPathfinder
         }
         Debug.LogWarningFormat("No path from {0} to {1}! Checked {2}", origin, goal, closedSet.Count);
         return null;
-    }
-
-    /// <summary>
-    /// The exact cost of moving between the two given cells, which will always
-    /// be adjacent (neighboring) cells.
-    /// </summary>
-    /// <param name="c1"></param>
-    /// <param name="c2"></param>
-    /// <returns></returns>
-    public float MovementCost(HexCell c1, HexCell c2)
-    {
-        if (c1.Elevation == 0 || c2.Elevation == 0) {
-            return 100;
-        }
-        return Math.Abs(c1.Elevation - c2.Elevation) * 2 + 1;
     }
 
     /// <summary>

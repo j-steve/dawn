@@ -6,9 +6,11 @@ using System.Collections.Generic;
 public class UnitAnimal : Unit
 {
     static Dictionary<string, MoveGoal[]> goals = new Dictionary<string, MoveGoal[]> {
-        {"Moose",  new MoveGoal[] { MoveGoal.DRINK, MoveGoal.GRAZE, MoveGoal.WANDER} },
+        {"Moose", new MoveGoal[] { MoveGoal.DRINK, MoveGoal.GRAZE, MoveGoal.WANDER} },
         {"Wolf",  new MoveGoal[] { MoveGoal.DRINK, MoveGoal.EAT_CORPSE, MoveGoal.HUNT, MoveGoal.WANDER } },
     };
+
+    public string[] preferredBiomes = new string[] { };
 
     public override string InfoPanelTitle {
         get {
@@ -22,6 +24,16 @@ public class UnitAnimal : Unit
     }
 
     protected override float TravelSpeed { get { return 0.75f; } }
+
+    protected override float calculateMovementCost(HexCell c1, HexCell c2)
+    {
+        if (c2.Elevation == 0) { return float.MaxValue; }
+        float cost = System.Math.Abs(c1.Elevation - c2.Elevation) * 2 + 1;
+        if (!preferredBiomes.Contains(c2.Biome.name)) {
+            cost *= 2; // More expensive to travel through non-preferred biomes.
+        }
+        return cost;
+    }
 
     protected float timeTilDeparture;
 
@@ -84,9 +96,10 @@ public class UnitAnimal : Unit
             rankedGoals.Enqueue(potentialGoal, priority);
         }
         while (rankedGoals.TryDequeue(out goal)) {
-            var path = pathfinder.FindNearest(
+            var path = pathfinder.BreadthFirstSearch(
                 Location,
-                c => c.GetNeighbors().Contains(n => goal.neighborContains(this, n)));
+                c => c.GetNeighbors().Contains(n => goal.neighborContains(this, n)),
+                20);
             if (path.Count > 0) {
                 return path.Select(c => c.cell).ToList();
             }

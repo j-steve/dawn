@@ -23,7 +23,9 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     #region Properties & Fields
 
-    protected HexPathfinder pathfinder = new HexPathfinder(50);
+    protected readonly HexPathfinder pathfinder;
+
+    abstract protected float calculateMovementCost(HexCell c1, HexCell c2);
 
     abstract protected float TravelSpeed { get; }
 
@@ -86,6 +88,8 @@ abstract public class Unit : MonoBehaviour, ISelectable
     Color originalColor;
 
     #endregion
+
+    public Unit() {pathfinder = new HexPathfinder(calculateMovementCost);}
 
     protected virtual void Initialize(HexCell cell)
     {
