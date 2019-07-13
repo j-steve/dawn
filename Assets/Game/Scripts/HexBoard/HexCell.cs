@@ -163,6 +163,7 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
     /// </summary>
     public int DistanceTo(HexCell other)
     {
+        Debug.LogWarningFormat("Coordinates {0}, other {1}, I'm {2}", Coordinates, other, this);
         return Coordinates.DistanceTo(other.Coordinates);
     }
 

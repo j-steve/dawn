@@ -14,6 +14,8 @@ public class SelectionInfoPanel : MonoBehaviour
     [SerializeField] Text labelDetails;
     [SerializeField] Text turnNumber;
     [SerializeField] Button createVillage;
+    [SerializeField] Dialog createVillageDialog;
+    
 
     public ISelectable selection { get; private set; }
 
@@ -24,7 +26,7 @@ public class SelectionInfoPanel : MonoBehaviour
         GameTime.Instance.GameTurnEvent += (turn) => turnNumber.text = turn.ToString();
         createVillage.onClick.AddListener(() => {
             if (selection.GetType() == typeof(UnitPlayer)) {
-                ((UnitPlayer)selection).CreateVillage();
+                createVillageDialog.Show(() => { ((UnitPlayer)selection).CreateVillage(); });
             } else {
                 Debug.LogErrorFormat("Cannot create village, active selection is {0}.", selection);
             }

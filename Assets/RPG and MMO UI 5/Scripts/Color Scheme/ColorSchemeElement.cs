@@ -24,7 +24,7 @@ namespace DuloGames.UI
         protected void Awake()
         {
             // Apply the actie color scheme to this element
-            if (ColorSchemeManager.Instance != null && ColorSchemeManager.Instance.activeColorScheme != null)
+            if (ColorSchemeManager.Instance != null && ColorSchemeManager.Instance.activeColorScheme != null )
                 ColorSchemeManager.Instance.activeColorScheme.ApplyToElement(this);
         }
 

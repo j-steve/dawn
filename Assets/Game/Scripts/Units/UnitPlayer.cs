@@ -33,7 +33,7 @@ public class UnitPlayer : Unit
             var cell = HexBoard.Active.GetCellUnderCursor();
             if (cell != currentHoverTarget) {
                 UnHighlightPath();
-                if (cell != Location) {
+                if (cell != null && cell != Location) {
                     currentHoverTarget = cell;
                     MapPathToTarget(cell);
                 }
@@ -43,7 +43,6 @@ public class UnitPlayer : Unit
 
     internal void CreateVillage()
     {
-        Debug.LogError("Villaging");
         var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
         cube.GetComponent<Renderer>().material.color = Color.red;
         cube.transform.localScale *= 5;
