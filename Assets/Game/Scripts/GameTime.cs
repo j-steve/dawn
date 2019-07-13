@@ -15,9 +15,9 @@ public class GameTime : MonoBehaviour
 
     #endregion
 
-    public event Action<int> GameTurnEvent;
-
-    public int CurrentTurn { get; private set; }
+    public event Action<GameDate> GameTurnEvent;
+     
+    public readonly GameDate CurrentDate = new GameDate();
 
     void Start()
     {
@@ -26,10 +26,10 @@ public class GameTime : MonoBehaviour
 
     IEnumerator TurnIncrementor()
     {
-        while (true) {
-            CurrentTurn++;
+        while (true) { 
+            CurrentDate.Increment();
             if (GameTurnEvent != null)
-                GameTurnEvent(CurrentTurn);
+                GameTurnEvent(CurrentDate);
             yield return new WaitForSeconds(SECONDS_PER_TURN);
         }
     }

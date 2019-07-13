@@ -15,15 +15,19 @@ public class SelectionInfoPanel : MonoBehaviour
     [SerializeField] Text turnNumber;
     [SerializeField] Button createVillage;
     [SerializeField] Dialog createVillageDialog;
-    
+
+    string turnNumberFormat;
 
     public ISelectable selection { get; private set; }
 
     void Start()
     {
+        // Hide the selection panel, it should only appear when something is selected.
         unitInfoPanel.SetActive(false);
         // Listen for turn event and increment the turn number.
-        GameTime.Instance.GameTurnEvent += (turn) => turnNumber.text = turn.ToString();
+        turnNumberFormat = turnNumber.text;
+        GameTime.Instance.GameTurnEvent += (GameDate date) => {turnNumber.text = turnNumberFormat.Format(date.year, date.season, date.day);};
+        // Listen for "create village" button click.
         createVillage.onClick.AddListener(() => {
             if (selection.GetType() == typeof(UnitPlayer)) {
                 createVillageDialog.Show(() => { ((UnitPlayer)selection).CreateVillage(); });
