@@ -1417,7 +1417,7 @@ MonoBehaviour:
   unitAnimation: {fileID: 114760259564161440}
   preferredBiomes:
   - Tundra
-  - Taiga`
+  - Taiga
   - Forest
 --- !u!114 &114760259564161440
 MonoBehaviour:
