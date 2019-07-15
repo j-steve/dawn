@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 3558046431305499912}
   - component: {fileID: 8878948314283748570}
   - component: {fileID: 9096181532904005687}
+  - component: {fileID: 2010306473256714332}
   m_Layer: 0
   m_Name: Human2
   m_TagString: Untagged
@@ -162,6 +163,20 @@ MonoBehaviour:
   _unitName: Human
   _attackPower: 0
   unitAnimation: {fileID: 0}
+--- !u!136 &2010306473256714332
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2351861962520953079}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.59214026
+  m_Height: 3.7947874
+  m_Direction: 1
+  m_Center: {x: 8.4181306e-10, y: 0.53008413, z: 0.09214032}
 --- !u!1 &2704353448768486779
 GameObject:
   m_ObjectHideFlags: 0
@@ -620,7 +635,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5726512191555965789}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0, y: 1.12, z: 0}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8032992603454321310}
@@ -775,7 +790,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6971503578353055289}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0, y: 10, z: 0}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3558046431305499912}
