@@ -267,7 +267,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
             SetAnimation(UnitAnimationType.IDLE);
     }
 
-    protected void SetAnimation(UnitAnimationType animationType)
+    protected virtual void SetAnimation(UnitAnimationType animationType)
     {
         unitAnimation.SetAnimation(animationType);
     }

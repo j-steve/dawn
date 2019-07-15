@@ -8,6 +8,7 @@ public class UnitAnimationMecanim : UnitAnimation
     static readonly int triggerEating = Animator.StringToHash("Eating");
     static readonly int triggerFighting = Animator.StringToHash("Fighting");
     static readonly int triggerDeath = Animator.StringToHash("Death");
+    static readonly int triggerWorking = Animator.StringToHash("Working");
 
     public override void SetAnimation(UnitAnimationType animationType)
     {
