@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unitName: Human
-  _attackPower: 0
+  _attackPower: 2
   unitAnimation: {fileID: 0}
 --- !u!136 &2010306473256714332
 CapsuleCollider:
