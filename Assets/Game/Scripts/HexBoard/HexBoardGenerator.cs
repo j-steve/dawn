@@ -50,6 +50,7 @@ public class HexBoardGenerator
         yield return null;
         UILoadingOverlay.Instance.UpdateLoad(.9f, "Moosifying...");
         var spawnableTiles = new HashSet<HexCell>(hexBoard.hexCells.Values.Where(c => c.Elevation > 0 && c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) == null));
+        int desiredUnitCount = spawnableTiles.Count / 10;
         var unitCount = 0;
         while (spawnableTiles.Count > 0 && unitCount < 15) {
             var cell = spawnableTiles.GetRandom();

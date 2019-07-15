@@ -1401,6 +1401,7 @@ MonoBehaviour:
   preferredBiomes:
   - Forest
   - Scrubland
+  - Jungle
 --- !u!1 &1886160914811782
 GameObject:
   m_ObjectHideFlags: 0
