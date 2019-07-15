@@ -6,10 +6,11 @@ using System.Collections.Generic;
 public class UnitAnimal : Unit
 {
     static Dictionary<string, MoveGoal[]> goals = new Dictionary<string, MoveGoal[]> {
-        {"Moose", new MoveGoal[] { MoveGoal.DRINK, MoveGoal.GRAZE, MoveGoal.WANDER} },
-        {"Wolf",  new MoveGoal[] { MoveGoal.DRINK, MoveGoal.EAT_CORPSE, MoveGoal.HUNT, MoveGoal.WANDER } },
+        {"Grazer", new MoveGoal[] { MoveGoal.DRINK, MoveGoal.GRAZE, MoveGoal.WANDER} },
+        {"Hunter",  new MoveGoal[] { MoveGoal.DRINK, MoveGoal.EAT_CORPSE, MoveGoal.HUNT, MoveGoal.WANDER } },
     };
 
+    public string behaviorType;
     public string[] preferredBiomes = new string[] { };
 
     public override string InfoPanelTitle {
@@ -91,7 +92,7 @@ public class UnitAnimal : Unit
     IList<HexCell> GetNewGoalPath()
     {
         var rankedGoals = new Priority_Queue.SimplePriorityQueue<MoveGoal>();
-        foreach (var potentialGoal in goals[UnitName]) {
+        foreach (var potentialGoal in goals[behaviorType]) {
             float priority = potentialGoal.priority(this) * Random.value;
             rankedGoals.Enqueue(potentialGoal, priority);
         }

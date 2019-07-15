@@ -93,35 +93,4 @@ public class UnitPlayer : Unit
         return Math.Abs(c1.Elevation - c2.Elevation) * 2 + 1;
     }
 
-
-    static readonly int triggerMoving = Animator.StringToHash("Moving");
-    static readonly int triggerIdle = Animator.StringToHash("Idle");
-    static readonly int triggerEating = Animator.StringToHash("Eating");
-    static readonly int triggerFighting = Animator.StringToHash("Fighting");
-    static readonly int triggerDeath = Animator.StringToHash("Death");
-    static readonly int triggerWorking = Animator.StringToHash("Working");
-    
-    int GetTriggerName(UnitAnimationType animationType)
-    {
-        switch (animationType) {
-            case UnitAnimationType.EAT:
-            case UnitAnimationType.DRINK:
-                return triggerEating;
-            case UnitAnimationType.MOVE:
-            case UnitAnimationType.STALK:
-                return triggerMoving;
-            case UnitAnimationType.FIGHT:
-                return triggerFighting;
-            case UnitAnimationType.DEATH:
-                return triggerDeath;
-            case UnitAnimationType.IDLE:
-            default:
-                return triggerIdle;
-        }
-    }
-
-    protected override void SetAnimation(UnitAnimationType animationType)
-    {
-        GetComponent<Animator>().SetTrigger(GetTriggerName(animationType));
-    }
 }

@@ -1,0 +1,74 @@
+0-1 Bind Pose
+3-81 loop Idle
+
+84-107 Start Idle Standing
+
+109-156 loop Idle Standing
+
+158-181 End Idle Standing
+
+184-217 Lie Down
+
+220-266 loop Sleeping
+
+268-304 Wake Up
+
+308-406 loop Rest
+
+411-489 loop Eating
+494-572 loop Fight Idle
+
+576-596 loop Jumping
+601-631 loop Swimming                    
+635-652 loop Run
+657-683 loop Attack Paw R
+
+686-721 loop Attack Paw RL
+
+725-789 loop Attack
+7
+794-865 loop Attack With Ripping             
+870-882 loop Hit Left
+
+885-899 loop Hit Right
+
+902-919 loop Hit Front
+                   
+920-935 loop Hit Back
+                    
+938-976 Death                            
+979-990 loop Hit Right Standing
+
+993-1004 loop Hit Left Standing
+1007-1018 loop Hit Back Standing
+
+1021-1039 Death 01
+                       
+1043-1079 loop Strafe Left
+
+1083-1120 loop Strafe Right
+
+1125-1149 loop Walk
+
+1153-1197 loop Walk Slow
+
+1201-1226 loop Walk Back
+
+1230-1255 loop Walk Smell
+l
+1260-1298 loop Walk Two Legs
+
+1302-1341 loop Walk Two Legs Back
+
+1345-1440 loop Smell
+
+1444-1488 loop Rotate Left
+
+1493-1536 loop Rotate Right
+
+
+
+
+
+
+

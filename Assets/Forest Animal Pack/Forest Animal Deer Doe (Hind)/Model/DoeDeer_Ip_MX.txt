@@ -1,0 +1,45 @@
+0000-0000 Bind Pose
+
+0002-0024 loop Springbok
+
+0028-0041 loop Run
+
+0045-0070 loop Run With Jump
+
+0074-0086 loop Run Fast
+
+0090-0119 loop Walk
+
+0124-0175 loop Walk Eating
+
+0179-0238 loop Eating
+
+0242-0272 loop Jump
+
+0276-0394 loop Idle
+
+0398-0488 loop Idle01
+
+0491-0509 Lie Down
+
+0511-0570 loop Rest
+
+0572-0591 Stand Up
+
+0594-0652 loop Fight Idle
+
+0655-0679 loop Attack Back
+
+0682-0705 loop Attack Front
+
+0709-0723 loop Hit Left
+
+0726-0740 loop Hit Right
+
+0743-0757 loop Hit Front
+
+0760-0774 loop Hit Back
+
+0777-0793 Death
+
+0795-0809 Death01
