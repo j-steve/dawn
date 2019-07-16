@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.EventSystems;
 
+[RequireComponent(typeof(Animator))]
 abstract public class Unit : MonoBehaviour, ISelectable
 {
     #region Static
@@ -50,8 +51,6 @@ abstract public class Unit : MonoBehaviour, ISelectable
         protected set { _thirst = Mathf.Clamp(value, 0, 100); }
     }
     float _thirst;
-
-    [SerializeField] UnitAnimation unitAnimation;
 
     SkinnedMeshRenderer skinnedMeshRender;
 
@@ -295,10 +294,6 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     protected virtual void SetAnimation(UnitAnimationType animationType)
     {
-        if (unitAnimation != null) {
-            unitAnimation.SetAnimation(animationType);
-        } else {
-            GetComponent<Animator>().SetTrigger(GetTriggerName(animationType));
-        }
+        GetComponent<Animator>().SetTrigger(GetTriggerName(animationType));
     }
 }

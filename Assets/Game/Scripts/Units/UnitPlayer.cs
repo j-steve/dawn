@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-[RequireComponent(typeof(Animator))]
 public class UnitPlayer : Unit
 {
     const float MOVEMENT_POINTS = 3;

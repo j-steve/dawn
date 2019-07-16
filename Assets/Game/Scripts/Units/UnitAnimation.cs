@@ -11,8 +11,3 @@ public enum UnitAnimationType
     HIT,
     DEATH,
 }
-
-public abstract class UnitAnimation : MonoBehaviour
-{
-    public abstract void SetAnimation(UnitAnimationType animationType);
-}
