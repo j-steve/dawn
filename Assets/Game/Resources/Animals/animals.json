@@ -244,6 +244,11 @@
         "spawnRate": 1,
         "behavior": [
             "Grazer"
+        ],
+        "prefabs": [
+            "DoeDeer_RM_MX_LP_Mat1",
+            "DoeDeer_RM_MX_LP_Mat2",
+            "DoeDeer_RM_MX_LP_Mat3"
         ]
     },
     {

@@ -1075,32 +1075,6 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &1102998607505404554
-AnimatorState:
-  serializedVersion: 5
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Lie Down
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400078, guid: 7296e78b38cae7e4aa0178d8cb9512e5, type: 3}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!1107 &1107747253551410940
 AnimatorStateMachine:
   serializedVersion: 5
@@ -1137,9 +1111,6 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 1102654078749910940}
     m_Position: {x: 312, y: -348, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1102998607505404554}
-    m_Position: {x: 360, y: 36, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102630642587823700}
     m_Position: {x: -216, y: 156, z: 0}

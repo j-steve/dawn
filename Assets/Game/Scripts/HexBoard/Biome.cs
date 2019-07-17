@@ -56,7 +56,14 @@ public class Biome
     public readonly Range<int> latitude;
     public readonly float treeProbability;
     public readonly Vector3 treeSizeModifier;
-    public float animalProbability { get { return treeProbability / 100; } }
+    public float animalProbability { get {
+            return 0.01f;
+            //if (name == "Plains" || name == "Scrubland") { return 0.05f; }
+            //if (name == "Tundra" || name ) { return 0.02f; }
+            //if (name == "Ice Caps") { return 0.01f; }
+
+            //return Mathf.Max(treeProbability / 100, 0.01f);
+        } }
 
     private Biome(int id, string name, TerrainTexture terrainTexture, int minSize, Range<int> elevation, float bumpiness, Range<int> latitude, float treeProbability = 0, Vector3? treeSizeModifier = null)
     {

@@ -19,14 +19,7 @@ public class AnimalType
         }
         if (totalProbability == 0) { return null; }
         float randomValue = Random.value * totalProbability;
-        float chosenKey = 0;
-        foreach (float key in validAnimals.Keys) {
-            if (key > chosenKey && key >= randomValue) { chosenKey = key; }
-        }
-        if (!validAnimals.ContainsKey(chosenKey)) {
-            Debug.LogErrorFormat("{0} doesn't have {1}, rand is {2}", validAnimals.Keys.Join(","), chosenKey, randomValue);
-            return null;
-        }
+        float chosenKey = validAnimals.Keys.Where(k => k > randomValue).Min();
         return validAnimals[chosenKey];
     }
 
