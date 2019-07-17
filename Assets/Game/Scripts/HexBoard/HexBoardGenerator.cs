@@ -36,7 +36,8 @@ public class HexBoardGenerator
             yield return null;
         }
         UILoadingOverlay.Instance.UpdateLoad(.8f, "Planting forests...");
-        foreach(HexCell cell in hexBoard.hexCells.Values) {
+        yield return null;
+        foreach (HexCell cell in hexBoard.hexCells.Values) {
             var trees = Resources.LoadAll<GameObject>("Trees/" + cell.Biome.name);
             if (Random.value > cell.Biome.treeProbability || trees.Length == 0) { continue; }
             for (int i = 0; i < Random.Range(1, 6); i++) {  // Between 1 and 6 trees will appear.
@@ -47,24 +48,30 @@ public class HexBoardGenerator
                 if (Random.value > cell.Biome.treeProbability) { break; }
             }
         }
-        yield return null;
         UILoadingOverlay.Instance.UpdateLoad(.9f, "Moosifying...");
-        var spawnableTiles = new HashSet<HexCell>(hexBoard.hexCells.Values.Where(c => c.Elevation > 0 && c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) == null));
-        int desiredUnitCount = spawnableTiles.Count / 10;
-        var unitCount = 0;
-        while (spawnableTiles.Count > 0 && unitCount < 15) {
-            var cell = spawnableTiles.GetRandom();
-            var prefab = hexBoard.unitPrefabs.GetRandom();
-            if (prefab.preferredBiomes.Contains(cell.Biome.name)) {
-                Unit.Create(prefab, cell);
-                unitCount++;
-            }
-            spawnableTiles.Remove(cell);
-        }
         yield return null;
+        foreach (HexCell cell in hexBoard.hexCells.Values) {
+            if (Random.value <= cell.Biome.animalProbability) {
+                var animalType = AnimalType.GetForBiome(cell.Biome);
+                if (animalType == null) { Debug.LogWarningFormat("Can't spawn animals on {0}", cell.Biome); continue; }
+                var prefab = Resources.Load<GameObject>("Animals/Prefabs/" + animalType.prefabs.GetRandom());
+                var unitAnimal = UnitAnimal.Create(prefab, cell, animalType);
+            }
+        }
+        //var spawnableTiles = new HashSet<HexCell>(hexBoard.hexCells.Values.Where(c => c.Elevation > 0 && c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) == null));
+        //int desiredUnitCount = spawnableTiles.Count / 10;
+        //var unitCount = 0;
+        //while (spawnableTiles.Count > 0 && unitCount < 15) {
+        //    var cell = spawnableTiles.GetRandom();
+        //    var prefab = hexBoard.unitPrefabs.GetRandom();
+        //    if (prefab.preferredBiomes.Contains(cell.Biome.name)) {
+        //        Unit.Create(prefab, cell);
+        //        unitCount++;
+        //    }
+        //    spawnableTiles.Remove(cell);
+        //}
         // Create the human player's starting position.
         var humanSpawnableTiles = new HashSet<HexCell>(hexBoard.hexCells.Values.Where(c => c.Elevation > 0 && c.units.Count == 0));
-        Debug.LogWarning(humanSpawnableTiles.Count);
         var startTile = humanSpawnableTiles.GetRandom();
         var playerUnit = Unit.Create(hexBoard.playerPrefab, startTile);
         MapCamera.Active.CenterCameraOn(startTile);

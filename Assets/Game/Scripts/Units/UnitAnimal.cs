@@ -5,13 +5,24 @@ using System.Collections.Generic;
 
 public class UnitAnimal : Unit
 {
-    static Dictionary<string, MoveGoal[]> goals = new Dictionary<string, MoveGoal[]> {
-        {"Grazer", new MoveGoal[] { MoveGoal.DRINK, MoveGoal.GRAZE, MoveGoal.WANDER} },
-        {"Hunter",  new MoveGoal[] { MoveGoal.DRINK, MoveGoal.EAT_CORPSE, MoveGoal.HUNT, MoveGoal.WANDER } },
+    static Dictionary<Behavior, MoveGoal[]> goals = new Dictionary<Behavior, MoveGoal[]> {
+        {Behavior.Grazer, new MoveGoal[] { MoveGoal.DRINK, MoveGoal.GRAZE, MoveGoal.WANDER} },
+        {Behavior.SmallGameHunter, new MoveGoal[] { MoveGoal.DRINK, MoveGoal.GRAZE, MoveGoal.WANDER} },
+        {Behavior.Predator,  new MoveGoal[] { MoveGoal.DRINK, MoveGoal.EAT_CORPSE, MoveGoal.HUNT, MoveGoal.WANDER } },
     };
 
-    public string behaviorType;
-    public string[] preferredBiomes = new string[] { };
+    static public UnitAnimal Create(GameObject prefab, HexCell cell, AnimalType animalType)
+    { 
+        var gameObject = Instantiate(prefab);
+        var animalUnit = gameObject.AddComponent<UnitAnimal>();
+        animalUnit.animalType = animalType;
+        animalUnit._unitName = animalType.name;
+        animalUnit._attackPower = animalType.ferocity;
+        animalUnit.Initialize(cell);
+        return animalUnit;
+    }
+
+    public AnimalType animalType;
 
     public override string InfoPanelTitle {
         get {
@@ -30,7 +41,7 @@ public class UnitAnimal : Unit
     {
         if (c2.Elevation == 0) { return float.MaxValue; }
         float cost = System.Math.Abs(c1.Elevation - c2.Elevation) * 2 + 1;
-        if (!preferredBiomes.Contains(c2.Biome.name)) {
+        if (!animalType.biomes.Contains(c2.Biome)) {
             cost *= 2; // More expensive to travel through non-preferred biomes.
         }
         return cost;
@@ -92,7 +103,7 @@ public class UnitAnimal : Unit
     IList<HexCell> GetNewGoalPath()
     {
         var rankedGoals = new Priority_Queue.SimplePriorityQueue<MoveGoal>();
-        foreach (var potentialGoal in goals[behaviorType]) {
+        foreach (var potentialGoal in goals[animalType.behavior[0]]) {
             float priority = potentialGoal.priority(this) * Random.value;
             rankedGoals.Enqueue(potentialGoal, priority);
         }

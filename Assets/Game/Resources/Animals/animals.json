@@ -83,6 +83,9 @@
         "behavior": [
             "Predator",
             "Maneater"
+        ],
+        "prefabs": [
+            "Wolf_FV_RM_Grey_LP"
         ]
     },
     {
@@ -112,7 +115,7 @@
         "domesticity": 1,
         "spawnRate": 0.5,
         "behavior": [
-            "Game Hunter"
+            "SmallGameHunter"
         ]
     },
     {
@@ -128,7 +131,7 @@
         "domesticity": 1,
         "spawnRate": 0.75,
         "behavior": [
-            "Game Hunter"
+            "SmallGameHunter"
         ]
     },
     {
@@ -141,7 +144,7 @@
         "domesticity": 1,
         "spawnRate": 0.5,
         "behavior": [
-            "Game Hunter"
+            "SmallGameHunter"
         ]
     },
     {
@@ -156,7 +159,7 @@
         "domesticity": 1,
         "spawnRate": 0.25,
         "behavior": [
-            "Game Hunter"
+            "SmallGameHunter"
         ]
     },
     {
@@ -187,6 +190,9 @@
         "behavior": [
             "Predator",
             "Hibernator"
+        ],
+        "prefabs": [
+            "bearbrown_sv_rm_lp"
         ]
     },
     {
@@ -203,6 +209,9 @@
             "Predator",
             "Maneater",
             "Hibernator"
+        ],
+        "prefabs": [
+            "bearblack_sv_rm_lp"
         ]
     },
     {
@@ -218,6 +227,9 @@
         "behavior": [
             "Predator",
             "Maneater"
+        ],
+        "prefabs": [
+            "bearpolar_sv_rm_lp"
         ]
     },
     {
@@ -276,6 +288,9 @@
         "behavior": [
             "Grazer",
             "Territorial"
+        ],
+        "prefabs": [
+            "Moose"
         ]
     },
     {
@@ -537,6 +552,9 @@
         "behavior": [
             "Grazer",
             "Territorial"
+        ],
+        "prefabs": [
+            "boar_sv_rm_mx_lp"
         ]
     },
     {

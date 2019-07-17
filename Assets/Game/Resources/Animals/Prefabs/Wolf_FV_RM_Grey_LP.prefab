@@ -229,7 +229,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4261383344057664}
   - component: {fileID: 95953516256659470}
-  - component: {fileID: 2351391025471296602}
   m_Layer: 0
   m_Name: Wolf_FV_RM_Grey_LP
   m_TagString: Untagged
@@ -272,26 +271,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &2351391025471296602
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1146703687612942}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c6806e2786fb1b439410c08e4a9fbc9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _unitName: Wolf
-  _attackPower: 2
-  behaviorType: Hunter
-  preferredBiomes:
-  - Taiga
-  - Tundra
-  - Forest
-  - Plains
 --- !u!1 &1181510915047392
 GameObject:
   m_ObjectHideFlags: 0

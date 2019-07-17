@@ -5,7 +5,7 @@ using UnityEngine;
 {
     static public T[] Load<T>(string filename)
     {
-        var targetFile = Resources.Load<TextAsset>("GameData/" + filename);
+        var targetFile = Resources.Load<TextAsset>(filename);
         var text = "{\"data\":" + targetFile.text + "}";
        // return JsonUtility.FromJson<JsonDataList<T>>(text).data;
         return JsonConvert.DeserializeObject<JsonDataList<T>>(text).data;

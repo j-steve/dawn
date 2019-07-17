@@ -31,10 +31,10 @@ abstract public class Unit : MonoBehaviour, ISelectable
     abstract protected float TravelSpeed { get; }
 
     public string UnitName { get { return _unitName; } }
-    [SerializeField] string _unitName;
+    [SerializeField] protected string _unitName;
 
     public float AttackPower { get { return _attackPower; } }
-    [SerializeField] float _attackPower;
+    [SerializeField] protected float _attackPower;
 
     public float MaxHealth { get { return AttackPower * 5; } }
 

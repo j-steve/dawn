@@ -56,6 +56,7 @@ public class Biome
     public readonly Range<int> latitude;
     public readonly float treeProbability;
     public readonly Vector3 treeSizeModifier;
+    public float animalProbability { get { return treeProbability / 100; } }
 
     private Biome(int id, string name, TerrainTexture terrainTexture, int minSize, Range<int> elevation, float bumpiness, Range<int> latitude, float treeProbability = 0, Vector3? treeSizeModifier = null)
     {
