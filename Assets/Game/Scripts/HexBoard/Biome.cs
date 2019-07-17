@@ -28,7 +28,7 @@ public class Biome
         JUNGLE,
         SAVANNAH,
         SCRUBLAND,
-        DESERT
+        DESERT,
     };
 
 
@@ -36,6 +36,15 @@ public class Biome
     {
         if (id == -1) { return LAKE; }
         return Values[id];
+    }
+
+    static internal Biome GetByName(string name)
+    {
+        foreach (Biome b in Values) {
+            if (b.name == name) { return b; }
+        }
+        if (name == "Swamp" || name == "Alpine") { return null; } // TODO: remove and add these biomes.
+        throw new System.ArgumentException(string.Format("Biome \"{0}\" does not exist.", name));
     }
 
     public readonly int id;
@@ -62,4 +71,9 @@ public class Biome
     }
 
     public override string ToString() { return name; }
+
+    public static explicit operator Biome(string biomeName)
+    {
+        return GetByName(biomeName);
+    }
 }

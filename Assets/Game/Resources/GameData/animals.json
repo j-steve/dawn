@@ -1,0 +1,581 @@
+[
+    {
+        "name": "Gorilla",
+        "biomes": [
+            "Jungle"
+        ],
+        "ferocity": 10,
+        "domesticity": 0.5,
+        "spawnRate": 0.25,
+        "behavior": [
+            "Grazer",
+            "Territorial"
+        ]
+    },
+    {
+        "name": "Alligator",
+        "biomes": [
+            "Jungle",
+            "Savannah",
+            "Swamp"
+        ],
+        "ferocity": 20,
+        "domesticity": 0.05,
+        "spawnRate": 0.25,
+        "behavior": [
+            "Predator",
+            "Maneater"
+        ]
+    },
+    {
+        "name": "Elephant",
+        "biomes": [
+            "Jungle",
+            "Savannah",
+            "Desert"
+        ],
+        "ferocity": 15,
+        "domesticity": 0.5,
+        "spawnRate": 0.25,
+        "behavior": [
+            "Grazer",
+            "Territorial"
+        ]
+    },
+    {
+        "name": "Hippopotomus",
+        "biomes": [
+            "Jungle",
+            "Savannah"
+        ],
+        "ferocity": 20,
+        "domesticity": 0.05,
+        "spawnRate": 0.25,
+        "behavior": [
+            "Grazer",
+            "Territorial"
+        ]
+    },
+    {
+        "name": "Giraffe",
+        "biomes": [
+            "Savannah"
+        ],
+        "ferocity": 2,
+        "domesticity": 0.15,
+        "spawnRate": 0.25,
+        "behavior": [
+            "Grazer"
+        ]
+    },
+    {
+        "name": "Grey Wolf",
+        "baseType": "Canine",
+        "biomes": [
+            "Tundra",
+            "Alpine",
+            "Taiga",
+            "Forest"
+        ],
+        "ferocity": 10,
+        "domesticity": 1,
+        "spawnRate": 0.5,
+        "behavior": [
+            "Predator",
+            "Maneater"
+        ]
+    },
+    {
+        "name": "Painted Wolf",
+        "baseType": "Canine",
+        "biomes": [
+            "Savannah"
+        ],
+        "ferocity": 5,
+        "domesticity": 1,
+        "spawnRate": 0.5,
+        "behavior": [
+            "Predator"
+        ]
+    },
+    {
+        "name": "Coyote",
+        "baseType": "Canine",
+        "biomes": [
+            "Alpine",
+            "Taiga",
+            "Forest",
+            "Plains",
+            "Scrubland"
+        ],
+        "ferocity": 5,
+        "domesticity": 1,
+        "spawnRate": 0.5,
+        "behavior": [
+            "Game Hunter"
+        ]
+    },
+    {
+        "name": "Red Fox",
+        "baseType": "Canine",
+        "biomes": [
+            "Taiga",
+            "Forest",
+            "Plains",
+            "Scrubland"
+        ],
+        "ferocity": 1,
+        "domesticity": 1,
+        "spawnRate": 0.75,
+        "behavior": [
+            "Game Hunter"
+        ]
+    },
+    {
+        "name": "Desert Fox",
+        "baseType": "Canine",
+        "biomes": [
+            "Desert"
+        ],
+        "ferocity": 1,
+        "domesticity": 1,
+        "spawnRate": 0.5,
+        "behavior": [
+            "Game Hunter"
+        ]
+    },
+    {
+        "name": "Arctic Fox",
+        "baseType": "Canine",
+        "biomes": [
+            "Ice Caps",
+            "Tundra",
+            "Taiga"
+        ],
+        "ferocity": 1,
+        "domesticity": 1,
+        "spawnRate": 0.25,
+        "behavior": [
+            "Game Hunter"
+        ]
+    },
+    {
+        "name": "Hyena",
+        "baseType": "Canine",
+        "biomes": [
+            "Savannah"
+        ],
+        "ferocity": 3,
+        "domesticity": 0.75,
+        "spawnRate": 1,
+        "behavior": [
+            "Predator"
+        ]
+    },
+    {
+        "name": "Brown Bear",
+        "baseType": "Bear",
+        "biomes": [
+            "Alpine",
+            "Taiga",
+            "Forest",
+            "Plains"
+        ],
+        "ferocity": 15,
+        "domesticity": 0.25,
+        "spawnRate": 0.15,
+        "behavior": [
+            "Predator",
+            "Hibernator"
+        ]
+    },
+    {
+        "name": "Black Bear",
+        "baseType": "Bear",
+        "biomes": [
+            "Forest",
+            "Plains"
+        ],
+        "ferocity": 5,
+        "domesticity": 0.25,
+        "spawnRate": 0.25,
+        "behavior": [
+            "Predator",
+            "Maneater",
+            "Hibernator"
+        ]
+    },
+    {
+        "name": "Polar Bear",
+        "baseType": "Bear",
+        "biomes": [
+            "Ice Caps",
+            "Tundra"
+        ],
+        "ferocity": 30,
+        "domesticity": 0.25,
+        "spawnRate": 0.05,
+        "behavior": [
+            "Predator",
+            "Maneater"
+        ]
+    },
+    {
+        "name": "White-tailed Deer",
+        "baseType": "Deer",
+        "biomes": [
+            "Forest",
+            "Plains"
+        ],
+        "ferocity": 1,
+        "domesticity": 0.25,
+        "spawnRate": 1,
+        "behavior": [
+            "Grazer"
+        ]
+    },
+    {
+        "name": "Elk",
+        "baseType": "Deer",
+        "biomes": [
+            "Taiga",
+            "Forest",
+            "Plains"
+        ],
+        "ferocity": 1,
+        "domesticity": 0.5,
+        "spawnRate": 1,
+        "behavior": [
+            "Grazer"
+        ]
+    },
+    {
+        "name": "Reindeer",
+        "baseType": "Deer",
+        "biomes": [
+            "Tundra",
+            "Taiga"
+        ],
+        "ferocity": 2,
+        "domesticity": 0.5,
+        "spawnRate": 1,
+        "behavior": [
+            "Grazer"
+        ]
+    },
+    {
+        "name": "Moose",
+        "baseType": "Deer",
+        "biomes": [
+            "Tundra",
+            "Taiga"
+        ],
+        "ferocity": 5,
+        "domesticity": 0.25,
+        "spawnRate": 1,
+        "behavior": [
+            "Grazer",
+            "Territorial"
+        ]
+    },
+    {
+        "name": "Antelope",
+        "baseType": "Deer",
+        "biomes": [
+            "Savannah"
+        ],
+        "ferocity": 1,
+        "domesticity": 0.25,
+        "spawnRate": 1,
+        "behavior": [
+            "Grazer"
+        ]
+    },
+    {
+        "name": "Horse",
+        "baseType": "Equus",
+        "biomes": [
+            "Forest",
+            "Plains",
+            "Scrubland"
+        ],
+        "ferocity": 3,
+        "domesticity": 0.9,
+        "spawnRate": 0.5,
+        "behavior": [
+            "Grazer"
+        ]
+    },
+    {
+        "name": "Donkey",
+        "baseType": "Equus",
+        "biomes": [
+            "Forest",
+            "Plains",
+            "Savannah",
+            "Scrubland"
+        ],
+        "ferocity": 1,
+        "domesticity": 0.9,
+        "spawnRate": 0.5,
+        "behavior": [
+            "Grazer"
+        ]
+    },
+    {
+        "name": "Zebra",
+        "baseType": "Equus",
+        "biomes": [
+            "Savannah"
+        ],
+        "ferocity": 3,
+        "domesticity": 0.5,
+        "spawnRate": 0.75,
+        "behavior": [
+            "Grazer"
+        ]
+    },
+    {
+        "name": "Camel",
+        "baseType": "Camelid",
+        "biomes": [
+            "Scrubland",
+            "Desert"
+        ],
+        "ferocity": 2,
+        "domesticity": 0.95,
+        "spawnRate": 0.75,
+        "behavior": [
+            "Grazer"
+        ]
+    },
+    {
+        "name": "Llama",
+        "baseType": "Camelid",
+        "biomes": [
+            "Alpine",
+            "Scrubland"
+        ],
+        "ferocity": 1,
+        "domesticity": 0.95,
+        "spawnRate": 0.5,
+        "behavior": [
+            "Grazer"
+        ]
+    },
+    {
+        "name": "Tiger",
+        "baseType": "Big Cat",
+        "biomes": [
+            "Taiga",
+            "Forest",
+            "Jungle",
+            "Plains"
+        ],
+        "ferocity": 15,
+        "domesticity": 0.15,
+        "spawnRate": 0.05,
+        "behavior": [
+            "Predator",
+            "Maneater"
+        ]
+    },
+    {
+        "name": "Lion",
+        "baseType": "Big Cat",
+        "biomes": [
+            "Savannah",
+            "Scrubland",
+            "Desert"
+        ],
+        "ferocity": 15,
+        "domesticity": 0.15,
+        "spawnRate": 0.15,
+        "behavior": [
+            "Predator",
+            "Maneater"
+        ]
+    },
+    {
+        "name": "Jaguar",
+        "baseType": "Big Cat",
+        "biomes": [
+            "Jungle"
+        ],
+        "ferocity": 10,
+        "domesticity": 0.15,
+        "spawnRate": 0.1,
+        "behavior": [
+            "Predator",
+            "Maneater"
+        ]
+    },
+    {
+        "name": "Cougar",
+        "baseType": "Big Cat",
+        "biomes": [
+            "Alpine",
+            "Forest",
+            "Jungle",
+            "Plains",
+            "Scrubland"
+        ],
+        "ferocity": 8,
+        "domesticity": 0.15,
+        "spawnRate": 0.25,
+        "behavior": [
+            "Predator",
+            "Maneater"
+        ]
+    },
+    {
+        "name": "Snow Leopard",
+        "baseType": "Big Cat",
+        "biomes": [
+            "Taiga",
+            "Tundra",
+            "Alpine"
+        ],
+        "ferocity": 10,
+        "domesticity": 0.15,
+        "spawnRate": 0.1,
+        "behavior": [
+            "Predator",
+            "Maneater"
+        ]
+    },
+    {
+        "name": "Auroch (Cow)",
+        "baseType": "Bovidae",
+        "biomes": [
+            "Forest",
+            "Plains",
+            "Savannah",
+            "Scrubland"
+        ],
+        "ferocity": 5,
+        "domesticity": 1,
+        "spawnRate": 1,
+        "behavior": [
+            "Grazer"
+        ]
+    },
+    {
+        "name": "Bison",
+        "baseType": "Bovidae",
+        "biomes": [
+            "Plains"
+        ],
+        "ferocity": 5,
+        "domesticity": 1,
+        "spawnRate": 1,
+        "behavior": [
+            "Grazer"
+        ]
+    },
+    {
+        "name": "Yak",
+        "baseType": "Bovidae",
+        "biomes": [
+            "Tundra",
+            "Alpine",
+            "Taiga"
+        ],
+        "ferocity": 5,
+        "domesticity": 1,
+        "spawnRate": 1,
+        "behavior": [
+            "Grazer"
+        ]
+    },
+    {
+        "name": "Mouflon (Sheep)",
+        "baseType": "Bovidae",
+        "biomes": [
+            "Alpine",
+            "Taiga",
+            "Forest",
+            "Plains",
+            "Scrubland"
+        ],
+        "ferocity": 1,
+        "domesticity": 0.95,
+        "spawnRate": 1,
+        "behavior": [
+            "Grazer"
+        ]
+    },
+    {
+        "name": "Goat",
+        "baseType": "Bovidae",
+        "biomes": [
+            "Alpine",
+            "Taiga",
+            "Forest",
+            "Plains",
+            "Scrubland"
+        ],
+        "ferocity": 1,
+        "domesticity": 1,
+        "spawnRate": 1,
+        "behavior": [
+            "Grazer"
+        ]
+    },
+    {
+        "name": "Boar (Pig)",
+        "baseType": "Bovidae",
+        "biomes": [
+            "Taiga",
+            "Forest",
+            "Plains",
+            "Scrubland"
+        ],
+        "ferocity": 5,
+        "domesticity": 0.9,
+        "spawnRate": 1,
+        "behavior": [
+            "Grazer",
+            "Territorial"
+        ]
+    },
+    {
+        "name": "Whale",
+        "baseType": "Aquatic",
+        "biomes": [
+            "Ocean"
+        ],
+        "ferocity": 20,
+        "domesticity": 0.25,
+        "spawnRate": 1,
+        "behavior": [
+            "Grazer"
+        ]
+    },
+    {
+        "name": "Dolphin",
+        "baseType": "Aquatic",
+        "biomes": [
+            "Ocean"
+        ],
+        "ferocity": 15,
+        "domesticity": 0.75,
+        "spawnRate": 1,
+        "behavior": [
+            "Predator"
+        ]
+    },
+    {
+        "name": "Shark",
+        "baseType": "Aquatic",
+        "biomes": [
+            "Ocean"
+        ],
+        "ferocity": 20,
+        "spawnRate": 1,
+        "behavior": [
+            "Predator",
+            "Maneater"
+        ]
+    }
+]

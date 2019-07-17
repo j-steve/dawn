@@ -1,14 +1,14 @@
-﻿using UnityEngine;
+﻿using Newtonsoft.Json;
+using UnityEngine;
 
-static public class GameDataLoader
+ static public class GameDataLoader
 {
-
-    // Use this for initialization
-    static public Tile[] LoadTileData()
+    static public T[] Load<T>(string filename)
     {
-        var targetFile = Resources.Load<TextAsset>("GameData/tiles");
+        var targetFile = Resources.Load<TextAsset>("GameData/" + filename);
         var text = "{\"data\":" + targetFile.text + "}";
-        return JsonUtility.FromJson<JsonDataList<Tile>>(text).data;
+       // return JsonUtility.FromJson<JsonDataList<T>>(text).data;
+        return JsonConvert.DeserializeObject<JsonDataList<T>>(text).data;
     }
 
     struct JsonDataList<T> { public T[] data; }
@@ -21,6 +21,6 @@ public class Tile
     public string biome;
     public string tile;
     public string resources;
-    public int impedence;
+    public float impedence;
     public string imageUrl;
 }
