@@ -11,8 +11,9 @@ public class UnitAnimal : Unit
         {Behavior.Predator,  new MoveGoal[] { MoveGoal.DRINK, MoveGoal.EAT_CORPSE, MoveGoal.HUNT, MoveGoal.WANDER } },
     };
 
-    static public UnitAnimal Create(GameObject prefab, HexCell cell, AnimalType animalType)
-    { 
+    static public UnitAnimal Create(HexCell cell, AnimalType animalType)
+    {
+        var prefab = Resources.Load<GameObject>("Animals/Prefabs/" + animalType.prefabs.GetRandom());
         var gameObject = Instantiate(prefab);
         var animalUnit = gameObject.AddComponent<UnitAnimal>();
         animalUnit.animalType = animalType;

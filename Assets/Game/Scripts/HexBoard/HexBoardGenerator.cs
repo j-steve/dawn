@@ -54,8 +54,7 @@ public class HexBoardGenerator
             if (Random.value <= cell.Biome.animalProbability) {
                 var animalType = AnimalType.GetForBiome(cell.Biome);
                 if (animalType == null) { Debug.LogWarningFormat("Can't spawn animals on {0}", cell.Biome); continue; }
-                var prefab = Resources.Load<GameObject>("Animals/Prefabs/" + animalType.prefabs.GetRandom());
-                var unitAnimal = UnitAnimal.Create(prefab, cell, animalType);
+                UnitAnimal.Create(cell, animalType);
             }
         }
         //var spawnableTiles = new HashSet<HexCell>(hexBoard.hexCells.Values.Where(c => c.Elevation > 0 && c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) == null));
