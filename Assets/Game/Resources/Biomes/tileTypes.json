@@ -1,0 +1,506 @@
+[
+    {
+        "name": "BaseTile",
+        "frequency": 1,
+        "movementspeed": 1,
+        "defensivebonus": 1,
+        "visibility": 1
+    },
+    {
+        "name": "Plains",
+        "parent": "BaseTile",
+        "resources": {
+            "Grass": [
+                100,
+                5,
+                0.5
+            ],
+            "SmallGame": [
+                5,
+                1,
+                0.5
+            ]
+        },
+        "visibility": 1
+    },
+    {
+        "name": "Verdant Plains",
+        "parent": "Plains",
+        "frequency": 0.5,
+        "resources": {
+            "MedicinalHerbs": [
+                2,
+                0.5,
+                0.7
+            ],
+            "Vegetables": [
+                10,
+                1,
+                0.7
+            ],
+            "SmallGame": [
+                10,
+                2,
+                0.7
+            ]
+        },
+        "movementspeed": 0.8,
+        "visibility": 0.75
+    },
+    {
+        "name": "Hill",
+        "parent": "Plains",
+        "frequency": 0.15,
+        "elevationchange": 1,
+        "movementspeed": 0.7,
+        "defensivebonus": 0.5,
+        "visibility": 0.75
+    },
+    {
+        "name": "Forest",
+        "parent": "BaseTile",
+        "resources": {
+            "Wood": [
+                250,
+                1,
+                0.5
+            ],
+            "MedicinalHerbs": [
+                2,
+                0.5,
+                0.5
+            ],
+            "Fruit": [
+                5,
+                0.5,
+                0.5
+            ],
+            "SmallGame": [
+                5,
+                1,
+                0.5
+            ]
+        },
+        "movementspeed": 0.5,
+        "defensivebonus": 0.5,
+        "visibility": 0.5
+    },
+    {
+        "name": "Dense Forest",
+        "parent": "Forest",
+        "resources": {
+            "Wood": [
+                500,
+                2,
+                0.6
+            ],
+            "MedicinalHerbs": [
+                4,
+                1,
+                0.6
+            ],
+            "Fruit": [
+                10,
+                1,
+                0.6
+            ],
+            "SmallGame": [
+                10,
+                2,
+                0.6
+            ]
+        },
+        "movementspeed": 0.4,
+        "defensivebonus": 0.4,
+        "visibility": 0.3
+    },
+    {
+        "name": "Light Forest",
+        "parent": "Forest",
+        "frequency": 0.5,
+        "resources": {
+            "Wood": [
+                125,
+                1,
+                0.4
+            ],
+            "MedicinalHerbs": [
+                2,
+                0.5,
+                0.4
+            ],
+            "Fruit": [
+                5,
+                0.5,
+                0.4
+            ],
+            "SmallGame": [
+                3,
+                0.5,
+                0.4
+            ]
+        },
+        "movementspeed": 0.7,
+        "defensivebonus": 0.6,
+        "visibility": 0.6
+    },
+    {
+        "name": "Wetlands",
+        "parent": "BaseTile",
+        "resources": {
+            "SmallGame": [
+                20,
+                4,
+                0.7
+            ],
+            "Water": [
+                1000,
+                10,
+                0.2
+            ]
+        },
+        "movementspeed": 0.25,
+        "defensivebonus": 0.5,
+        "visibility": 0.75
+    },
+    {
+        "name": "Base Rocky Outcrop",
+        "parent": "Hill"
+    },
+    {
+        "name": "Rocky Outcrop",
+        "biome": "Plains",
+        "parent": "Base Rocky Outcrop",
+        "frequency": 0.05,
+        "resources": {
+            "Stone": [
+                500,
+                0,
+                0.5
+            ],
+            "Coal": [
+                500,
+                0,
+                0.5
+            ],
+            "Metal": [
+                500,
+                0,
+                0.5
+            ]
+        }
+    },
+    {
+        "name": "Rocky Outcrop",
+        "biome": "Savannah",
+        "parent": "Base Rocky Outcrop",
+        "frequency": 0.15
+    },
+    {
+        "name": "Rocky Outcrop",
+        "biome": "Taiga",
+        "parent": "Base Rocky Outcrop",
+        "frequency": 0.05
+    },
+    {
+        "name": "Rocky Outcrop",
+        "biome": "Forest",
+        "parent": "Base Rocky Outcrop",
+        "frequency": 0.05
+    },
+    {
+        "name": "Rocky Outcrop",
+        "biome": "Jungle",
+        "parent": "Base Rocky Outcrop",
+        "frequency": 0.15
+    },
+    {
+        "name": "Rocky Outcrop",
+        "biome": "Desert",
+        "parent": "Base Rocky Outcrop",
+        "frequency": 0.05
+    },
+    {
+        "name": "Rocky Outcrop",
+        "biome": "Tundra",
+        "parent": "Base Rocky Outcrop",
+        "frequency": 0.15
+    },
+    {
+        "name": "Sheet Ice",
+        "biome": "Ice Caps",
+        "parent": "BaseTile",
+        "resources": {
+            "Snow": [
+                1000,
+                10,
+                0.5
+            ]
+        },
+        "movementspeed": 0.15,
+        "defensivebonus": 0.75,
+        "visibility": 0.4
+    },
+    {
+        "name": "Tundra",
+        "biome": "Tundra",
+        "parent": "BaseTile",
+        "resources": {
+            "Snow": [
+                1000,
+                10,
+                0.5
+            ]
+        }
+    },
+    {
+        "name": "Alpine",
+        "biome": "Alpine",
+        "parent": "BaseTile"
+    },
+    {
+        "name": "Conifer Forest",
+        "biome": "Taiga",
+        "parent": "Forest"
+    },
+    {
+        "name": "Dense Conifer Forest",
+        "biome": "Taiga",
+        "parent": "Dense Forest"
+    },
+    {
+        "name": "Boreal Woodlands",
+        "biome": "Taiga",
+        "parent": "Light Forest"
+    },
+    {
+        "name": "Boreal Plains",
+        "biome": "Taiga",
+        "parent": "Plains"
+    },
+    {
+        "name": "Bog",
+        "biome": "Taiga",
+        "parent": "Wetlands"
+    },
+    {
+        "name": "Broadleaf Forest",
+        "biome": "Forest",
+        "parent": "Forest"
+    },
+    {
+        "name": "Dense Broadleaf Forest",
+        "biome": "Forest",
+        "parent": "Dense Forest"
+    },
+    {
+        "name": "Temperate Woodlands",
+        "biome": "Forest",
+        "parent": "Light Forest"
+    },
+    {
+        "name": "Forest Glade",
+        "biome": "Forest",
+        "parent": "Plains"
+    },
+    {
+        "name": "Swamp",
+        "biome": "Forest",
+        "parent": "Wetlands"
+    },
+    {
+        "name": "Lowlands Jungle",
+        "biome": "Jungle",
+        "parent": "Forest",
+        "movementspeed": 0.4,
+        "defensivebonus": 0.4,
+        "visibility": 0.4
+    },
+    {
+        "name": "Cloud Forest",
+        "biome": "Jungle",
+        "parent": "Forest",
+        "movementspeed": 0.5,
+        "defensivebonus": 0.5,
+        "visibility": 0.5
+    },
+    {
+        "name": "Dense Jungle",
+        "biome": "Jungle",
+        "parent": "Dense Forest",
+        "movementspeed": 0.15,
+        "defensivebonus": 0.25,
+        "visibility": 0.25
+    },
+    {
+        "name": "Ancient Grove",
+        "biome": "Jungle",
+        "parent": "Dense Jungle",
+        "frequency": 0.05,
+        "resources": {
+            "Wood": [
+                500,
+                2,
+                0.8
+            ],
+            "MedicinalHerbs": [
+                4,
+                1,
+                0.8
+            ],
+            "Fruit": [
+                10,
+                1,
+                0.8
+            ]
+        }
+    },
+    {
+        "name": "Jungle Clearing",
+        "biome": "Jungle",
+        "parent": "Plains"
+    },
+    {
+        "name": "Flooded Forest",
+        "biome": "Jungle",
+        "parent": "Wetlands"
+    },
+    {
+        "name": "Shortgrass Prarie",
+        "biome": "Plains",
+        "parent": "Plains"
+    },
+    {
+        "name": "Tallgrass Prarie",
+        "biome": "Plains",
+        "parent": "Verdant Plains",
+        "resources": {
+            "Grass": [
+                1000,
+                10,
+                0.8
+            ]
+        },
+        "movementspeed": 0.75,
+        "defensivebonus": 0.9,
+        "visibility": 0.75
+    },
+    {
+        "name": "Hillock (aka Knoll)",
+        "biome": "Plains",
+        "parent": "Hill",
+        "description": "Small isolated hill."
+    },
+    {
+        "name": "Rolling Hills",
+        "biome": "Plains",
+        "parent": "Hill"
+    },
+    {
+        "name": "Savannah Plains",
+        "biome": "Savannah",
+        "parent": "Plains",
+        "resources": {
+            "SmallGame": [
+                10,
+                2,
+                0.5
+            ]
+        }
+    },
+    {
+        "name": "Termite Mounds",
+        "biome": "Savannah",
+        "parent": "Savannah Plains",
+        "frequency": 0.05
+    },
+    {
+        "name": "Kopje",
+        "biome": "Savannah",
+        "parent": "Hill",
+        "description": "Isolated rocky outcrop."
+    },
+    {
+        "name": "Acacia Woodlands",
+        "biome": "Savannah",
+        "parent": "Light Forest"
+    },
+    {
+        "name": "Heath",
+        "biome": "Scrubland",
+        "parent": "Verdant Plains",
+        "description": [
+            "Open and plant-rich",
+            "low-growing woody vegetation."
+        ],
+        "frequency": 1
+    },
+    {
+        "name": "Salt Flats",
+        "biome": "Desert",
+        "parent": "BaseTile",
+        "frequency": 0.25,
+        "resources": {},
+        "movementspeed": 0.9
+    },
+    {
+        "name": "Arid Waste",
+        "biome": "Desert",
+        "parent": "BaseTile",
+        "resources": {
+            "Sand": [
+                500,
+                10,
+                0.2
+            ]
+        },
+        "movementspeed": 0.9
+    },
+    {
+        "name": "Sand Dunes",
+        "biome": "Desert",
+        "parent": "BaseTile",
+        "frequency": 1,
+        "resources": {
+            "Sand": [
+                1000,
+                10,
+                0.5
+            ]
+        },
+        "movementspeed": 0.15,
+        "defensivebonus": 0.8,
+        "visibility": 0.5
+    },
+    {
+        "name": "Oasis",
+        "biome": "Desert",
+        "parent": "BaseTile",
+        "frequency": 0.05,
+        "resources": {
+            "Water": [
+                100,
+                2,
+                0.6
+            ],
+            "Grass": [
+                10,
+                2,
+                0.4
+            ],
+            "Wood": [
+                10,
+                0.5,
+                0.3
+            ],
+            "SmallGame": [
+                10,
+                1,
+                0.5
+            ]
+        },
+        "movementspeed": 0.9,
+        "defensivebonus": 0.9,
+        "visibility": 0.9
+    }
+]
