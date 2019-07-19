@@ -43,7 +43,7 @@ public class TileType
 
     IDictionary<ResourceType, TileResourceInfo> parseResources(IDictionary<string, float[]> input)
     {
-        var output = new Dictionary<ResourceType, TileResourceInfo>();
+        var output = baseType == null ? new Dictionary<ResourceType, TileResourceInfo>() : new Dictionary<ResourceType, TileResourceInfo>(baseType.resources);
         if (input != null) {
             foreach (var kvp in input) {
                 var resourceType = ResourceType.GetByName(kvp.Key);
