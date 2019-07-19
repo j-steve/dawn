@@ -1,0 +1,229 @@
+[
+    {
+        "name": "Construction Material"
+    },
+    {
+        "name": "Grass",
+        "baseType": "Construction Material",
+        "deteriorationRate": 0.15
+    },
+    {
+        "name": "Wood",
+        "baseType": "Construction Material",
+        "deteriorationRate": 0.05
+    },
+    {
+        "name": "Stone",
+        "baseType": "Construction Material",
+        "deteriorationRate": 0.01
+    },
+    {
+        "name": "Terrain",
+        "baseType": "Construction Material",
+        "deteriorationRate": 1
+    },
+    {
+        "name": "Sod",
+        "baseType": "Terrain",
+        "deteriorationRate": 1
+    },
+    {
+        "name": "Snow",
+        "baseType": "Terrain",
+        "deteriorationRate": 1
+    },
+    {
+        "name": "Sand",
+        "baseType": "Terrain",
+        "deteriorationRate": 1
+    },
+    {
+        "name": "Bone",
+        "baseType": "Construction Material",
+        "deteriorationRate": 0.1
+    },
+    {
+        "name": "Flint",
+        "baseType": "Construction Material"
+    },
+    {
+        "name": "Clay",
+        "baseType": "Construction Material"
+    },
+    {
+        "name": "Turquoise",
+        "baseType": "Construction Material"
+    },
+    {
+        "name": "Coal",
+        "baseType": "Construction Material"
+    },
+    {
+        "name": "Metal",
+        "baseType": "Construction Material"
+    },
+    {
+        "name": "Tin",
+        "baseType": "Metal"
+    },
+    {
+        "name": "Copper",
+        "baseType": "Metal"
+    },
+    {
+        "name": "Iron",
+        "baseType": "Metal"
+    },
+    {
+        "name": "Bronze",
+        "baseType": "Metal"
+    },
+    {
+        "name": "Gold",
+        "baseType": "Metal"
+    },
+    {
+        "name": "Steel",
+        "baseType": "Metal"
+    },
+    {
+        "name": "Textiles"
+    },
+    {
+        "name": "Cloth",
+        "baseType": "Textiles"
+    },
+    {
+        "name": "Wool",
+        "baseType": "Cloth",
+        "deteriorationRate": 0.15
+    },
+    {
+        "name": "Cotton",
+        "baseType": "Cloth",
+        "deteriorationRate": 0.15
+    },
+    {
+        "name": "Linen",
+        "baseType": "Cloth",
+        "deteriorationRate": 0.05
+    },
+    {
+        "name": "Hemp",
+        "baseType": "Cloth",
+        "deteriorationRate": 0.05
+    },
+    {
+        "name": "Silk",
+        "baseType": "Cloth",
+        "deteriorationRate": 0.25
+    },
+    {
+        "name": "Hide",
+        "baseType": "Textiles",
+        "deteriorationRate": 0.05
+    },
+    {
+        "name": "Rawhide",
+        "baseType": "Hide",
+        "deteriorationRate": 0.05
+    },
+    {
+        "name": "Leather",
+        "baseType": "Hide",
+        "deteriorationRate": 0.05
+    },
+    {
+        "name": "Fur",
+        "baseType": "Hide",
+        "deteriorationRate": 0.1
+    },
+    {
+        "name": "Provisions"
+    },
+    {
+        "name": "Food",
+        "baseType": "Provisions"
+    },
+    {
+        "name": "Meat",
+        "baseType": "Food",
+        "deteriorationRate": 0.25
+    },
+    {
+        "name": "Fish",
+        "baseType": "Meat",
+        "deteriorationRate": 0.25
+    },
+    {
+        "name": "Fruit",
+        "baseType": "Food",
+        "deteriorationRate": 0.2
+    },
+    {
+        "name": "Vegetables",
+        "baseType": "Food",
+        "deteriorationRate": 0.1
+    },
+    {
+        "name": "Grain",
+        "baseType": "Food",
+        "deteriorationRate": 0.05
+    },
+    {
+        "name": "Bread",
+        "baseType": "Food",
+        "deteriorationRate": 0.15
+    },
+    {
+        "name": "Spices",
+        "baseType": "Food",
+        "deteriorationRate": 0.05
+    },
+    {
+        "name": "Water",
+        "baseType": "Provisions",
+        "deteriorationRate": 0.2
+    },
+    {
+        "name": "Drugs",
+        "deteriorationRate": 0.15
+    },
+    {
+        "name": "MedicinalHerbs",
+        "baseType": "Drugs"
+    },
+    {
+        "name": "Alcohol",
+        "baseType": "Drugs",
+        "deteriorationRate": 0.05
+    },
+    {
+        "name": "Stimulants",
+        "baseType": "Drugs"
+    },
+    {
+        "name": "Coffee",
+        "baseType": "Stimulants"
+    },
+    {
+        "name": "Tobacco",
+        "baseType": "Stimulants"
+    },
+    {
+        "name": "Cocaine",
+        "baseType": "Stimulants"
+    },
+    {
+        "name": "Hallucinogens",
+        "baseType": "Drugs"
+    },
+    {
+        "name": "Marijuana",
+        "baseType": "Drugs"
+    },
+    {
+        "name": "SmallGame",
+        "deteriorationRate": 0
+    }
+]

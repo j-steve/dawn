@@ -39,8 +39,7 @@ public class HexBoard : MonoBehaviour
     public Text hexLabelPrefab;
 
     public readonly Dictionary<HexCellCoordinates, HexCell> hexCells = new Dictionary<HexCellCoordinates, HexCell>();
-
-    public UnitAnimal[] unitPrefabs;
+    
     public UnitPlayer playerPrefab;
     public int playerStartingUnits;
 
@@ -58,6 +57,8 @@ public class HexBoard : MonoBehaviour
         mapSize = new RectangleInt(8, 8);
         continentsPerChunk = 0.5f;
 #endif
+        GameDataLoader.Load<ResourceType>("resourceTypes");
+        GameDataLoader.Load<TileType>("Biomes/tileTypes");
         GameDataLoader.Load<AnimalType>("Animals/animalTypes");
         StartCoroutine(new HexBoardGenerator(this).CreateMap());
     }

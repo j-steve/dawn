@@ -8,7 +8,7 @@
     },
     {
         "name": "Plains",
-        "parent": "BaseTile",
+        "baseType": "BaseTile",
         "resources": {
             "Grass": [
                 100,
@@ -25,7 +25,7 @@
     },
     {
         "name": "Verdant Plains",
-        "parent": "Plains",
+        "baseType": "Plains",
         "frequency": 0.5,
         "resources": {
             "MedicinalHerbs": [
@@ -49,7 +49,7 @@
     },
     {
         "name": "Hill",
-        "parent": "Plains",
+        "baseType": "Plains",
         "frequency": 0.15,
         "elevationchange": 1,
         "movementspeed": 0.7,
@@ -58,7 +58,7 @@
     },
     {
         "name": "Forest",
-        "parent": "BaseTile",
+        "baseType": "BaseTile",
         "resources": {
             "Wood": [
                 250,
@@ -87,7 +87,7 @@
     },
     {
         "name": "Dense Forest",
-        "parent": "Forest",
+        "baseType": "Forest",
         "resources": {
             "Wood": [
                 500,
@@ -116,7 +116,7 @@
     },
     {
         "name": "Light Forest",
-        "parent": "Forest",
+        "baseType": "Forest",
         "frequency": 0.5,
         "resources": {
             "Wood": [
@@ -146,7 +146,7 @@
     },
     {
         "name": "Wetlands",
-        "parent": "BaseTile",
+        "baseType": "BaseTile",
         "resources": {
             "SmallGame": [
                 20,
@@ -165,12 +165,12 @@
     },
     {
         "name": "Base Rocky Outcrop",
-        "parent": "Hill"
+        "baseType": "Hill"
     },
     {
         "name": "Rocky Outcrop",
         "biome": "Plains",
-        "parent": "Base Rocky Outcrop",
+        "baseType": "Base Rocky Outcrop",
         "frequency": 0.05,
         "resources": {
             "Stone": [
@@ -193,43 +193,43 @@
     {
         "name": "Rocky Outcrop",
         "biome": "Savannah",
-        "parent": "Base Rocky Outcrop",
+        "baseType": "Base Rocky Outcrop",
         "frequency": 0.15
     },
     {
         "name": "Rocky Outcrop",
         "biome": "Taiga",
-        "parent": "Base Rocky Outcrop",
+        "baseType": "Base Rocky Outcrop",
         "frequency": 0.05
     },
     {
         "name": "Rocky Outcrop",
         "biome": "Forest",
-        "parent": "Base Rocky Outcrop",
+        "baseType": "Base Rocky Outcrop",
         "frequency": 0.05
     },
     {
         "name": "Rocky Outcrop",
         "biome": "Jungle",
-        "parent": "Base Rocky Outcrop",
+        "baseType": "Base Rocky Outcrop",
         "frequency": 0.15
     },
     {
         "name": "Rocky Outcrop",
         "biome": "Desert",
-        "parent": "Base Rocky Outcrop",
+        "baseType": "Base Rocky Outcrop",
         "frequency": 0.05
     },
     {
         "name": "Rocky Outcrop",
         "biome": "Tundra",
-        "parent": "Base Rocky Outcrop",
+        "baseType": "Base Rocky Outcrop",
         "frequency": 0.15
     },
     {
         "name": "Sheet Ice",
         "biome": "Ice Caps",
-        "parent": "BaseTile",
+        "baseType": "BaseTile",
         "resources": {
             "Snow": [
                 1000,
@@ -244,7 +244,7 @@
     {
         "name": "Tundra",
         "biome": "Tundra",
-        "parent": "BaseTile",
+        "baseType": "BaseTile",
         "resources": {
             "Snow": [
                 1000,
@@ -256,62 +256,62 @@
     {
         "name": "Alpine",
         "biome": "Alpine",
-        "parent": "BaseTile"
+        "baseType": "BaseTile"
     },
     {
         "name": "Conifer Forest",
         "biome": "Taiga",
-        "parent": "Forest"
+        "baseType": "Forest"
     },
     {
         "name": "Dense Conifer Forest",
         "biome": "Taiga",
-        "parent": "Dense Forest"
+        "baseType": "Dense Forest"
     },
     {
         "name": "Boreal Woodlands",
         "biome": "Taiga",
-        "parent": "Light Forest"
+        "baseType": "Light Forest"
     },
     {
         "name": "Boreal Plains",
         "biome": "Taiga",
-        "parent": "Plains"
+        "baseType": "Plains"
     },
     {
         "name": "Bog",
         "biome": "Taiga",
-        "parent": "Wetlands"
+        "baseType": "Wetlands"
     },
     {
         "name": "Broadleaf Forest",
         "biome": "Forest",
-        "parent": "Forest"
+        "baseType": "Forest"
     },
     {
         "name": "Dense Broadleaf Forest",
         "biome": "Forest",
-        "parent": "Dense Forest"
+        "baseType": "Dense Forest"
     },
     {
         "name": "Temperate Woodlands",
         "biome": "Forest",
-        "parent": "Light Forest"
+        "baseType": "Light Forest"
     },
     {
         "name": "Forest Glade",
         "biome": "Forest",
-        "parent": "Plains"
+        "baseType": "Plains"
     },
     {
         "name": "Swamp",
         "biome": "Forest",
-        "parent": "Wetlands"
+        "baseType": "Wetlands"
     },
     {
         "name": "Lowlands Jungle",
         "biome": "Jungle",
-        "parent": "Forest",
+        "baseType": "Forest",
         "movementspeed": 0.4,
         "defensivebonus": 0.4,
         "visibility": 0.4
@@ -319,7 +319,7 @@
     {
         "name": "Cloud Forest",
         "biome": "Jungle",
-        "parent": "Forest",
+        "baseType": "Forest",
         "movementspeed": 0.5,
         "defensivebonus": 0.5,
         "visibility": 0.5
@@ -327,7 +327,7 @@
     {
         "name": "Dense Jungle",
         "biome": "Jungle",
-        "parent": "Dense Forest",
+        "baseType": "Dense Forest",
         "movementspeed": 0.15,
         "defensivebonus": 0.25,
         "visibility": 0.25
@@ -335,7 +335,7 @@
     {
         "name": "Ancient Grove",
         "biome": "Jungle",
-        "parent": "Dense Jungle",
+        "baseType": "Dense Jungle",
         "frequency": 0.05,
         "resources": {
             "Wood": [
@@ -358,22 +358,22 @@
     {
         "name": "Jungle Clearing",
         "biome": "Jungle",
-        "parent": "Plains"
+        "baseType": "Plains"
     },
     {
         "name": "Flooded Forest",
         "biome": "Jungle",
-        "parent": "Wetlands"
+        "baseType": "Wetlands"
     },
     {
         "name": "Shortgrass Prarie",
         "biome": "Plains",
-        "parent": "Plains"
+        "baseType": "Plains"
     },
     {
         "name": "Tallgrass Prarie",
         "biome": "Plains",
-        "parent": "Verdant Plains",
+        "baseType": "Verdant Plains",
         "resources": {
             "Grass": [
                 1000,
@@ -388,18 +388,18 @@
     {
         "name": "Hillock (aka Knoll)",
         "biome": "Plains",
-        "parent": "Hill",
+        "baseType": "Hill",
         "description": "Small isolated hill."
     },
     {
         "name": "Rolling Hills",
         "biome": "Plains",
-        "parent": "Hill"
+        "baseType": "Hill"
     },
     {
         "name": "Savannah Plains",
         "biome": "Savannah",
-        "parent": "Plains",
+        "baseType": "Plains",
         "resources": {
             "SmallGame": [
                 10,
@@ -411,42 +411,38 @@
     {
         "name": "Termite Mounds",
         "biome": "Savannah",
-        "parent": "Savannah Plains",
+        "baseType": "Savannah Plains",
         "frequency": 0.05
     },
     {
         "name": "Kopje",
         "biome": "Savannah",
-        "parent": "Hill",
+        "baseType": "Hill",
         "description": "Isolated rocky outcrop."
     },
     {
         "name": "Acacia Woodlands",
         "biome": "Savannah",
-        "parent": "Light Forest"
+        "baseType": "Light Forest"
     },
     {
         "name": "Heath",
         "biome": "Scrubland",
-        "parent": "Verdant Plains",
-        "description": [
-            "Open and plant-rich",
-            "low-growing woody vegetation."
-        ],
+        "baseType": "Verdant Plains",
+        "description": "Open and plant-rich with low-growing woody vegetation.",
         "frequency": 1
     },
     {
         "name": "Salt Flats",
         "biome": "Desert",
-        "parent": "BaseTile",
+        "baseType": "BaseTile",
         "frequency": 0.25,
-        "resources": {},
         "movementspeed": 0.9
     },
     {
         "name": "Arid Waste",
         "biome": "Desert",
-        "parent": "BaseTile",
+        "baseType": "BaseTile",
         "resources": {
             "Sand": [
                 500,
@@ -459,7 +455,7 @@
     {
         "name": "Sand Dunes",
         "biome": "Desert",
-        "parent": "BaseTile",
+        "baseType": "BaseTile",
         "frequency": 1,
         "resources": {
             "Sand": [
@@ -475,7 +471,7 @@
     {
         "name": "Oasis",
         "biome": "Desert",
-        "parent": "BaseTile",
+        "baseType": "BaseTile",
         "frequency": 0.05,
         "resources": {
             "Water": [
