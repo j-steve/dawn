@@ -62,6 +62,8 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
 
     public TerrainTexture TerrainType { get { return Biome.terrainTexture; } }
 
+    public TileType tileType;
+
     public readonly List<Unit> units = new List<Unit>();
 
     Text label;
@@ -170,7 +172,7 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
 
     string ISelectable.InfoPanelTitle {
         get {
-            return Biome.ToString();
+            return "{0} ({1})".Format(tileType, Biome);
         }
     }
 

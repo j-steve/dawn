@@ -4,7 +4,8 @@
         "frequency": 1,
         "movementspeed": 1,
         "defensivebonus": 1,
-        "visibility": 1
+        "visibility": 1,
+        "treecount": 0
     },
     {
         "name": "Plains",
@@ -51,10 +52,10 @@
         "name": "Hill",
         "baseType": "Plains",
         "frequency": 0.15,
-        "elevationchange": 1,
         "movementspeed": 0.7,
         "defensivebonus": 0.5,
-        "visibility": 0.75
+        "visibility": 0.75,
+        "elevationchange": 1
     },
     {
         "name": "Forest",
@@ -83,7 +84,8 @@
         },
         "movementspeed": 0.5,
         "defensivebonus": 0.5,
-        "visibility": 0.5
+        "visibility": 0.5,
+        "treecount": 2
     },
     {
         "name": "Dense Forest",
@@ -112,7 +114,8 @@
         },
         "movementspeed": 0.4,
         "defensivebonus": 0.4,
-        "visibility": 0.3
+        "visibility": 0.3,
+        "treecount": 3
     },
     {
         "name": "Light Forest",
@@ -142,7 +145,8 @@
         },
         "movementspeed": 0.7,
         "defensivebonus": 0.6,
-        "visibility": 0.6
+        "visibility": 0.6,
+        "treecount": 1
     },
     {
         "name": "Wetlands",
@@ -164,14 +168,8 @@
         "visibility": 0.75
     },
     {
-        "name": "Base Rocky Outcrop",
-        "baseType": "Hill"
-    },
-    {
-        "name": "Rocky Outcrop",
-        "biome": "Plains",
-        "baseType": "Base Rocky Outcrop",
-        "frequency": 0.05,
+        "name": "BaseRockyOutcrop",
+        "baseType": "Hill",
         "resources": {
             "Stone": [
                 500,
@@ -192,39 +190,42 @@
     },
     {
         "name": "Rocky Outcrop",
+        "biome": "Plains",
+        "baseType": "BaseRockyOutcrop",
+        "frequency": 0.01
+    },
+    {
+        "name": "Rocky Outcrop",
         "biome": "Savannah",
-        "baseType": "Base Rocky Outcrop",
-        "frequency": 0.15
+        "baseType": "BaseRockyOutcrop",
+        "frequency": 0.05
     },
     {
         "name": "Rocky Outcrop",
         "biome": "Taiga",
-        "baseType": "Base Rocky Outcrop",
-        "frequency": 0.05
+        "baseType": "BaseRockyOutcrop"
     },
     {
         "name": "Rocky Outcrop",
         "biome": "Forest",
-        "baseType": "Base Rocky Outcrop",
-        "frequency": 0.05
+        "baseType": "BaseRockyOutcrop"
     },
     {
         "name": "Rocky Outcrop",
         "biome": "Jungle",
-        "baseType": "Base Rocky Outcrop",
-        "frequency": 0.15
-    },
-    {
-        "name": "Rocky Outcrop",
-        "biome": "Desert",
-        "baseType": "Base Rocky Outcrop",
+        "baseType": "BaseRockyOutcrop",
         "frequency": 0.05
     },
     {
         "name": "Rocky Outcrop",
+        "biome": "Desert",
+        "baseType": "BaseRockyOutcrop"
+    },
+    {
+        "name": "Rocky Outcrop",
         "biome": "Tundra",
-        "baseType": "Base Rocky Outcrop",
-        "frequency": 0.15
+        "baseType": "BaseRockyOutcrop",
+        "frequency": 0.05
     },
     {
         "name": "Sheet Ice",
@@ -301,7 +302,8 @@
     {
         "name": "Forest Glade",
         "biome": "Forest",
-        "baseType": "Plains"
+        "baseType": "Plains",
+        "frequency": 0.15
     },
     {
         "name": "Swamp",
@@ -358,7 +360,8 @@
     {
         "name": "Jungle Clearing",
         "biome": "Jungle",
-        "baseType": "Plains"
+        "baseType": "Plains",
+        "frequency": 0.15
     },
     {
         "name": "Flooded Forest",

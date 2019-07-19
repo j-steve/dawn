@@ -38,10 +38,11 @@ public class HexBoardGenerator
         UILoadingOverlay.Instance.UpdateLoad(.8f, "Planting forests...");
         yield return null;
         foreach (HexCell cell in hexBoard.hexCells.Values) {
+            cell.tileType = TileType.GetForBiome(cell.Biome);
+            if (cell.tileType == null) { continue; } // TODO: Delete this line once all biomes have valid tile types.
             var trees = Resources.LoadAll<GameObject>("Trees/" + cell.Biome.name);
-            if (Random.value > cell.Biome.treeProbability || trees.Length == 0) { continue; }
-            for (int i = 0; i < Random.Range(1, 6); i++) {  // Between 1 and 6 trees will appear.
-                var offset = UnityExtensions.RandomPointOnCircle() * HexConstants.HEX_SIZE * .8f;  // Trees appear 20% from edge of hex.
+            for (int i = 0; i < cell.tileType.treeCount; i++) {
+                var offset = UnityExtensions.RandomPointOnCircle() * HexConstants.HEX_SIZE * .6f;  // Trees appear 40% from edge of hex.
                 var spawn = cell.transform.position + new Vector3(offset.x, 0, offset.y);
                 var tree = Object.Instantiate(trees.GetRandom(), spawn, Quaternion.identity, cell.transform);
                 tree.transform.localScale = tree.transform.localScale.ScaledBy(cell.Biome.treeSizeModifier);
