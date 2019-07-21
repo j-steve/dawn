@@ -54,7 +54,3 @@ public enum Season
     Autumn = 2,
     Winter = 3
 }
-
-internal class DisplayAttribute : Attribute
-{
-}
