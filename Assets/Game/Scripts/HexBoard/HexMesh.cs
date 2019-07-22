@@ -47,8 +47,8 @@ public class HexMesh : MonoBehaviour
     {
         int i1 = vertices.Count;
         vertices.AddRange(new Vector3[] { v1, v2, v3, v4 });
-        triangles.AddRange(new int[] { i1, i1 + 3, i1 + 2 });
-        triangles.AddRange(new int[] { i1, i1 + 1, i1 + 3 });
+        triangles.AddRange(new int[] { i1, i1 + 1, i1 + 2 });
+        triangles.AddRange(new int[] { i1, i1 + 2, i1 + 3 });
     }
 
     public void AddColors(params Color32[] colorsToAdd)
