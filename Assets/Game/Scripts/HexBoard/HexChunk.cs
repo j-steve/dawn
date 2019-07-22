@@ -129,6 +129,11 @@ public class HexChunk : MonoBehaviour
         terrainMesh.AddTerrainType(hexCell.TerrainType, 0, 0, 13);
     }
 
+    public const int terracesPerSlope = 2;
+    public const int terraceSteps = terracesPerSlope * 2 + 1;
+    public const float terraceExtraWidth = 0.1f;
+
+
     /// <summary>
     /// Creates the vertices and triangles for a "bridge": the rectangular
     /// region which fills the gap between two adjacent HexCells.
@@ -138,24 +143,53 @@ public class HexChunk : MonoBehaviour
     {
         TexturedEdge e1 = cell1.GetEdge(direction).Reversed();
         TexturedEdge e2 = cell2.GetEdge(direction.Opposite());
-        if (cell1.Elevation == cell2.Elevation) {
+        var transitionType = GetTransitionType(cell1, cell2);
+        if (transitionType == TransitionType.Flat) {
             terrainMesh.AddQuadWithTerrain(e1, e2);
-        } else {
-            var e1offset = new TexturedEdge(e1.Slerp(e2, .15f), TerrainTexture.CLIFF);
-            var e2offset = new TexturedEdge(e2.Slerp(e1, .15f), TerrainTexture.CLIFF);
-            if (Math.Abs(cell1.Elevation - cell2.Elevation) == 1) {
-                float y = (e1offset.vertex1.y + e2offset.vertex1.y) / 2;
-                e1offset.vertex1.y = e1offset.vertex2.y = y;
-                e2offset.vertex1.y = e2offset.vertex2.y = y;
-                e1offset.texture = cell1.TerrainType;
-                e2offset.texture = cell2.TerrainType;
-            }
+        } else if (transitionType == TransitionType.Cliff) {
+            var e1offset = new TexturedEdge(e1.Slerp(e2, .10f), TerrainTexture.CLIFF);
+            var e2offset = new TexturedEdge(e2.Slerp(e1, .10f), TerrainTexture.CLIFF);
             terrainMesh.AddQuadWithTerrain(e1, e1offset);
             terrainMesh.AddQuadWithTerrain(e1offset, e2offset);
             terrainMesh.AddQuadWithTerrain(e2offset, e2);
+        } else if (transitionType == TransitionType.Terraced) {
+            TexturedEdge e2offset = null;
+            TexturedEdge lastOffset = e1;
+            for (int i = 0; i < terracesPerSlope; i++) {
+                // TODO: Fix terrain blending, by using the slerp of the color gradient between the two textures.
+                var e1offset = new TexturedEdge(e1.Slerp(e2, (1f + i * 2) / terraceSteps - terraceExtraWidth), cell1.TerrainType);
+                e2offset = new TexturedEdge(e1.Slerp(e2, (2f+ i * 2) / terraceSteps + terraceExtraWidth), cell2.TerrainType);
+                var midpoint = e1.Slerp(e2, (1f + i) / (terracesPerSlope + 1));
+                e1offset.vertex1.y = e2offset.vertex1.y = midpoint.vertex1.y;
+                e1offset.vertex2.y = e2offset.vertex2.y = midpoint.vertex2.y;
+                terrainMesh.AddQuadWithTerrain(lastOffset, e1offset);
+                terrainMesh.AddQuadWithTerrain(e1offset, e2offset);
+                lastOffset = e2offset;
+            }
+            terrainMesh.AddQuadWithTerrain(e2offset, e2);
         }
-
     }
+
+    enum TransitionType {Flat, Terraced, Cliff}
+
+    TransitionType GetTransitionType(HexCell cell1, HexCell cell2)
+    {
+        switch (Math.Abs(cell1.Elevation - cell2.Elevation)) {
+            case 0: return TransitionType.Flat;
+            case 1: return TransitionType.Terraced;
+            default: return TransitionType.Cliff;
+        }
+    }
+
+    //public Dictionary<Vector3, Color> vertices = new Dictionary<Vector3, Color>();
+
+    //void OnDrawGizmos()
+    //{ 
+    //    foreach (var vert in vertices) {
+    //        Gizmos.color = vert.Value;
+    //        Gizmos.DrawWireSphere(transform.TransformPoint(vert.Key), 0.2f);
+    //    }
+    //}
 
     /// <summary>
     /// Creates the vertices and triangles for a corner triangle, in the 
