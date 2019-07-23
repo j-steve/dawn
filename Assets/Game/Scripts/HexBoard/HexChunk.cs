@@ -1,9 +1,12 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System;
 using System.Linq;
+using UnityEngine;
 
+/// <summary>
+/// A HexChunk is a group of <see cref="HexCell"/>s which share the same mesh(es).
+/// and are therefore essentially rendered as a single GameObject.
+/// </summary>
 public class HexChunk : MonoBehaviour
 {
     #region Static
@@ -80,11 +83,11 @@ public class HexChunk : MonoBehaviour
 
     void TriangulateWater(HexCell cell)
     {
-        var mesh = cell.TerrainType == TerrainTexture.BLUEWATER ? oceanMesh : lakeMesh;
+        HexMesh mesh = cell.TerrainType == TerrainTexture.BLUEWATER ? oceanMesh : lakeMesh;
         int v0 = mesh.vertices.Count;
         Vector3 center = cell.Center + WATERLEVEL;
         mesh.vertices.Add(cell.Center + WATERLEVEL);
-        foreach (var vertexOffset in HEX_VERTEX_OFFSETS) {
+        foreach (Vector3 vertexOffset in HEX_VERTEX_OFFSETS) {
             mesh.vertices.Add(center + vertexOffset);
             mesh.vertices.Add(center - vertexOffset);
         }
@@ -97,11 +100,11 @@ public class HexChunk : MonoBehaviour
 
     void TriangulateTrees(HexCell cell)
     {
-        var mesh = treeMesh;
+        HexMesh mesh = treeMesh;
         int v0 = mesh.vertices.Count;
         Vector3 center = cell.Center + (WATERLEVEL / 2);
         mesh.vertices.Add(center + (WATERLEVEL / 2));
-        foreach (var vertexOffset in HEX_VERTEX_OFFSETS) {
+        foreach (Vector3 vertexOffset in HEX_VERTEX_OFFSETS) {
             mesh.vertices.Add(center + vertexOffset);
             mesh.vertices.Add(center - vertexOffset);
         }
@@ -144,7 +147,7 @@ public class HexChunk : MonoBehaviour
     {
         TexturedEdge tile1edge = cell1.GetEdge(direction).Reversed();
         TexturedEdge tile2edge = cell2.GetEdge(direction.Opposite());
-        var transitionType = GetTransitionType(cell1, cell2);
+        TransitionType transitionType = GetTransitionType(cell1, cell2);
         if (transitionType == TransitionType.Flat) {
             terrainMesh.AddQuadWithTerrain(tile1edge, tile2edge);
         } else if (transitionType == TransitionType.Cliff) {
@@ -153,7 +156,7 @@ public class HexChunk : MonoBehaviour
             terrainMesh.AddQuadWithTerrain(tile1edge, e1offset);
             terrainMesh.AddQuadWithTerrain(e1offset, e2offset);
             terrainMesh.AddQuadWithTerrain(e2offset, tile2edge);
-        } else if (transitionType == TransitionType.Terraced) { 
+        } else if (transitionType == TransitionType.Terraced) {
             Edge lastTerraceStop = tile1edge;
             Color lastColor = Color.green;
             for (int i = 0; i < terracesPerSlope; i++) {
@@ -166,8 +169,8 @@ public class HexChunk : MonoBehaviour
                 terraceStartEdge.vertex1.y = terraceStopEdge.vertex1.y = midpoint.vertex1.y;
                 terraceStartEdge.vertex2.y = terraceStopEdge.vertex2.y = midpoint.vertex2.y;
                 terrainMesh.AddQuad(lastTerraceStop.vertex1, lastTerraceStop.vertex2, terraceStartEdge.vertex2, terraceStartEdge.vertex1);
-                Color terraceStartColor = Color.Lerp(Color.green, Color.red, e1slerp);
-                Color terraceStopColor = Color.Lerp(Color.green, Color.red, e2slerp);
+                var terraceStartColor = Color.Lerp(Color.green, Color.red, e1slerp);
+                var terraceStopColor = Color.Lerp(Color.green, Color.red, e2slerp);
                 terrainMesh.AddColors(lastColor, lastColor, terraceStartColor, terraceStartColor);
                 terrainMesh.AddQuad(terraceStartEdge.vertex1, terraceStartEdge.vertex2, terraceStopEdge.vertex2, terraceStopEdge.vertex1);
                 terrainMesh.AddColors(terraceStartColor, terraceStartColor, terraceStopColor, terraceStopColor);
@@ -180,14 +183,17 @@ public class HexChunk : MonoBehaviour
         }
     }
 
-    enum TransitionType {Flat, Terraced, Cliff}
+    enum TransitionType { Flat, Terraced, Cliff }
 
     TransitionType GetTransitionType(HexCell cell1, HexCell cell2)
     {
         switch (Math.Abs(cell1.Elevation - cell2.Elevation)) {
-            case 0: return TransitionType.Flat;
-            case 1: return TransitionType.Terraced;
-            default: return TransitionType.Cliff;
+            case 0:
+                return TransitionType.Flat;
+            case 1:
+                return TransitionType.Terraced;
+            default:
+                return TransitionType.Cliff;
         }
     }
 
@@ -213,7 +219,7 @@ public class HexChunk : MonoBehaviour
             cell2.Vertices[direction.Opposite().vertex1],
             cell3.Vertices[direction.Previous().vertex1]);
         terrainMesh.AddColors(Color.red, Color.green, Color.blue);
-        var elevations = new HexCell[] { cell1, cell2, cell3 }.Select(c => c.Elevation);
+        IEnumerable<int> elevations = new HexCell[] { cell1, cell2, cell3 }.Select(c => c.Elevation);
         if (Math.Abs(elevations.Max() - elevations.Min()) <= 1) {
             terrainMesh.AddTerrainType(cell1.TerrainType, cell2.TerrainType, cell3.TerrainType, 3);
         } else {

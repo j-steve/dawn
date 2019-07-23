@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class TileType
 {
+    #region Static
+
     static public HashSet<TileType> Values = new HashSet<TileType>();
 
     static public TileType GetByName(string name)
@@ -33,6 +35,8 @@ public class TileType
         return biomeTiles[chosenKey];
     }
 
+    #endregion
+
     public readonly string name;
     public readonly TileType baseType;
     public readonly Biome biome;
@@ -48,7 +52,10 @@ public class TileType
     private TileType() { }
 
     [JsonConstructor]
-    public TileType(string name, string baseType, string biome, string description, float? frequency, IDictionary<string, float[]> resources, float? movementSpeed, float? defensiveBonus, float? visibility, float? elevationChange, int? treeCount)
+    public TileType(
+        string name, string baseType, string biome, string description, float? frequency, 
+        IDictionary<string, float[]> resources, float? movementSpeed, float? defensiveBonus, float? visibility, 
+        float? elevationChange, int? treeCount)
     {
         this.name = name;
         this.baseType = baseType == null ? null : GetByName(baseType);
@@ -67,7 +74,10 @@ public class TileType
 
     IDictionary<ResourceType, TileResourceInfo> parseResources(IDictionary<string, float[]> input)
     {
-        var output = baseType == null ? new Dictionary<ResourceType, TileResourceInfo>() : new Dictionary<ResourceType, TileResourceInfo>(baseType.resources);
+        var output = 
+            baseType == null ? 
+            new Dictionary<ResourceType, TileResourceInfo>() : 
+            new Dictionary<ResourceType, TileResourceInfo>(baseType.resources);
         if (input != null) {
             foreach (var kvp in input) {
                 var resourceType = ResourceType.GetByName(kvp.Key);

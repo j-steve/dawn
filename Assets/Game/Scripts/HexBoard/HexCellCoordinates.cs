@@ -22,7 +22,6 @@ public struct HexCellCoordinates
     /// <summary>
     /// Converts a column and row position of a hex cell into its hex coordinates. 
     /// </summary>
-    /// <returns></returns>
     static public HexCellCoordinates FromOffsetCoordinates(int x, int z)
     {
         return new HexCellCoordinates(x - z / 2, z);
@@ -60,7 +59,11 @@ public struct HexCellCoordinates
             // recomputing it from the remaining two dimensions.
             double[] deltas = coords.Select((v, i) => Math.Abs(integers[i] - v)).ToArray();
             int maxDeltaCoordinate = deltas.IndexOf(deltas.Max());
-            if (maxDeltaCoordinate == X) { integers[X] = -integers[Y] - integers[Z]; } else if (maxDeltaCoordinate == Z) { integers[Z] = -integers[Y] - integers[X]; }
+            if (maxDeltaCoordinate == X) {
+                integers[X] = -integers[Y] - integers[Z];
+            } else if (maxDeltaCoordinate == Z) {
+                integers[Z] = -integers[Y] - integers[X];
+            }
             // If "Y" has the largest discrepency, ignore it, we are not using Y.
         }
 

@@ -71,7 +71,8 @@ public class HexBoardGenerator
         //    spawnableTiles.Remove(cell);
         //}
         // Create the human player's starting position.
-        var humanSpawnableTiles = new HashSet<HexCell>(hexBoard.hexCells.Values.Where(c => c.Elevation > 0 && c.units.Count == 0));
+        var humanSpawnableTiles = 
+            new HashSet<HexCell>(hexBoard.hexCells.Values.Where(c => c.Elevation > 0 && c.units.Count == 0));
         var startTile = humanSpawnableTiles.GetRandom();
         var playerUnit = Unit.Create(hexBoard.playerPrefab, startTile);
         MapCamera.Active.CenterCameraOn(startTile);

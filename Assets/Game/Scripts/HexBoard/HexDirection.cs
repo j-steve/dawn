@@ -6,6 +6,9 @@ public abstract class HexDirection : EnumClass
     protected HexDirection(string name) : base(name) { }
 }
 
+/// <summary>
+/// EdgeDirections are the cardinal directions corresponding to a HexCell's six edges.
+/// </summary>
 public class EdgeDirection : HexDirection
 {
     static public readonly EdgeDirection
@@ -33,6 +36,11 @@ public class EdgeDirection : HexDirection
     }
 }
 
+/// <summary>
+/// EdgeDirections are the cardinal directions corresponding to a HexCell's six vertices
+/// (where each vertex represents the intersection of two edges).
+/// Each vertex is halfway between the directions of the two edges which eminate from it.
+/// </summary>
 public class VertexDirection : HexDirection
 {
     public static readonly VertexDirection
@@ -47,6 +55,10 @@ public class VertexDirection : HexDirection
 }
 
 
+// NOTE: Adding these methods to the parent "HexDirection" class would also work,
+// however it would mean that each method would each return an object of type "HexDirection" (the parent class),
+// which would then have to be cast as either EdgeDirection or VertexDirection (the child classes) for most purposes.
+// By adding them as extension methods instead, we're able to return the specific child class directly.
 public static class HexDirectionExtensions
 {
     /// <summary>

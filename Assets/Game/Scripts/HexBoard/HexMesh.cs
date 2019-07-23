@@ -3,6 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections;
 
+/// <summary>
+/// A HexMesh is a container object for a single mesh, used to depict the HexBoard within space.
+/// Each 
+/// </summary>
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class HexMesh : MonoBehaviour
 {
