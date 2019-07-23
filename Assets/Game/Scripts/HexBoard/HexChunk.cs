@@ -86,10 +86,10 @@ public class HexChunk : MonoBehaviour
         HexMesh mesh = cell.TerrainType == TerrainTexture.BLUEWATER ? oceanMesh : lakeMesh;
         int v0 = mesh.vertices.Count;
         Vector3 center = cell.Center + WATERLEVEL;
-        mesh.vertices.Add(cell.Center + WATERLEVEL);
+        mesh.AddVertex(cell.Center + WATERLEVEL);
         foreach (Vector3 vertexOffset in HEX_VERTEX_OFFSETS) {
-            mesh.vertices.Add(center + vertexOffset);
-            mesh.vertices.Add(center - vertexOffset);
+            mesh.AddVertex(center + vertexOffset);
+            mesh.AddVertex(center - vertexOffset);
         }
         for (int i = 1; i <= 4; i++) {
             mesh.triangles.AddRange(new int[] { v0, v0 + i, v0 + i + 2 });
@@ -103,10 +103,10 @@ public class HexChunk : MonoBehaviour
         HexMesh mesh = treeMesh;
         int v0 = mesh.vertices.Count;
         Vector3 center = cell.Center + (WATERLEVEL / 2);
-        mesh.vertices.Add(center + (WATERLEVEL / 2));
+        mesh.AddVertex(center + (WATERLEVEL / 2));
         foreach (Vector3 vertexOffset in HEX_VERTEX_OFFSETS) {
-            mesh.vertices.Add(center + vertexOffset);
-            mesh.vertices.Add(center - vertexOffset);
+            mesh.AddVertex(center + vertexOffset);
+            mesh.AddVertex(center - vertexOffset);
         }
         for (int i = 1; i <= 4; i++) {
             mesh.triangles.AddRange(new int[] { v0, v0 + i, v0 + i + 2 });
@@ -121,10 +121,10 @@ public class HexChunk : MonoBehaviour
     void TriangulateHexCell(HexCell hexCell)
     {
         int center = terrainMesh.vertices.Count;
-        terrainMesh.vertices.Add(hexCell.Center);
+        terrainMesh.AddVertex(hexCell.Center);
         terrainMesh.AddColors(Color.red);
         foreach (EdgeDirection direction in EnumClass.GetAll<EdgeDirection>()) {
-            terrainMesh.vertices.AddRange(hexCell.GetEdge(direction));
+            terrainMesh.AddVertices(hexCell.GetEdge(direction));
             terrainMesh.AddColors(Color.red, Color.red);
             terrainMesh.triangles.AddRange(new int[] {
                 terrainMesh.vertices.Count - 2, terrainMesh.vertices.Count - 1, center});
