@@ -73,7 +73,7 @@ Shader "Custom/Terrain" {
 				gridlines = tex2D(_GridLinesTex, gridlinesUV);
 			#endif
 			// Set the albedo.
-			o.Albedo = c.rgb * gridlines * _Color ;
+			o.Albedo = c.rgb * gridlines * _Color;
 			// Metallic and smoothness come from slider variables.
 			o.Metallic = _Metallic;
 			o.Smoothness = _Glossiness;

@@ -131,6 +131,7 @@ public class HexChunk : MonoBehaviour
 
     public const int terracesPerSlope = 2;
     public const int terraceSteps = terracesPerSlope * 2 + 1;
+    public const float terraceStepLerp = 1f / terraceSteps;
     public const float terraceExtraWidth = 0.1f;
 
 
@@ -141,32 +142,41 @@ public class HexChunk : MonoBehaviour
     /// <param name="direction">The edge direction relative to cell1.</param>
     void TriangulateBridge(EdgeDirection direction, HexCell cell1, HexCell cell2)
     {
-        TexturedEdge e1 = cell1.GetEdge(direction).Reversed();
-        TexturedEdge e2 = cell2.GetEdge(direction.Opposite());
+        TexturedEdge tile1edge = cell1.GetEdge(direction).Reversed();
+        TexturedEdge tile2edge = cell2.GetEdge(direction.Opposite());
         var transitionType = GetTransitionType(cell1, cell2);
         if (transitionType == TransitionType.Flat) {
-            terrainMesh.AddQuadWithTerrain(e1, e2);
+            terrainMesh.AddQuadWithTerrain(tile1edge, tile2edge);
         } else if (transitionType == TransitionType.Cliff) {
-            var e1offset = new TexturedEdge(e1.Slerp(e2, .10f), TerrainTexture.CLIFF);
-            var e2offset = new TexturedEdge(e2.Slerp(e1, .10f), TerrainTexture.CLIFF);
-            terrainMesh.AddQuadWithTerrain(e1, e1offset);
+            var e1offset = new TexturedEdge(tile1edge.Slerp(tile2edge, .10f), TerrainTexture.CLIFF);
+            var e2offset = new TexturedEdge(tile2edge.Slerp(tile1edge, .10f), TerrainTexture.CLIFF);
+            terrainMesh.AddQuadWithTerrain(tile1edge, e1offset);
             terrainMesh.AddQuadWithTerrain(e1offset, e2offset);
-            terrainMesh.AddQuadWithTerrain(e2offset, e2);
-        } else if (transitionType == TransitionType.Terraced) {
-            TexturedEdge e2offset = null;
-            TexturedEdge lastOffset = e1;
+            terrainMesh.AddQuadWithTerrain(e2offset, tile2edge);
+        } else if (transitionType == TransitionType.Terraced) { 
+            Edge lastTerraceStop = tile1edge;
+            Color lastColor = Color.green;
             for (int i = 0; i < terracesPerSlope; i++) {
                 // TODO: Fix terrain blending, by using the slerp of the color gradient between the two textures.
-                var e1offset = new TexturedEdge(e1.Slerp(e2, (1f + i * 2) / terraceSteps - terraceExtraWidth), cell1.TerrainType);
-                e2offset = new TexturedEdge(e1.Slerp(e2, (2f+ i * 2) / terraceSteps + terraceExtraWidth), cell2.TerrainType);
-                var midpoint = e1.Slerp(e2, (1f + i) / (terracesPerSlope + 1));
-                e1offset.vertex1.y = e2offset.vertex1.y = midpoint.vertex1.y;
-                e1offset.vertex2.y = e2offset.vertex2.y = midpoint.vertex2.y;
-                terrainMesh.AddQuadWithTerrain(lastOffset, e1offset);
-                terrainMesh.AddQuadWithTerrain(e1offset, e2offset);
-                lastOffset = e2offset;
+                float e1slerp = (i * 2 + 1) * terraceStepLerp - terraceExtraWidth;
+                float e2slerp = (i * 2 + 2) * terraceStepLerp + terraceExtraWidth;
+                Edge terraceStartEdge = tile1edge.Slerp(tile2edge, e1slerp);
+                Edge terraceStopEdge = tile1edge.Slerp(tile2edge, e2slerp);
+                Edge midpoint = tile1edge.Slerp(tile2edge, (1f + i) / (terracesPerSlope + 1));
+                terraceStartEdge.vertex1.y = terraceStopEdge.vertex1.y = midpoint.vertex1.y;
+                terraceStartEdge.vertex2.y = terraceStopEdge.vertex2.y = midpoint.vertex2.y;
+                terrainMesh.AddQuad(lastTerraceStop.vertex1, lastTerraceStop.vertex2, terraceStartEdge.vertex2, terraceStartEdge.vertex1);
+                Color terraceStartColor = Color.Lerp(Color.green, Color.red, e1slerp);
+                Color terraceStopColor = Color.Lerp(Color.green, Color.red, e2slerp);
+                terrainMesh.AddColors(lastColor, lastColor, terraceStartColor, terraceStartColor);
+                terrainMesh.AddQuad(terraceStartEdge.vertex1, terraceStartEdge.vertex2, terraceStopEdge.vertex2, terraceStopEdge.vertex1);
+                terrainMesh.AddColors(terraceStartColor, terraceStartColor, terraceStopColor, terraceStopColor);
+                lastColor = terraceStopColor;
+                lastTerraceStop = terraceStopEdge;
             }
-            terrainMesh.AddQuadWithTerrain(e2offset, e2);
+            terrainMesh.AddQuad(lastTerraceStop.vertex1, lastTerraceStop.vertex2, tile2edge.vertex2, tile2edge.vertex1);
+            terrainMesh.AddColors(lastColor, lastColor, Color.red, Color.red);
+            terrainMesh.AddTerrainType(tile2edge.texture, tile1edge.texture, 0, terracesPerSlope * 2 * 4 + 4);
         }
     }
 
@@ -184,7 +194,7 @@ public class HexChunk : MonoBehaviour
     //public Dictionary<Vector3, Color> vertices = new Dictionary<Vector3, Color>();
 
     //void OnDrawGizmos()
-    //{ 
+    //{
     //    foreach (var vert in vertices) {
     //        Gizmos.color = vert.Value;
     //        Gizmos.DrawWireSphere(transform.TransformPoint(vert.Key), 0.2f);

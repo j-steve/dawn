@@ -43,6 +43,11 @@ public class HexMesh : MonoBehaviour
         triangles.AddRange(new int[] { index, index + 1, index + 2 });
     }
 
+    public void AddQuad(Edge e1, Edge e2)
+    {
+        AddQuad(e1.vertex1, e1.vertex2, e2.vertex2, e2.vertex1);
+    }
+
     public void AddQuad(Vector3 v1, Vector3 v2, Vector3 v3, Vector3 v4)
     {
         int i1 = vertices.Count;

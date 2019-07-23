@@ -56,4 +56,8 @@ public class Edge : IEnumerable<Vector3>
         return GetEnumerator();
     }
 
+    public override string ToString()
+    {
+        return "EDGE<" + vertex1.ToString() + " TO " + vertex2.ToString() + ">";
+    }
 }
