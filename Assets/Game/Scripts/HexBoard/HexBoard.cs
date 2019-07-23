@@ -33,15 +33,15 @@ public class HexBoard : MonoBehaviour
     public float biomeMaxSize;
 
     public Material terrainMaterial;
-
+    public Texture2D noiseSource;
     public HexChunk hexChunkPrefab;
     public HexCell hexCellPrefab;
     public Text hexLabelPrefab;
 
-    public readonly Dictionary<HexCellCoordinates, HexCell> hexCells = new Dictionary<HexCellCoordinates, HexCell>();
-    
     public UnitPlayer playerPrefab;
     public int playerStartingUnits;
+
+    public readonly Dictionary<HexCellCoordinates, HexCell> hexCells = new Dictionary<HexCellCoordinates, HexCell>();
 
     /// <summary>
     /// Sets active board, on initialization or after script recompilation. 
