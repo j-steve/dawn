@@ -49,6 +49,7 @@ public class HexBoardGenerator
                 if (Random.value > cell.Biome.treeProbability) { break; }
             }
         }
+        // Spawn animals.
         UILoadingOverlay.Instance.UpdateLoad(.9f, "Moosifying...");
         yield return null;
         foreach (HexCell cell in hexBoard.hexCells.Values) {
@@ -58,18 +59,6 @@ public class HexBoardGenerator
                 UnitAnimal.Create(cell, animalType);
             }
         }
-        //var spawnableTiles = new HashSet<HexCell>(hexBoard.hexCells.Values.Where(c => c.Elevation > 0 && c.GetNeighbors().FirstOrDefault(n => n.Elevation == 0) == null));
-        //int desiredUnitCount = spawnableTiles.Count / 10;
-        //var unitCount = 0;
-        //while (spawnableTiles.Count > 0 && unitCount < 15) {
-        //    var cell = spawnableTiles.GetRandom();
-        //    var prefab = hexBoard.unitPrefabs.GetRandom();
-        //    if (prefab.preferredBiomes.Contains(cell.Biome.name)) {
-        //        Unit.Create(prefab, cell);
-        //        unitCount++;
-        //    }
-        //    spawnableTiles.Remove(cell);
-        //}
         // Create the human player's starting position.
         var humanSpawnableTiles = 
             new HashSet<HexCell>(hexBoard.hexCells.Values.Where(c => c.Elevation > 0 && c.units.Count == 0));
