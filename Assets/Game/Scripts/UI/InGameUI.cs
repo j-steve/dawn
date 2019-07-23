@@ -1,36 +1,43 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class SelectionInfoPanel : MonoBehaviour
+public class InGameUI : MonoBehaviour
 {
-    static public SelectionInfoPanel Instance {
-        get { return _Instance ?? (_Instance = FindObjectOfType<SelectionInfoPanel>()); }
+    static public InGameUI Instance {
+        get { return _Instance ?? (_Instance = FindObjectOfType<InGameUI>()); }
     }
-    static SelectionInfoPanel _Instance;
+    static InGameUI _Instance;
 
-    [SerializeField] GameObject unitInfoPanel = null;
+    [SerializeField] GameObject selectionInfoPanel = null;
     [SerializeField] Text labelTitle = null;
     [SerializeField] Text labelDescription = null;
     [SerializeField] Text labelDetails = null;
     [SerializeField] Text turnNumber = null;
     [SerializeField] Button createVillage = null;
     [SerializeField] Dialog createVillageDialog = null;
+    [SerializeField] InputField createVillageName = null;
+    [SerializeField] GameObject villagePanel = null;
+    [SerializeField] Text labelVillageName = null;
 
     string turnNumberFormat;
 
     public ISelectable selection { get; private set; }
 
+    public event Action SelectionChanged;
+
     void Start()
     {
         // Hide the selection panel, it should only appear when something is selected.
-        unitInfoPanel.SetActive(false);
+        selectionInfoPanel.SetActive(false);
+        HideVillageUI();
         // Listen for turn event and increment the turn number.
         turnNumberFormat = turnNumber.text;
         GameTime.Instance.GameTurnEvent += (GameDate date) => {turnNumber.text = turnNumberFormat.Format(date.year, date.season, date.day);};
         // Listen for "create village" button click.
         createVillage.onClick.AddListener(() => {
             if (selection.GetType() == typeof(UnitPlayer)) {
-                createVillageDialog.Show(() => { ((UnitPlayer)selection).CreateVillage(); });
+                createVillageDialog.Show(() => { Village.CreateVillage((UnitPlayer)selection, createVillageName.text); });
             } else {
                 Debug.LogErrorFormat("Cannot create village, active selection is {0}.", selection);
             }
@@ -49,20 +56,34 @@ public class SelectionInfoPanel : MonoBehaviour
 
     public void SetSelected(ISelectable newSelection)
     {
-        // Prevent potential null exception on game termination.
-        if (!unitInfoPanel)
-            return;
+        if (!selectionInfoPanel) { return; /* Prevent potential null exception on game termination. */ }
 
+        if (SelectionChanged != null) { SelectionChanged.Invoke(); }
+        villagePanel.SetActive(false);
         if (selection != null) {
             selection.OnBlur();
         }
-        unitInfoPanel.SetActive(newSelection != null);
+        selectionInfoPanel.SetActive(newSelection != null);
         selection = newSelection;
         if (newSelection != null) {
             selection.OnFocus();
             labelTitle.text = newSelection.InfoPanelTitle;
             labelDescription.text = newSelection.InfoPanelDescription;
         }
+    }
+
+    public void ShowVillageUI(Village village)
+    {
+        SetSelected(null);
+        villagePanel.SetActive(true);
+        labelVillageName.text = village.Name;
+
+    }
+
+    public void HideVillageUI()
+    { 
+        villagePanel.SetActive(false);
+
     }
 
     public bool IsSelected(ISelectable target)

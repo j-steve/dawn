@@ -137,7 +137,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
     protected virtual void OnMouseDown()
     {
         if (!EventSystem.current.IsPointerOverGameObject()) {
-            SelectionInfoPanel.Instance.SetSelected(this);
+            InGameUI.Instance.SetSelected(this);
         }
     }
 
@@ -147,8 +147,8 @@ abstract public class Unit : MonoBehaviour, ISelectable
     void OnDestroy()
     {
         // Deselect the unit if it is the current selection.
-        if (SelectionInfoPanel.Instance.IsSelected(this)) {
-            SelectionInfoPanel.Instance.SetSelected(null);
+        if (InGameUI.Instance.IsSelected(this)) {
+            InGameUI.Instance.SetSelected(null);
         }
         // Remove the current location cell's reference to this unit.
         Location = null;

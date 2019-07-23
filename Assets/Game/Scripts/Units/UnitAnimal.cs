@@ -57,7 +57,7 @@ public class UnitAnimal : Unit
     protected HexCell Destination {
         get { return _destination; }
         set {
-            if (SelectionInfoPanel.Instance.selection == (ISelectable)this) {
+            if (InGameUI.Instance.selection == (ISelectable)this) {
                 if (_destination)
                     _destination.UnHighlight();
                 if (value)

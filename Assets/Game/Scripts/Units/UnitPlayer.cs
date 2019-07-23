@@ -29,7 +29,7 @@ public class UnitPlayer : Unit
 
     protected override void TakeAction()
     {
-        if (SelectionInfoPanel.Instance.IsSelected(this)) {
+        if (InGameUI.Instance.IsSelected(this)) {
             var cell = HexBoard.Active.GetCellUnderCursor();
             if (cell != currentHoverTarget) {
                 UnHighlightPath();
@@ -39,18 +39,6 @@ public class UnitPlayer : Unit
                 }
             }
         }
-    }
-
-    internal void CreateVillage()
-    {
-        var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        cube.GetComponent<Renderer>().material.color = Color.red;
-        cube.transform.localScale *= 5;
-        cube.transform.parent = Location.transform;
-        var newpos  = Location.transform.position;
-        newpos.y += cube.transform.localScale.y / 2;
-        cube.transform.position = newpos;
-        Destroy(gameObject);
     }
 
     void MapPathToTarget(HexCell target)
@@ -71,7 +59,7 @@ public class UnitPlayer : Unit
             StartCoroutine(TravelToCell(pathSteps.Select(p => p.cell).ToList()));
             UnHighlightPath();
             e.Cancel = true;
-            SelectionInfoPanel.Instance.SetSelected(null);
+            InGameUI.Instance.SetSelected(null);
 
         }
     }
