@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class ResourceType
 {
@@ -17,16 +19,19 @@ public class ResourceType
     public readonly string name;
     public readonly ResourceType baseType;
     public readonly float deteriorationRate;
+    public readonly Sprite icon;
 
     private ResourceType() { }
 
     [JsonConstructor]
-    public ResourceType(string name, string baseType, float? deteriorationRate)
+    public ResourceType(string name, string baseType, float? deteriorationRate, string icon)
     {
         this.name = name;
         this.baseType = baseType == null ? null : GetByName(baseType);
         var parent = this.baseType ?? new ResourceType();
         this.deteriorationRate = deteriorationRate ?? parent.deteriorationRate;
+        if (icon == null) { icon = "question-mark"; }
+        this.icon = Resources.Load<Sprite>("TileResources/Icons/" + icon);
         Values.Add(this);
     }
 

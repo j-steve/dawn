@@ -19,6 +19,8 @@ public class InGameUI : MonoBehaviour
     [SerializeField] InputField createVillageName = null;
     [SerializeField] GameObject villagePanel = null;
     [SerializeField] Text labelVillageName = null;
+    [SerializeField] GameObject resourcePanel = null;
+    [SerializeField] OneResourcePanel oneResourcePrefab = null;
 
     string turnNumberFormat;
 
@@ -56,6 +58,8 @@ public class InGameUI : MonoBehaviour
 
     public void SetSelected(ISelectable newSelection)
     {
+        resourcePanel.SetActive(false);
+        foreach (var obj in resourcePanel.GetComponentsInChildren<OneResourcePanel>()) { Destroy(obj.gameObject); }
         if (!selectionInfoPanel) { return; /* Prevent potential null exception on game termination. */ }
 
         if (SelectionChanged != null) { SelectionChanged.Invoke(); }
@@ -69,6 +73,15 @@ public class InGameUI : MonoBehaviour
             selection.OnFocus();
             labelTitle.text = newSelection.InfoPanelTitle;
             labelDescription.text = newSelection.InfoPanelDescription;
+            if (newSelection.GetType() == typeof(HexCell)) {
+                resourcePanel.SetActive(true);
+                var cell = (HexCell)newSelection;
+                if (cell.tileType == null) { return;  } //TODO: Remove this once all biomes have valid tile types.
+                foreach(var resource in cell.tileType.resources) {
+                    var oneResourcePanel = Instantiate(oneResourcePrefab, resourcePanel.transform);
+                    oneResourcePanel.Initialize(resource.Key, resource.Value.quantity, resource.Value.regenRate);
+                }
+            }
         }
     }
 

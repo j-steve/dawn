@@ -5,17 +5,20 @@
     {
         "name": "Grass",
         "baseType": "Construction Material",
-        "deteriorationRate": 0.15
+        "deteriorationRate": 0.15,
+        "icon": "grass"
     },
     {
         "name": "Wood",
         "baseType": "Construction Material",
-        "deteriorationRate": 0.05
+        "deteriorationRate": 0.05,
+        "icon": "wood"
     },
     {
         "name": "Stone",
         "baseType": "Construction Material",
-        "deteriorationRate": 0.01
+        "deteriorationRate": 0.01,
+        "icon": "stone"
     },
     {
         "name": "Terrain",
@@ -25,22 +28,26 @@
     {
         "name": "Sod",
         "baseType": "Terrain",
-        "deteriorationRate": 1
+        "deteriorationRate": 1,
+        "icon": "sod"
     },
     {
         "name": "Snow",
         "baseType": "Terrain",
-        "deteriorationRate": 1
+        "deteriorationRate": 1,
+        "icon": "snow"
     },
     {
         "name": "Sand",
         "baseType": "Terrain",
-        "deteriorationRate": 1
+        "deteriorationRate": 1,
+        "icon": "sand"
     },
     {
         "name": "Bone",
         "baseType": "Construction Material",
-        "deteriorationRate": 0.1
+        "deteriorationRate": 0.1,
+        "icon": "bone"
     },
     {
         "name": "Flint",
@@ -148,27 +155,32 @@
     {
         "name": "Meat",
         "baseType": "Food",
-        "deteriorationRate": 0.25
+        "deteriorationRate": 0.25,
+        "icon": "meat"
     },
     {
         "name": "Fish",
         "baseType": "Meat",
-        "deteriorationRate": 0.25
+        "deteriorationRate": 0.25,
+        "icon": "blue-fish"
     },
     {
         "name": "Fruit",
         "baseType": "Food",
-        "deteriorationRate": 0.2
+        "deteriorationRate": 0.2,
+        "icon": "apple"
     },
     {
         "name": "Vegetables",
         "baseType": "Food",
-        "deteriorationRate": 0.1
+        "deteriorationRate": 0.1,
+        "icon": "carrot"
     },
     {
         "name": "Grain",
         "baseType": "Food",
-        "deteriorationRate": 0.05
+        "deteriorationRate": 0.05,
+        "icon": "grain"
     },
     {
         "name": "Bread",
@@ -183,7 +195,8 @@
     {
         "name": "Water",
         "baseType": "Provisions",
-        "deteriorationRate": 0.2
+        "deteriorationRate": 0.2,
+        "icon": "water"
     },
     {
         "name": "Drugs",
@@ -191,7 +204,8 @@
     },
     {
         "name": "MedicinalHerbs",
-        "baseType": "Drugs"
+        "baseType": "Drugs",
+        "icon": "medicine"
     },
     {
         "name": "Alcohol",
@@ -224,6 +238,7 @@
     },
     {
         "name": "SmallGame",
-        "deteriorationRate": 0
+        "deteriorationRate": 0,
+        "icon": "rabbit"
     }
 ]

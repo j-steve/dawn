@@ -57,7 +57,7 @@ public class HexBoard : MonoBehaviour
         mapSize = new RectangleInt(8, 8);
         continentsPerChunk = 0.5f;
 #endif
-        GameDataLoader.Load<ResourceType>("resourceTypes");
+        GameDataLoader.Load<ResourceType>("TileResources/resourceTypes");
         GameDataLoader.Load<TileType>("Biomes/tileTypes");
         GameDataLoader.Load<AnimalType>("Animals/animalTypes");
         StartCoroutine(new HexBoardGenerator(this).CreateMap());

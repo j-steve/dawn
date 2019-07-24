@@ -43,6 +43,7 @@ public class Biome
         foreach (Biome b in Values) {
             if (b.name == name) { return b; }
         }
+        if (name == "Lake" ) { return LAKE; }
         if (name == "Swamp" || name == "Alpine") { return null; } // TODO: remove and add these biomes.
         throw new System.ArgumentException(string.Format("Biome \"{0}\" does not exist.", name));
     }

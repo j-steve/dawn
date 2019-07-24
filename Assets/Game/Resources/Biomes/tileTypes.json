@@ -5,7 +5,7 @@
         "movementspeed": 1,
         "defensivebonus": 1,
         "visibility": 1,
-        "treecount": 0
+        "treeCount": 0
     },
     {
         "name": "Plains",
@@ -85,7 +85,7 @@
         "movementspeed": 0.5,
         "defensivebonus": 0.5,
         "visibility": 0.5,
-        "treecount": 2
+        "treeCount": 2
     },
     {
         "name": "Dense Forest",
@@ -115,7 +115,7 @@
         "movementspeed": 0.4,
         "defensivebonus": 0.4,
         "visibility": 0.3,
-        "treecount": 3
+        "treeCount": 3
     },
     {
         "name": "Light Forest",
@@ -146,7 +146,7 @@
         "movementspeed": 0.7,
         "defensivebonus": 0.6,
         "visibility": 0.6,
-        "treecount": 1
+        "treeCount": 1
     },
     {
         "name": "Wetlands",
@@ -501,5 +501,34 @@
         "movementspeed": 0.9,
         "defensivebonus": 0.9,
         "visibility": 0.9
+    },
+    {
+        "name": "Lake",
+        "biome": "Lake",
+        "baseType": "BaseTile",
+        "resources": {
+            "Water": [
+                1000,
+                1000,
+                0.5
+            ],
+            "Fish": [
+                "10",
+                "1",
+                "0.5"
+            ]
+        }
+    },
+    {
+        "name": "Ocean",
+        "biome": "Ocean",
+        "baseType": "BaseTile",
+        "resources": {
+            "Fish": [
+                "5",
+                "0.5",
+                "0.5"
+            ]
+        }
     }
 ]
