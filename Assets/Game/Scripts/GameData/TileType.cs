@@ -83,8 +83,8 @@ public class TileType
                 var resourceType = ResourceType.GetByName(kvp.Key);
                 output[resourceType] = new TileResourceInfo() {
                     quantity = kvp.Value[0],
-                    regenRate = kvp.Value[0],
-                    quality = kvp.Value[0],
+                    regenRate = kvp.Value[1],
+                    quality = kvp.Value[2],
                 };
             }
         }
