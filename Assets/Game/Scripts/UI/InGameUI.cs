@@ -19,10 +19,12 @@ public class InGameUI : MonoBehaviour
     [SerializeField] InputField createVillageName = null;
     [SerializeField] GameObject villagePanel = null;
     [SerializeField] Text labelVillageName = null;
+    [SerializeField] Text labelVillagePop = null;
     [SerializeField] GameObject resourcePanel = null;
     [SerializeField] OneResourcePanel oneResourcePrefab = null;
 
     string turnNumberFormat;
+    string villagePopFormat;
 
     public ISelectable selection { get; private set; }
 
@@ -35,9 +37,11 @@ public class InGameUI : MonoBehaviour
         HideVillageUI();
         // Listen for turn event and increment the turn number.
         turnNumberFormat = turnNumber.text;
+        villagePopFormat = labelVillagePop.text;
         GameTime.Instance.GameTurnEvent += (GameDate date) => {turnNumber.text = turnNumberFormat.Format(date.year, date.season, date.day);};
         // Listen for "create village" button click.
         createVillage.onClick.AddListener(() => {
+            Debug.LogWarning("Clicked");
             if (selection.GetType() == typeof(UnitPlayer)) {
                 createVillageDialog.Show(() => { Village.CreateVillage((UnitPlayer)selection, createVillageName.text); });
             } else {
@@ -90,6 +94,7 @@ public class InGameUI : MonoBehaviour
         SetSelected(null);
         villagePanel.SetActive(true);
         labelVillageName.text = village.Name;
+        labelVillagePop.text = villagePopFormat.Format(5);
 
     }
 
