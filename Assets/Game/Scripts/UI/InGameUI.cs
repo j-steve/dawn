@@ -58,18 +58,9 @@ public class InGameUI : MonoBehaviour
         }
         selection = newSelection;
         if (newSelection != null) {
-            //ResetDisplay();
             selection.OnFocus(this);
             selection.OnUpdateWhileSelected(this); // Set initial properties.
         }
-    }
-
-    void ResetDisplay()
-    {
-        selectionInfoPanel.SetActive(false);
-        resourcePanel.SetActive(false);
-        villagePanel.SetActive(false);
-        addBuildingButton.gameObject.SetActive(false);
     }
 
     public bool IsSelected(ISelectable target)
