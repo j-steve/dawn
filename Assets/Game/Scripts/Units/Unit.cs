@@ -160,32 +160,21 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     #region ISelectable
 
-    public virtual string InfoPanelTitle {
-        get {
-            return string.Format("{0} ({1:0.0}/{2:0.0})", UnitName, Health, MaxHealth);
-        }
-    }
-
-    public virtual string InfoPanelDescription {
-        get {
-            return "";
-        }
-    }
-
-    public virtual string InfoPanelDetails {
-        get {
-            return "";
-        }
-    }
-
-    public virtual void OnFocus()
+    public virtual void OnFocus(InGameUI ui)
     {
         skinnedMeshRender.material.color = Color.green;
+        ui.selectionInfoPanel.SetActive(true);
     }
 
-    public virtual void OnBlur()
+    public virtual void OnBlur(InGameUI ui)
     {
         skinnedMeshRender.material.color = originalColor;
+        ui.selectionInfoPanel.SetActive(false);
+    }
+
+    public virtual void OnUpdateWhileSelected(InGameUI ui)
+    {
+        ui.labelTitle.text = string.Format("{0} ({1:0.0}/{2:0.0})", UnitName, Health, MaxHealth);
     }
 
     #endregion

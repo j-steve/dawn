@@ -170,32 +170,37 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
 
     #region ISelectable
 
-    string ISelectable.InfoPanelTitle {
-        get {
-            return "{0} ({1})".Format(tileType, Biome);
-        }
-    }
-
-    string ISelectable.InfoPanelDescription {
-        get {
-            return "Continent #{0}, Biome #{1}".Format(ContinentNumber + 1, BiomeNumber + 1);
-        }
-    }
-
-    string ISelectable.InfoPanelDetails {
-        get {
-            return units.Count == 0 ? "" : "UNITS: " + units.Select(x => x.UnitName).Join(", ") ;
-        }
-    }
-
-    void ISelectable.OnFocus()
+    void ISelectable.OnFocus(InGameUI ui)
     {
         Highlight(Color.green);
+        // Show the "SelectedTile" UI.
+        ui.selectionInfoPanel.SetActive(true);
+        ui.resourcePanel.SetActive(true);
+        // Populate the resource panel.
+        if (tileType == null) { return; } //TODO: Remove this once all biomes have valid tile types.
+        foreach (var resource in tileType.resources) {
+            var oneResourcePanel = Instantiate(ui.oneResourcePrefab, ui.resourcePanel.transform);
+            oneResourcePanel.Initialize(resource.Key, resource.Value.quantity, resource.Value.regenRate);
+        }
     }
 
-    void ISelectable.OnBlur()
+    void ISelectable.OnBlur(InGameUI ui)
     {
         UnHighlight();
+        // Hide the "SelectedTile" UI.
+        ui.selectionInfoPanel.SetActive(false);
+        ui.resourcePanel.SetActive(false);
+        // Cleanup the resources panel.
+        foreach (var obj in ui.resourcePanel.GetComponentsInChildren<OneResourcePanel>()) {
+            Destroy(obj.gameObject);
+        }
+    }
+
+    void ISelectable.OnUpdateWhileSelected(InGameUI ui)
+    {
+        ui.labelTitle.text = "{0} ({1})".Format(tileType, Biome);
+        ui.labelDescription.text = "Continent #{0}, Biome #{1}".Format(ContinentNumber + 1, BiomeNumber + 1);
+        ui.labelDetails.text = units.Count == 0 ? "" : "UNITS: " + units.Select(x => x.UnitName).Join(", ");
     }
 
     #endregion

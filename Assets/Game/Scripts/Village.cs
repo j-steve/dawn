@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Village : MonoBehaviour
+public class Village : MonoBehaviour, ISelectable
 {
     static public Village CreateVillage(Unit unit, string villageName)
     {
@@ -21,42 +21,41 @@ public class Village : MonoBehaviour
         // Add village info.
         var village = cube.AddComponent<Village>();
         village.Name = villageName;
-        village.Select();
+        village.Population = 5;
         // Eliminate the unit which created this village..
         Destroy(unit.gameObject);
+        // Set the village to "Selected" state.
+        InGameUI.Instance.SetSelected(village);
         return village;
     }
 
-    public string Name { get; private set; }
-    private bool isSelected = false;
+    public string Name { get; private set; } 
+    public float Population { get; private set; }
 
     void OnMouseDown() {
-        if (isSelected) { UnSelect(); } else { Select(); }
+        bool isSelected = InGameUI.Instance.IsSelected(this);
+        InGameUI.Instance.SetSelected(isSelected ? null : this);
     }
+    
+    #region ISelectable
 
-    void Select()
+    void ISelectable.OnFocus(InGameUI ui)
     {
-        isSelected = true;
         GetComponent<Renderer>().material.color = Color.green;
-        InGameUI.Instance.ShowVillageUI(this);
-        InGameUI.Instance.SelectionChanged += UnSelect;
+        ui.villagePanel.SetActive(true);
     }
 
-    void UnSelect()
+    void ISelectable.OnBlur(InGameUI ui)
     {
-        isSelected = false;
         GetComponent<Renderer>().material.color = Color.red;
-        InGameUI.Instance.HideVillageUI();
-        InGameUI.Instance.SelectionChanged -= UnSelect;
+        ui.villagePanel.SetActive(false);
     }
 
-    public void OnFocus()
+    void ISelectable.OnUpdateWhileSelected(InGameUI ui)
     {
-        throw new System.NotImplementedException();
+        ui.labelVillageName.text = Name;
+        ui.labelVillagePop.text = ui.villagePopFormat.Format(Population);
     }
 
-    public void OnBlur()
-    {
-        throw new System.NotImplementedException();
-    }
+    #endregion
 }

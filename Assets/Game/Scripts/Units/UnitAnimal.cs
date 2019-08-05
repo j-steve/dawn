@@ -25,17 +25,6 @@ public class UnitAnimal : Unit
 
     public AnimalType animalType;
 
-    public override string InfoPanelTitle {
-        get {
-            return string.Format("{0} hunger:{1:00}% thirst:{2:00}%", base.InfoPanelTitle, Hunger, Thirst);
-        }
-    }
-    public override string InfoPanelDescription {
-        get {
-            return IsDead ? "Dead" : CombatOpponent ? "Fighting {0}".Format(CombatOpponent) : goal.goalName;
-        }
-    }
-
     protected override float TravelSpeed { get { return 0.75f; } }
 
     protected override float calculateMovementCost(HexCell c1, HexCell c2)
@@ -152,19 +141,31 @@ public class UnitAnimal : Unit
 
     }
 
-    public override void OnFocus()
+    #region ISelectable
+
+    public override void OnFocus(InGameUI ui)
     {
-        base.OnFocus();
+        base.OnFocus(ui);
         if (Destination) {
             Destination.Highlight(Color.blue);
         }
     }
 
-    public override void OnBlur()
+    public override void OnBlur(InGameUI ui)
     {
-        base.OnBlur();
+        base.OnBlur(ui);
         if (Destination) {
             Destination.UnHighlight();
         }
     }
+
+    public override void OnUpdateWhileSelected(InGameUI ui)
+    {
+        base.OnUpdateWhileSelected(ui);
+        ui.labelDescription.text = string.Format("hunger:{0:00}% thirst:{1:00}%", Hunger, Thirst);
+        ui.labelDetails.text = IsDead ? "Dead" : CombatOpponent ? "Fighting {0}".Format(CombatOpponent) : goal.goalName;
+    }
+
+    #endregion
+
 }

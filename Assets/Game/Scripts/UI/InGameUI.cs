@@ -9,39 +9,41 @@ public class InGameUI : MonoBehaviour
     }
     static InGameUI _Instance;
 
-    [SerializeField] GameObject selectionInfoPanel = null;
-    [SerializeField] Text labelTitle = null;
-    [SerializeField] Text labelDescription = null;
-    [SerializeField] Text labelDetails = null;
-    [SerializeField] Text turnNumber = null;
-    [SerializeField] Button createVillage = null;
-    [SerializeField] Dialog createVillageDialog = null;
-    [SerializeField] InputField createVillageName = null;
-    [SerializeField] GameObject villagePanel = null;
-    [SerializeField] Text labelVillageName = null;
-    [SerializeField] Text labelVillagePop = null;
-    [SerializeField] GameObject resourcePanel = null;
-    [SerializeField] OneResourcePanel oneResourcePrefab = null;
+    [SerializeField] public GameObject selectionInfoPanel = null;
+    [SerializeField] public Text labelTitle = null;
+    [SerializeField] public Text labelDescription = null;
+    [SerializeField] public Text labelDetails = null;
+    [SerializeField] public Text turnNumber = null;
+    [SerializeField] public Button createVillage = null;
+    [SerializeField] public Dialog createVillageDialog = null;
+    [SerializeField] public InputField createVillageName = null;
+    [SerializeField] public GameObject villagePanel = null;
+    [SerializeField] public Text labelVillageName = null;
+    [SerializeField] public Text labelVillagePop = null;
+    [SerializeField] public GameObject resourcePanel = null;
+    [SerializeField] public OneResourcePanel oneResourcePrefab = null;
 
     string turnNumberFormat;
-    string villagePopFormat;
+    public string villagePopFormat;
 
     public ISelectable selection { get; private set; }
 
-    public event Action SelectionChanged;
-
     void Start()
     {
-        // Hide the selection panel, it should only appear when something is selected.
-        selectionInfoPanel.SetActive(false);
-        HideVillageUI();
-        // Listen for turn event and increment the turn number.
+        // Store initial label text as format patterns.
         turnNumberFormat = turnNumber.text;
         villagePopFormat = labelVillagePop.text;
+        // Set the base initial display with no selection.
+        selectionInfoPanel.SetActive(false);
+        resourcePanel.SetActive(false);
+        villagePanel.SetActive(false);
+        createVillage.gameObject.SetActive(false);
+        labelDescription.text = "";
+        labelDetails.text = "";
+        // Listen for turn event and increment the turn number.
         GameTime.Instance.GameTurnEvent += (GameDate date) => {turnNumber.text = turnNumberFormat.Format(date.year, date.season, date.day);};
         // Listen for "create village" button click.
         createVillage.onClick.AddListener(() => {
-            Debug.LogWarning("Clicked");
             if (selection.GetType() == typeof(UnitPlayer)) {
                 createVillageDialog.Show(() => { Village.CreateVillage((UnitPlayer)selection, createVillageName.text); });
             } else {
@@ -53,55 +55,31 @@ public class InGameUI : MonoBehaviour
     void Update()
     {
         if (selection != null) {
-            labelTitle.text = selection.InfoPanelTitle;
-            labelDescription.text = selection.InfoPanelDescription;
-            labelDetails.text = selection.InfoPanelDetails;
-            createVillage.gameObject.SetActive(selection.GetType() == typeof(UnitPlayer));
+            selection.OnUpdateWhileSelected(this);
         }
     }
 
     public void SetSelected(ISelectable newSelection)
     {
-        resourcePanel.SetActive(false);
-        foreach (var obj in resourcePanel.GetComponentsInChildren<OneResourcePanel>()) { Destroy(obj.gameObject); }
         if (!selectionInfoPanel) { return; /* Prevent potential null exception on game termination. */ }
-
-        if (SelectionChanged != null) { SelectionChanged.Invoke(); }
-        villagePanel.SetActive(false);
+        
         if (selection != null) {
-            selection.OnBlur();
+            selection.OnBlur(this);
         }
-        selectionInfoPanel.SetActive(newSelection != null);
         selection = newSelection;
         if (newSelection != null) {
-            selection.OnFocus();
-            labelTitle.text = newSelection.InfoPanelTitle;
-            labelDescription.text = newSelection.InfoPanelDescription;
-            if (newSelection.GetType() == typeof(HexCell)) {
-                resourcePanel.SetActive(true);
-                var cell = (HexCell)newSelection;
-                if (cell.tileType == null) { return;  } //TODO: Remove this once all biomes have valid tile types.
-                foreach(var resource in cell.tileType.resources) {
-                    var oneResourcePanel = Instantiate(oneResourcePrefab, resourcePanel.transform);
-                    oneResourcePanel.Initialize(resource.Key, resource.Value.quantity, resource.Value.regenRate);
-                }
-            }
+            //ResetDisplay();
+            selection.OnFocus(this);
+            selection.OnUpdateWhileSelected(this); // Set initial properties.
         }
     }
 
-    public void ShowVillageUI(Village village)
+    void ResetDisplay()
     {
-        SetSelected(null);
-        villagePanel.SetActive(true);
-        labelVillageName.text = village.Name;
-        labelVillagePop.text = villagePopFormat.Format(5);
-
-    }
-
-    public void HideVillageUI()
-    { 
+        selectionInfoPanel.SetActive(false);
+        resourcePanel.SetActive(false);
         villagePanel.SetActive(false);
-
+        createVillage.gameObject.SetActive(false);
     }
 
     public bool IsSelected(ISelectable target)
@@ -111,10 +89,24 @@ public class InGameUI : MonoBehaviour
 }
 
 public interface ISelectable
-{
-    void OnFocus();
-    void OnBlur();
-    string InfoPanelTitle { get; }
-    string InfoPanelDescription { get; }
-    string InfoPanelDetails { get; }
+{ 
+    /// <summary>
+    /// Triggered when this entity first becomes selected by the player.  
+    /// Should set up the requisite UI display and update the entity gameobject itself to display as selected.
+    /// </summary>
+    void OnFocus(InGameUI ui);
+
+    /// <summary>
+    /// Triggered when this entity was previously selected but is becoming unselected, either because the user
+    /// has selected a different entity or because they have unselected this entity.  
+    /// Should revert any changes made in the <see cref="OnFocus(InGameUI)">OnFocus</see> call to restore the
+    /// entity and the UI to their un-selected states.
+    /// </summary>
+    void OnBlur(InGameUI ui);
+
+    /// <summary>
+    /// Triggered during Unity "Update" calls for the entity which is currently selected, if any.
+    /// Should update any dynamic UI elements which are based on this entity (e.g. a unit's health display).
+    /// </summary>
+    void OnUpdateWhileSelected(InGameUI ui);
 }

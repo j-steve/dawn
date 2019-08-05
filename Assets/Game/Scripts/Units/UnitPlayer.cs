@@ -14,18 +14,24 @@ public class UnitPlayer : Unit
 
     IList<PathStep> pathSteps;
 
-    public override void OnFocus()
+    #region ISelectable
+
+    public override void OnFocus(InGameUI ui)
     {
-        base.OnFocus();
+        base.OnFocus(ui);
+        ui.createVillage.gameObject.SetActive(true);
         HexBoard.Active.HexCellClickedEvent += OnHexCellClick;
     }
 
-    public override void OnBlur()
+    public override void OnBlur(InGameUI ui)
     {
-        base.OnBlur();
+        base.OnBlur(ui);
+        ui.createVillage.gameObject.SetActive(false);
         HexBoard.Active.HexCellClickedEvent -= OnHexCellClick;
         UnHighlightPath();
     }
+
+    #endregion
 
     protected override void TakeAction()
     {
