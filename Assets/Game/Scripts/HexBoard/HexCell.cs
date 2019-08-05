@@ -64,7 +64,16 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
 
     public TileType tileType;
 
+    /// <summary>
+    /// All units currently occupying this tile.
+    /// </summary>
     public readonly List<Unit> units = new List<Unit>();
+
+    /// <summary>
+    /// A tile construct occupying the center space of this cell (e.g. a village).  
+    /// There can be at most 1 tile-center construct per cell, as it occupies the central space of the tile.
+    /// </summary>
+    public ITileCenterConstruct tileConstruct;
 
     Text label;
 
@@ -182,6 +191,9 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
             var oneResourcePanel = Instantiate(ui.oneResourcePrefab, ui.resourcePanel.transform);
             oneResourcePanel.Initialize(resource.Key, resource.Value.quantity, resource.Value.regenRate);
         }
+        // Show the "create tile improvment" button, if the tile has no improvement and there are 1+ villages.
+        ui.addBuildingButton.gameObject.SetActive(tileConstruct == null && Village.Values.Count > 0);
+        ui.addBuildingButton.onClick.AddListener(CreateTileImprovement);
     }
 
     void ISelectable.OnBlur(InGameUI ui)
@@ -194,13 +206,28 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
         foreach (var obj in ui.resourcePanel.GetComponentsInChildren<OneResourcePanel>()) {
             Destroy(obj.gameObject);
         }
+        // Hide the "create tile improvment" button.
+        ui.addBuildingButton.gameObject.SetActive(false);
+        ui.addBuildingButton.onClick.RemoveListener(CreateTileImprovement);
+    }
+
+    void CreateTileImprovement()
+    {
+        TileImprovement.CreateTileImprovement(this, TileImprovementType.LumberCamp);
+        // Disable the "create tile improvement button" now, since we can't create a second tile improvement here.
+        InGameUI.Instance.addBuildingButton.gameObject.SetActive(false);
     }
 
     void ISelectable.OnUpdateWhileSelected(InGameUI ui)
     {
         ui.labelTitle.text = "{0} ({1})".Format(tileType, Biome);
         ui.labelDescription.text = "Continent #{0}, Biome #{1}".Format(ContinentNumber + 1, BiomeNumber + 1);
-        ui.labelDetails.text = units.Count == 0 ? "" : "UNITS: " + units.Select(x => x.UnitName).Join(", ");
+        ui.labelDetails.text = tileConstruct == null ? "" : tileConstruct.Name;
+        if (units.Count > 0) {
+            if (ui.labelDetails.text != "") { ui.labelDetails.text += " | "; }
+            ui.labelDetails.text = units.Count == 0 ? "" : "UNITS: " + units.Select(x => x.UnitName).Join(", ");
+            
+        }
     }
 
     #endregion

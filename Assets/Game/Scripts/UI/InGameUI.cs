@@ -14,7 +14,7 @@ public class InGameUI : MonoBehaviour
     [SerializeField] public Text labelDescription = null;
     [SerializeField] public Text labelDetails = null;
     [SerializeField] public Text turnNumber = null;
-    [SerializeField] public Button createVillage = null;
+    [SerializeField] public Button addBuildingButton = null;
     [SerializeField] public Dialog createVillageDialog = null;
     [SerializeField] public InputField createVillageName = null;
     [SerializeField] public GameObject villagePanel = null;
@@ -37,19 +37,9 @@ public class InGameUI : MonoBehaviour
         selectionInfoPanel.SetActive(false);
         resourcePanel.SetActive(false);
         villagePanel.SetActive(false);
-        createVillage.gameObject.SetActive(false);
-        labelDescription.text = "";
-        labelDetails.text = "";
+        addBuildingButton.gameObject.SetActive(false);
         // Listen for turn event and increment the turn number.
         GameTime.Instance.GameTurnEvent += (GameDate date) => {turnNumber.text = turnNumberFormat.Format(date.year, date.season, date.day);};
-        // Listen for "create village" button click.
-        createVillage.onClick.AddListener(() => {
-            if (selection.GetType() == typeof(UnitPlayer)) {
-                createVillageDialog.Show(() => { Village.CreateVillage((UnitPlayer)selection, createVillageName.text); });
-            } else {
-                Debug.LogErrorFormat("Cannot create village, active selection is {0}.", selection);
-            }
-        });
     }
 
     void Update()
@@ -79,7 +69,7 @@ public class InGameUI : MonoBehaviour
         selectionInfoPanel.SetActive(false);
         resourcePanel.SetActive(false);
         villagePanel.SetActive(false);
-        createVillage.gameObject.SetActive(false);
+        addBuildingButton.gameObject.SetActive(false);
     }
 
     public bool IsSelected(ISelectable target)

@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class Village : MonoBehaviour, ISelectable
+public class Village : MonoBehaviour, ITileCenterConstruct, ISelectable
 {
+    static public HashSet<Village> Values = new HashSet<Village>();
+
     static public Village CreateVillage(Unit unit, string villageName)
     {
         // Create cube object.
@@ -22,10 +25,14 @@ public class Village : MonoBehaviour, ISelectable
         var village = cube.AddComponent<Village>();
         village.Name = villageName;
         village.Population = 5;
+        // Add the village to the tile it occupies.
+        unit.Location.tileConstruct = village;
         // Eliminate the unit which created this village..
         Destroy(unit.gameObject);
         // Set the village to "Selected" state.
         InGameUI.Instance.SetSelected(village);
+        // Add to values list and return.
+        Values.Add(village);
         return village;
     }
 
@@ -58,4 +65,6 @@ public class Village : MonoBehaviour, ISelectable
     }
 
     #endregion
+
+    string ITileConstruct.Name { get { return string.Format("Village ({0})", Name); } }
 }

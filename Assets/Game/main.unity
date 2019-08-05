@@ -765,9 +765,9 @@ RectTransform:
   m_Father: {fileID: 1698609167}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 280.3471, y: 0}
   m_SizeDelta: {x: 232, y: 132}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &334605314
@@ -938,7 +938,7 @@ GameObject:
   - component: {fileID: 415082072}
   - component: {fileID: 415082071}
   m_Layer: 5
-  m_Name: Text (Title)
+  m_Name: Title Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1331,7 +1331,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -0.5}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -924.6942, y: -32.132233}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &572375684
 MonoBehaviour:
@@ -3220,7 +3220,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 963, y: -55}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 760.4, y: 108.8}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1507033532
 MonoBehaviour:
@@ -3337,7 +3337,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1934193656945460, guid: 8262c308c9cae2d43881e3c5c8ec9ebe, type: 3}
       propertyPath: m_Name
-      value: Button (CreateVillage)
+      value: Add Building Button
       objectReference: {fileID: 0}
     - target: {fileID: 224748389652441012, guid: 8262c308c9cae2d43881e3c5c8ec9ebe,
         type: 3}
@@ -3522,7 +3522,7 @@ GameObject:
   - component: {fileID: 1641729609}
   - component: {fileID: 1641729608}
   m_Layer: 5
-  m_Name: Text (Details)
+  m_Name: Details Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3836,7 +3836,7 @@ MonoBehaviour:
   labelDescription: {fileID: 2138897472}
   labelDetails: {fileID: 1641729608}
   turnNumber: {fileID: 1134277953}
-  createVillage: {fileID: 509256228}
+  addBuildingButton: {fileID: 509256228}
   createVillageDialog: {fileID: 1610137364}
   createVillageName: {fileID: 1890782466}
   villagePanel: {fileID: 1874508563}
@@ -3845,6 +3845,7 @@ MonoBehaviour:
   resourcePanel: {fileID: 1507033530}
   oneResourcePrefab: {fileID: 980455945656618453, guid: 1a61a64e9014e0f4bafc7767ad30e22f,
     type: 3}
+  villagePopFormat: 
 --- !u!1001 &1741242467
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4637,10 +4638,10 @@ RectTransform:
   m_Father: {fileID: 381775273}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 512.3471, y: -285.73553}
+  m_SizeDelta: {x: 924.6942, y: 32.132233}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1890782466
 MonoBehaviour:
@@ -5398,7 +5399,7 @@ GameObject:
   - component: {fileID: 2138897473}
   - component: {fileID: 2138897472}
   m_Layer: 5
-  m_Name: Text (Description)
+  m_Name: Description Label
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

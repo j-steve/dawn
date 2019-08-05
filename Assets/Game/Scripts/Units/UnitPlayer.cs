@@ -19,16 +19,27 @@ public class UnitPlayer : Unit
     public override void OnFocus(InGameUI ui)
     {
         base.OnFocus(ui);
-        ui.createVillage.gameObject.SetActive(true);
+        ui.labelDescription.text = "";
+        ui.labelDetails.text = "";
+        ui.addBuildingButton.gameObject.SetActive(true);
+        ui.addBuildingButton.onClick.AddListener(ShowCreateVillageDialog);
         HexBoard.Active.HexCellClickedEvent += OnHexCellClick;
     }
 
     public override void OnBlur(InGameUI ui)
     {
         base.OnBlur(ui);
-        ui.createVillage.gameObject.SetActive(false);
+        ui.addBuildingButton.gameObject.SetActive(false);
+        ui.addBuildingButton.onClick.RemoveListener(ShowCreateVillageDialog);
         HexBoard.Active.HexCellClickedEvent -= OnHexCellClick;
         UnHighlightPath();
+    }
+
+    void ShowCreateVillageDialog()
+    {
+        InGameUI.Instance.createVillageDialog.Show(() => {
+            Village.CreateVillage(this, InGameUI.Instance.createVillageName.text);
+        });
     }
 
     #endregion
@@ -85,5 +96,4 @@ public class UnitPlayer : Unit
         if (c2.Elevation == 0) { return 100; }
         return Math.Abs(c1.Elevation - c2.Elevation) * 2 + 1;
     }
-
 }
