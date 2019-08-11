@@ -43,12 +43,15 @@ public class HexBoard : MonoBehaviour
 
     public readonly Dictionary<HexCellCoordinates, HexCell> hexCells = new Dictionary<HexCellCoordinates, HexCell>();
 
+    private Camera mainCamera;
+
     /// <summary>
     /// Sets active board, on initialization or after script recompilation. 
     /// </summary>
     void OnEnable()
     {
         Active = this;
+        mainCamera = Camera.main; // Cache the camera since "Camera.main" is an expensive call.
     }
 
     void Start()
@@ -94,7 +97,7 @@ public class HexBoard : MonoBehaviour
 
     public HexCell GetCellUnderCursor()
     {
-        Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray inputRay = mainCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(inputRay, out hit)) {
             Vector3 position = transform.InverseTransformPoint(hit.point);
