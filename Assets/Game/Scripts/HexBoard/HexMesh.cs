@@ -38,17 +38,21 @@ public class HexMesh : MonoBehaviour
     [NonSerialized] public List<Color32> colors = new List<Color32>();
     [NonSerialized] public List<Vector2> uvs = new List<Vector2>();
 
-    protected virtual void Awake()
+    protected virtual void Initialize()
     {
         this.GetRequiredComponent<MeshFilter>().mesh = mesh = new Mesh();
     }
 
-    public virtual void Clear()
+    public virtual void InitOrReset()
     {
-        mesh.Clear();
-        var lists = new IList[] { vertices, triangles, colors, uvs };
-        foreach (var list in lists) {
-            list.Clear();
+        if (mesh == null) {
+            Initialize();
+        } else {
+            mesh.Clear();
+            var lists = new IList[] { vertices, triangles, colors, uvs };
+            foreach (var list in lists) {
+                list.Clear();
+            }
         }
     }
 

@@ -14,10 +14,10 @@ public class HexChunk : MonoBehaviour
     static readonly EdgeDirection[] EASTERLY_DIRECTIONS =
         new EdgeDirection[] { EdgeDirection.NE, EdgeDirection.E, EdgeDirection.SE };
 
-    public static HexChunk Create(HexChunk prefab, int row, int column)
+    public static HexChunk Create(HexChunk prefab, Transform parent, int row, int column)
     {
         HexChunk obj = Instantiate(prefab);
-        obj.Initialize(row, column);
+        obj.Initialize(parent, row, column);
         return obj;
     }
 
@@ -25,34 +25,29 @@ public class HexChunk : MonoBehaviour
 
     public Canvas hexCanvas;
     public HexMeshTerrain terrainMesh;
-    public HexMesh treeMesh;
     public HexMesh oceanMesh;
     public HexMesh lakeMesh;
 
     public int row { get; private set; }
     public int column { get; private set; }
 
-    void Initialize(int row, int column)
+    void Initialize(Transform parent, int row, int column)
     {
         this.row = row;
         this.column = column;
         name = "HexChunk ({0}, {1})".Format(row, column);
-        transform.SetParent(HexBoard.Active.transform);
+        transform.SetParent(parent);
     }
 
     internal void Triangulate(IEnumerable<HexCell> hexCells)
     {
-        terrainMesh.Clear();
-        oceanMesh.Clear();
-        lakeMesh.Clear();
-        if (treeMesh)
-            treeMesh.Clear();
+        terrainMesh.InitOrReset();
+        oceanMesh.InitOrReset();
+        lakeMesh.InitOrReset();
         foreach (HexCell cell in hexCells) {
             TriangulateHexCell(cell);
             if (cell.Elevation == 0)
                 TriangulateWater(cell);
-            if (treeMesh && cell.TerrainType == TerrainTexture.MIXEDTREES)
-                TriangulateTrees(cell);
             foreach (EdgeDirection direction in EASTERLY_DIRECTIONS) {
                 HexCell neighbor = cell.GetNeighbor(direction);
                 if (neighbor) {
@@ -66,11 +61,12 @@ public class HexChunk : MonoBehaviour
                 }
             }
         }
+        //foreach (var v in terrainMesh.vertices) {
+        //    vertices[v] = Color.red;
+        //}
         terrainMesh.Apply();
         oceanMesh.Apply();
         lakeMesh.Apply();
-        if (treeMesh)
-            treeMesh.Apply();
     }
 
     static readonly Vector3 WATERLEVEL = new Vector3(0, HexConstants.ELEVATION_STEP * 1.5f, 0);
@@ -87,23 +83,6 @@ public class HexChunk : MonoBehaviour
         int v0 = mesh.vertices.Count;
         Vector3 center = cell.Center + WATERLEVEL;
         mesh.AddVertex(cell.Center + WATERLEVEL);
-        foreach (Vector3 vertexOffset in HEX_VERTEX_OFFSETS) {
-            mesh.AddVertex(center + vertexOffset);
-            mesh.AddVertex(center - vertexOffset);
-        }
-        for (int i = 1; i <= 4; i++) {
-            mesh.triangles.AddRange(new int[] { v0, v0 + i, v0 + i + 2 });
-        }
-        mesh.triangles.AddRange(new int[] { v0, v0 + 5, v0 + 2 });
-        mesh.triangles.AddRange(new int[] { v0, v0 + 6, v0 + 1 });
-    }
-
-    void TriangulateTrees(HexCell cell)
-    {
-        HexMesh mesh = treeMesh;
-        int v0 = mesh.vertices.Count;
-        Vector3 center = cell.Center + (WATERLEVEL / 2);
-        mesh.AddVertex(center + (WATERLEVEL / 2));
         foreach (Vector3 vertexOffset in HEX_VERTEX_OFFSETS) {
             mesh.AddVertex(center + vertexOffset);
             mesh.AddVertex(center - vertexOffset);
@@ -132,10 +111,10 @@ public class HexChunk : MonoBehaviour
         terrainMesh.AddTerrainType(hexCell.TerrainType, 0, 0, 13);
     }
 
-    public const int terracesPerSlope = 2;
-    public const int terraceSteps = terracesPerSlope * 2 + 1;
-    public const float terraceStepLerp = 1f / terraceSteps;
-    public const float terraceExtraWidth = 0.1f;
+    public const int TERRACES_PER_SLOPE = 2;
+    public const int TERRACE_STEPS = TERRACES_PER_SLOPE * 2 + 1;
+    public const float TERRACE_STEP_LERP = 1f / TERRACE_STEPS;
+    public const float TERRACE_EXTRA_WIDTH = 0.1f;
 
 
     /// <summary>
@@ -159,13 +138,13 @@ public class HexChunk : MonoBehaviour
         } else if (transitionType == TransitionType.Terraced) {
             Edge lastTerraceStop = tile1edge;
             Color lastColor = Color.green;
-            for (int i = 0; i < terracesPerSlope; i++) {
+            for (int i = 0; i < TERRACES_PER_SLOPE; i++) {
                 // TODO: Fix terrain blending, by using the slerp of the color gradient between the two textures.
-                float e1slerp = (i * 2 + 1) * terraceStepLerp - terraceExtraWidth;
-                float e2slerp = (i * 2 + 2) * terraceStepLerp + terraceExtraWidth;
+                float e1slerp = (i * 2 + 1) * TERRACE_STEP_LERP - TERRACE_EXTRA_WIDTH;
+                float e2slerp = (i * 2 + 2) * TERRACE_STEP_LERP + TERRACE_EXTRA_WIDTH;
                 Edge terraceStartEdge = tile1edge.Slerp(tile2edge, e1slerp);
                 Edge terraceStopEdge = tile1edge.Slerp(tile2edge, e2slerp);
-                Edge midpoint = tile1edge.Slerp(tile2edge, (1f + i) / (terracesPerSlope + 1));
+                Edge midpoint = tile1edge.Slerp(tile2edge, (1f + i) / (TERRACES_PER_SLOPE + 1));
                 terraceStartEdge.vertex1.y = terraceStopEdge.vertex1.y = midpoint.vertex1.y;
                 terraceStartEdge.vertex2.y = terraceStopEdge.vertex2.y = midpoint.vertex2.y;
                 terrainMesh.AddQuad(lastTerraceStop.vertex1, lastTerraceStop.vertex2, terraceStartEdge.vertex2, terraceStartEdge.vertex1);
@@ -179,7 +158,7 @@ public class HexChunk : MonoBehaviour
             }
             terrainMesh.AddQuad(lastTerraceStop.vertex1, lastTerraceStop.vertex2, tile2edge.vertex2, tile2edge.vertex1);
             terrainMesh.AddColors(lastColor, lastColor, Color.red, Color.red);
-            terrainMesh.AddTerrainType(tile2edge.texture, tile1edge.texture, 0, terracesPerSlope * 2 * 4 + 4);
+            terrainMesh.AddTerrainType(tile2edge.texture, tile1edge.texture, 0, TERRACES_PER_SLOPE * 2 * 4 + 4);
         }
     }
 
@@ -197,15 +176,15 @@ public class HexChunk : MonoBehaviour
         }
     }
 
-    //public Dictionary<Vector3, Color> vertices = new Dictionary<Vector3, Color>();
+    public Dictionary<Vector3, Color> vertices = new Dictionary<Vector3, Color>();
 
-    //void OnDrawGizmos()
-    //{
-    //    foreach (var vert in vertices) {
-    //        Gizmos.color = vert.Value;
-    //        Gizmos.DrawWireSphere(transform.TransformPoint(vert.Key), 0.2f);
-    //    }
-    //}
+    void OnDrawGizmos()
+    {
+        foreach (var vert in vertices) {
+            Gizmos.color = vert.Value;
+            Gizmos.DrawWireSphere(transform.TransformPoint(vert.Key), 0.2f);
+        }
+    }
 
     /// <summary>
     /// Creates the vertices and triangles for a corner triangle, in the 

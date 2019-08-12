@@ -10,17 +10,17 @@ public class HexMeshTerrain : HexMesh
 
     private MeshCollider meshCollider;
 
-    protected override void Awake()
+    protected override void Initialize()
     {
-        base.Awake();
+        base.Initialize();
         meshCollider = gameObject.AddComponent<MeshCollider>();
         meshCollider.convex = true;
         meshCollider.isTrigger = true;
     }
 
-    public override void Clear()
+    public override void InitOrReset()
     {
-        base.Clear();
+        base.InitOrReset();
         terrainTypes.Clear();
     }
 
@@ -34,7 +34,7 @@ public class HexMeshTerrain : HexMesh
 
     void OnMouseDown()
     {
-        if (!EventSystem.current.IsPointerOverGameObject()) { 
+        if (!EventSystem.current.IsPointerOverGameObject()) { // Ensures cursor is not pointed at UI element.
             HexBoard.Active.OnMapClick();
         }
     }

@@ -63,7 +63,7 @@ public class HexBoardGenerator
         var humanSpawnableTiles = 
             new HashSet<HexCell>(hexBoard.hexCells.Values.Where(c => c.Elevation > 0 && c.units.Count == 0));
         var startTile = humanSpawnableTiles.GetRandom();
-        var playerUnit = Unit.Create(hexBoard.playerPrefab, startTile);
+        Unit.Create(hexBoard.playerPrefab, startTile);
         MapCamera.Active.CenterCameraOn(startTile);
 
         UILoadingOverlay.Instance.UpdateLoad(1);
@@ -102,7 +102,7 @@ public class HexBoardGenerator
         var chunks = new Dictionary<HexChunk, IEnumerable<HexCell>>();
         for (int row = 0; row < hexBoard.mapSize.Height; row++) {
             for (int column = 0; column < hexBoard.mapSize.Width; column++) {
-                var chunk = HexChunk.Create(hexBoard.hexChunkPrefab, row, column);
+                var chunk = HexChunk.Create(hexBoard.hexChunkPrefab, hexBoard.transform, row, column);
                 chunks[chunk] = GetChunkHexCells(chunk);
             }
         }
