@@ -61,9 +61,9 @@ public class HexChunk : MonoBehaviour
                 }
             }
         }
-        foreach (var v in terrainMesh.vertices) {
-            vertices[v] = Color.red;
-        }
+        //foreach (var v in terrainMesh.vertices) {
+        //    vertices[v] = Color.red;
+        //}
         terrainMesh.Apply();
         oceanMesh.Apply();
         lakeMesh.Apply();
@@ -121,7 +121,14 @@ public class HexChunk : MonoBehaviour
             triangles.Add(new Triangle(farEdgeRiverRight, farEdge.vertex2, innerHexRight));
             triangles.AddRange(new Rectangle(farEdgeRiverLeft, farEdgeMidpoint, innerHexMidpoint, innerHexLeft).AsTriangles());
             triangles.AddRange(new Rectangle(farEdgeMidpoint, farEdgeRiverRight, innerHexRight, innerHexMidpoint).AsTriangles());
-            // Create the cenral inner portion where the river (if present) changes direction.
+            // Create the cenral inner hex where the river (if present) changes direction.
+            var innerTriangleCenter = Vector3.Lerp(cell.Center, innerHexMidpoint, 0.5f);
+            triangles.Add(new Triangle(innerHexLeft, innerHexMidpoint, innerTriangleCenter));
+            triangles.Add(new Triangle(innerHexMidpoint, innerHexRight, innerTriangleCenter));
+            var adjacentFarEdgeMidpoint = cell.GetEdge(direction.Next()).Lerp(0.5f);
+            var adjacentTriangleCenter = Vector3.Lerp(cell.Center, adjacentFarEdgeMidpoint, RIVER_WIDTH * .5f);
+            triangles.Add(new Triangle(innerTriangleCenter, innerHexRight, adjacentTriangleCenter));
+            triangles.Add(new Triangle(cell.Center, innerTriangleCenter, adjacentTriangleCenter));
         }
         foreach(var triangle in triangles) {
             terrainMesh.AddVertices(triangle);
@@ -253,11 +260,12 @@ public class HexChunk : MonoBehaviour
             cell3.Vertices[direction.Previous().vertex1]);
         terrainMesh.AddColors(Color.red, Color.green, Color.blue);
         IEnumerable<int> elevations = new HexCell[] { cell1, cell2, cell3 }.Select(c => c.Elevation);
-        if (Math.Abs(elevations.Max() - elevations.Min()) <= 1) {
-            terrainMesh.AddTerrainType(cell1.TerrainType, cell2.TerrainType, cell3.TerrainType, 3);
-        } else {
-            terrainMesh.AddTerrainType(TerrainTexture.CLIFF, TerrainTexture.CLIFF, TerrainTexture.CLIFF, 3);
-        }
+        terrainMesh.AddTerrainType(cell1.TerrainType, cell2.TerrainType, cell3.TerrainType, 3);
+        //if (Math.Abs(elevations.Max() - elevations.Min()) <= 1) {
+        //    terrainMesh.AddTerrainType(cell1.TerrainType, cell2.TerrainType, cell3.TerrainType, 3);
+        //} else {
+        //    terrainMesh.AddTerrainType(TerrainTexture.CLIFF, TerrainTexture.CLIFF, TerrainTexture.CLIFF, 3);
+        //}
     }
 }
 
