@@ -38,8 +38,8 @@ public class Edge : IEnumerable<Vector3>
 
     #endregion
 
-    public Vector3 vertex1;
-    public Vector3 vertex2;
+    public readonly Vector3 vertex1;
+    public readonly  Vector3 vertex2;
 
     public Edge(Vector3 vertex1, Vector3 vertex2)
     {
@@ -57,6 +57,11 @@ public class Edge : IEnumerable<Vector3>
         return new Edge(
             Vector3.Slerp(vertex1, e2.vertex1, amount),
             Vector3.Slerp(vertex2, e2.vertex2, amount));
+    }
+
+    public Vector3 Lerp(float amount)
+    {
+        return Vector3.Lerp(vertex1, vertex2, amount);
     }
 
     public IEnumerator<Vector3> GetEnumerator()
