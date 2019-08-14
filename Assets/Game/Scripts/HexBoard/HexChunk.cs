@@ -46,7 +46,10 @@ public class HexChunk : MonoBehaviour
         foreach (HexCell cell in hexCells) {
             TriangulateHexCell(cell);
             if (cell.Elevation == 0)
-                TriangulateWater(cell);
+                TriangulateWater(cell, WATERLEVEL);
+            if (cell.rivers.Count > 0) {
+                TriangulateWater(cell, new Vector3(0, -RIVER_DEPTH * 0.1f, 0));
+            }
             foreach (EdgeDirection direction in EASTERLY_DIRECTIONS) {
                 HexCell neighbor = cell.GetNeighbor(direction);
                 if (neighbor) {
@@ -60,9 +63,9 @@ public class HexChunk : MonoBehaviour
                 }
             }
         }
-        //foreach (var v in terrainMesh.vertices) {
-        //    vertices[v] = Color.red;
-        //}
+        foreach (var v in terrainMesh.vertices) {
+            vertices[v] = Color.red;
+        }
         terrainMesh.Apply();
         oceanMesh.Apply();
         lakeMesh.Apply();
@@ -76,18 +79,18 @@ public class HexChunk : MonoBehaviour
         HexConstants.HEX_CELL_SEPERATION * new Vector3((float)HexConstants.HEX_RADIUS, 0f, -0.5f),
     };
 
-    void TriangulateWater(HexCell cell)
+    void TriangulateWater(HexCell cell, Vector3 waterlevel)
     {
         HexMesh mesh = cell.TerrainType == TerrainTexture.BLUEWATER ? oceanMesh : lakeMesh;
         int v0 = mesh.vertices.Count;
-        Vector3 center = cell.Center + WATERLEVEL;
-        mesh.AddVertex(cell.Center + WATERLEVEL);
+        Vector3 center = cell.Center + waterlevel;
+        mesh.AddVertex(cell.Center + waterlevel);
         foreach (Vector3 vertexOffset in HEX_VERTEX_OFFSETS) {
             mesh.AddVertex(center + vertexOffset);
             mesh.AddVertex(center - vertexOffset);
         }
         for (int i = 1; i <= 4; i++) {
-            mesh.triangles.AddRange(new int[] { v0, v0 + i, v0 + i + 2 });
+            //mesh.triangles.AddRange(new int[] { v0, v0 + i, v0 + i + 2 });
         }
         mesh.triangles.AddRange(new int[] { v0, v0 + 5, v0 + 2 });
         mesh.triangles.AddRange(new int[] { v0, v0 + 6, v0 + 1 });
@@ -99,6 +102,8 @@ public class HexChunk : MonoBehaviour
     const float RIVER_WIDTH = 0.4f;
     const float RIVER_LEFT = (1 - RIVER_WIDTH) / 2;
     const float RIVER_RIGHT = (1 + RIVER_WIDTH) / 2;
+    const float RIVER_DEPTH = 1f;
+    const float INNERHEX_RATIO = 2f / 3f; // The ratio of the inner hex to the middle hex.
 
     /// <summary>
     /// Creates the vertices and triangles for a single hexagonal HexCell.
@@ -107,27 +112,43 @@ public class HexChunk : MonoBehaviour
     {
         int center = terrainMesh.vertices.Count;
         var triangles = new List<Triangle>(48); // size is 8 (triangles per direction) * 6 (num of directions)
+
         foreach (EdgeDirection direction in EnumClass.GetAll<EdgeDirection>()) {
-            // Create the outer portion of the hex.
+            // Get verts for the outer portion of the hex.
+            var cellCenter = new Vector3(cell.Center.x, cell.Center.y, cell.Center.z);
             Edge farEdge = cell.GetEdge(direction);
             var farEdgeRiverLeft = farEdge.Lerp(RIVER_LEFT);
             var farEdgeRiverRight = farEdge.Lerp(RIVER_RIGHT);
             var farEdgeMidpoint = farEdge.Lerp(0.5f);
-            var innerHexLeft = Vector3.Lerp(cell.Center, farEdge.vertex1, RIVER_WIDTH);
-            var innerHexRight = Vector3.Lerp(cell.Center, farEdge.vertex2, RIVER_WIDTH);
+            var innerHexLeft = Vector3.Lerp(cellCenter, farEdge.vertex1, RIVER_WIDTH);
+            var innerHexRight = Vector3.Lerp(cellCenter, farEdge.vertex2, RIVER_WIDTH);
             var innerHexMidpoint = Vector3.Lerp(innerHexLeft, innerHexRight, 0.5f);
+            // Get verts for the central inner hex, where the river (if present) changes direction.
+            var innerTriangleCenter = Vector3.Lerp(cellCenter, innerHexMidpoint, INNERHEX_RATIO);
+            var adjacentFarEdgeMidpoint = cell.GetEdge(direction.Next()).Lerp(0.5f);
+            var adjacentTriangleCenter = Vector3.Lerp(cellCenter, adjacentFarEdgeMidpoint, RIVER_WIDTH * INNERHEX_RATIO);
+            // Add a river depression, if applicable.
+            if (cell.rivers.Count > 0) {
+                cellCenter.y -= RIVER_DEPTH;
+            }
+            if (cell.rivers.Contains(direction)) {
+                farEdgeMidpoint.y -= RIVER_DEPTH;
+                innerTriangleCenter.y -= RIVER_DEPTH;
+                innerHexMidpoint.y -= RIVER_DEPTH;
+            }
+            if (cell.rivers.Contains(direction.Next())) {
+                adjacentFarEdgeMidpoint.y -= RIVER_DEPTH;
+                adjacentTriangleCenter.y -= RIVER_DEPTH;
+            }
+            // Create the triangles & rectangles between verts.
             triangles.Add(new Triangle(farEdge.vertex1, farEdgeRiverLeft, innerHexLeft));
             triangles.Add(new Triangle(farEdgeRiverRight, farEdge.vertex2, innerHexRight));
             triangles.AddRange(new Rectangle(farEdgeRiverLeft, farEdgeMidpoint, innerHexMidpoint, innerHexLeft).AsTriangles());
-            triangles.AddRange(new Rectangle(farEdgeMidpoint, farEdgeRiverRight, innerHexRight, innerHexMidpoint).AsTriangles());
-            // Create the cenral inner hex where the river (if present) changes direction.
-            var innerTriangleCenter = Vector3.Lerp(cell.Center, innerHexMidpoint, 0.5f);
+            triangles.AddRange(new Rectangle(farEdgeMidpoint, farEdgeRiverRight, innerHexRight, innerHexMidpoint).AsTriangles()); 
             triangles.Add(new Triangle(innerHexLeft, innerHexMidpoint, innerTriangleCenter));
             triangles.Add(new Triangle(innerHexMidpoint, innerHexRight, innerTriangleCenter));
-            var adjacentFarEdgeMidpoint = cell.GetEdge(direction.Next()).Lerp(0.5f);
-            var adjacentTriangleCenter = Vector3.Lerp(cell.Center, adjacentFarEdgeMidpoint, RIVER_WIDTH * .5f);
             triangles.Add(new Triangle(innerTriangleCenter, innerHexRight, adjacentTriangleCenter));
-            triangles.Add(new Triangle(cell.Center, innerTriangleCenter, adjacentTriangleCenter));
+            triangles.Add(new Triangle(cellCenter, innerTriangleCenter, adjacentTriangleCenter));
         }
         foreach(var triangle in triangles) {
             terrainMesh.AddVertices(triangle);
@@ -171,8 +192,18 @@ public class HexChunk : MonoBehaviour
     {
         TexturedEdge tile1edge = cell1.GetEdge(direction).Reversed();
         TexturedEdge tile2edge = cell2.GetEdge(direction.Opposite());
+        bool tile1river = cell1.rivers.Contains(direction);
+        bool tile2river = cell2.rivers.Contains(direction.Opposite());
         for (int i = 0 ; i < splits.Length - 1; i++) {
-            terrainMesh.AddQuad(tile1edge.Lerp(splits[i]), tile1edge.Lerp(splits[i + 1]), tile2edge.Lerp(splits[i + 1]), tile2edge.Lerp(splits[i]));
+            Vector3 tile1edge1 = tile1edge.Lerp(splits[i]);
+            Vector3 tile1edge2 = tile1edge.Lerp(splits[i + 1]);
+            Vector3 tile2edge1 = tile2edge.Lerp(splits[i]);
+            Vector3 tile2edge2 = tile2edge.Lerp(splits[i + 1]);
+            if (tile1river && i == 1) { tile1edge2.y -= RIVER_DEPTH; }
+            if (tile2river && i == 1) { tile2edge2.y -= RIVER_DEPTH; }
+            if (tile1river && i == 2) { tile1edge1.y -= RIVER_DEPTH; }
+            if (tile2river && i == 2) { tile2edge1.y -= RIVER_DEPTH; }
+            terrainMesh.AddQuad(tile1edge1, tile1edge2, tile2edge2, tile2edge1);
             terrainMesh.AddColors(Color.red, Color.red, Color.green, Color.green);
             terrainMesh.AddTerrainType(tile1edge.texture, tile2edge.texture, 0, 4);
         }

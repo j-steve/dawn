@@ -27,6 +27,7 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
     public int biomeNumber = 0;
     public Biome biome;
     public TileType tileType;
+    public readonly HashSet<EdgeDirection> rivers = new HashSet<EdgeDirection>();
 
     /// <summary>
     /// All units currently occupying this tile.

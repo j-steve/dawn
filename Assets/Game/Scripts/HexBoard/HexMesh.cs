@@ -14,7 +14,7 @@ public class HexMesh : MonoBehaviour
     /// Determines the irregularity of programmatic meshes.
     /// Increase this value for less "boxy" hills/slopes & hex shapes.
     /// </summary>
-    const float perturbStrength = 5f;
+    const float perturbStrength = 0f; //5f;
 
     static private Vector4 SampleNoise(Vector3 position)
     {
