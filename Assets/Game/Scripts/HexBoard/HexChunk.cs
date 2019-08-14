@@ -48,7 +48,7 @@ public class HexChunk : MonoBehaviour
             if (cell.Elevation == 0)
                 TriangulateWater(cell, WATERLEVEL);
             if (cell.rivers.Count > 0) {
-                TriangulateWater(cell, new Vector3(0, -RIVER_DEPTH * 0.1f, 0));
+                TriangulateWater(cell, new Vector3(0, -RIVER_DEPTH * 0.2f, 0));
             }
             foreach (EdgeDirection direction in EASTERLY_DIRECTIONS) {
                 HexCell neighbor = cell.GetNeighbor(direction);
@@ -90,7 +90,7 @@ public class HexChunk : MonoBehaviour
             mesh.AddVertex(center - vertexOffset);
         }
         for (int i = 1; i <= 4; i++) {
-            //mesh.triangles.AddRange(new int[] { v0, v0 + i, v0 + i + 2 });
+            mesh.triangles.AddRange(new int[] { v0, v0 + i, v0 + i + 2 });
         }
         mesh.triangles.AddRange(new int[] { v0, v0 + 5, v0 + 2 });
         mesh.triangles.AddRange(new int[] { v0, v0 + 6, v0 + 1 });
