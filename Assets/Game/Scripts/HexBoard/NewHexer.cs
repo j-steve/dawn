@@ -22,19 +22,18 @@ public class NewHexer : MonoBehaviour
         AddCell(hexChunk, 0, 0, Biome.JUNGLE, EdgeDirection.E);
         AddCell(hexChunk, 0, 1, Biome.PLAINS, EdgeDirection.W, EdgeDirection.NE);
         AddCell(hexChunk, 1, 0, Biome.SAVANNAH);
-        AddCell(hexChunk, 1, 1, Biome.SCRUBLAND);
+        AddCell(hexChunk, 1, 1, Biome.SCRUBLAND, EdgeDirection.SW, EdgeDirection.NW, EdgeDirection.E);
         hexChunk.Triangulate(HexBoard.Active.hexCells.Values);
     }
 
-    void AddCell(HexChunk chunk, int row, int col, Biome biome, EdgeDirection riveredge1 = null, EdgeDirection riveredge2 = null)
+    void AddCell(HexChunk chunk, int row, int col, Biome biome, params EdgeDirection[] riveredges)
     {
 
         var cell = HexCell.Create(hexCellPrefab, chunk, row, col);
         cell.biome = biome;
         cell.biomeNumber = 1;
         cell.Elevation = cell.TerrainType == TerrainTexture.BLUEWATER ? 0 : 2;
-        if (riveredge1 != null) { cell.rivers.Add(riveredge1); }
-        if (riveredge2 != null) { cell.rivers.Add(riveredge2); }
+        foreach (var riverEdge in riveredges) {cell.rivers.Add(riverEdge);}
         Debug.LogFormat("I got {0} rivas", cell.rivers.Count);
         HexBoard.Active.hexCells.Add(cell.Coordinates, cell);
     }
