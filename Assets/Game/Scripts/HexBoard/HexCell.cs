@@ -11,7 +11,7 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
 
     static public HexCell Create(HexCell prefab, HexChunk chunk, int row, int column)
     {
-        HexCell obj = Instantiate(prefab);
+        HexCell obj = Instantiate(prefab, chunk.transform, false);
         obj.Initialize(chunk, row, column);
         return obj;
     }
@@ -102,10 +102,9 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
         Coordinates = HexCellCoordinates.FromOffsetCoordinates(column, row);
         name = "HexCell " + Coordinates.ToString();
 
-        transform.SetParent(chunk.transform, false);
         float x = column + (row % 2 * 0.5f); // Offset odd-numbered rows.
         Center = new Vector3(x * (float)HexConstants.HEX_DIAMETER, 0f, row * 1.5f)
-            * (float)HexConstants.HEX_CELL_SEPERATION;
+            * HexConstants.HEX_CELL_SEPERATION;
         SetVertices();
         CreateLabel(chunk.hexCanvas);
 
@@ -114,9 +113,8 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
 
     void CreateLabel(Canvas hexCanvas)
     {
-        label = Instantiate(HexBoard.Active.hexLabelPrefab);
+        label = Instantiate(HexBoard.Active.hexLabelPrefab, hexCanvas.transform, false);
         label.name = "HexLabel " + Coordinates.ToString();
-        label.rectTransform.SetParent(hexCanvas.transform, false);
         label.rectTransform.anchoredPosition = new Vector2(Center.x, Center.z);
     }
 

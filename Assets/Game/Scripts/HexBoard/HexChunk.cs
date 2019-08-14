@@ -16,8 +16,8 @@ public class HexChunk : MonoBehaviour
 
     public static HexChunk Create(HexChunk prefab, Transform parent, int row, int column)
     {
-        HexChunk obj = Instantiate(prefab);
-        obj.Initialize(parent, row, column);
+        HexChunk obj = Instantiate(prefab, parent, true);
+        obj.Initialize(row, column);
         return obj;
     }
 
@@ -31,12 +31,11 @@ public class HexChunk : MonoBehaviour
     public int row { get; private set; }
     public int column { get; private set; }
 
-    void Initialize(Transform parent, int row, int column)
+    void Initialize(int row, int column)
     {
         this.row = row;
         this.column = column;
         name = "HexChunk ({0}, {1})".Format(row, column);
-        transform.SetParent(parent);
     }
 
     internal void Triangulate(IEnumerable<HexCell> hexCells)
