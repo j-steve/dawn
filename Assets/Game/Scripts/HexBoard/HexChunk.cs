@@ -254,9 +254,9 @@ public class HexChunk : MonoBehaviour
     void TriangulateCorner(EdgeDirection direction, HexCell cell1, HexCell cell2, HexCell cell3)
     {
         terrainMesh.AddTriangle(
-            cell1.Vertices[direction.Next().vertex1],
-            cell2.Vertices[direction.Opposite().vertex1],
-            cell3.Vertices[direction.Previous().vertex1]);
+            cell1.vertices[direction.Next().vertex1],
+            cell2.vertices[direction.Opposite().vertex1],
+            cell3.vertices[direction.Previous().vertex1]);
         terrainMesh.AddColors(Color.red, Color.green, Color.blue);
         IEnumerable<int> elevations = new HexCell[] { cell1, cell2, cell3 }.Select(c => c.Elevation);
         terrainMesh.AddTerrainType(cell1.TerrainType, cell2.TerrainType, cell3.TerrainType, 3);

@@ -31,7 +31,7 @@ public class UnitAnimal : Unit
     {
         if (c2.Elevation == 0) { return float.MaxValue; }
         float cost = System.Math.Abs(c1.Elevation - c2.Elevation) * 2 + 1;
-        if (!animalType.biomes.Contains(c2.Biome)) {
+        if (!animalType.biomes.Contains(c2.biome)) {
             cost *= 2; // More expensive to travel through non-preferred biomes.
         }
         return cost;

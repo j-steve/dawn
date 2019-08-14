@@ -21,7 +21,38 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
         v2 = HexConstants.HEX_SIZE * new Vector3((float)HexConstants.HEX_RADIUS, 0f, 0.5f),
         v3 = HexConstants.HEX_SIZE * new Vector3((float)HexConstants.HEX_RADIUS, 0f, -0.5f);
 
-    #endregion
+    #endregion 
+     
+    public int continentNumber = 0;
+    public int biomeNumber = 0;
+    public Biome biome;
+    public TileType tileType;
+
+    /// <summary>
+    /// All units currently occupying this tile.
+    /// </summary>
+    public readonly List<Unit> units = new List<Unit>();
+
+    /// <summary>
+    /// A tile construct occupying the center space of this cell (e.g. a village).  
+    /// There can be at most 1 tile-center construct per cell, as it occupies the central space of the tile.
+    /// </summary>
+    public ITileCenterConstruct tileConstruct;
+
+    ///// <summary>
+    ///// Returns the six edges of the hexagon cell, each represented as a pair
+    ///// of vectors.  There are 12 vectors in all and 6 unique vectors among them.
+    ///// </summary>
+    //public Edge[] Edges { get; private set; }
+
+    public readonly Vector3[] vertices = new Vector3[6];
+
+    /// <summary>
+    /// Returns the hex cell's <code>HexCellCoordinates</code>, which is a 
+    /// set of three integer values representing the hexagon's position along
+    /// the three directions (E/W, NE/SW, and NW/SE).
+    /// </summary>
+    public HexCellCoordinates Coordinates { get; private set; }
 
     /// <summary>
     /// Returns the vector cooresponding to the very center of the hexagon cell.
@@ -54,43 +85,9 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
         }
     }
 
-    public int ContinentNumber = 0;
+    public TerrainTexture TerrainType { get { return biome.terrainTexture; } }
 
-    public int BiomeNumber = 0;
-
-    public Biome Biome { get; internal set; }
-
-    public TerrainTexture TerrainType { get { return Biome.terrainTexture; } }
-
-    public TileType tileType;
-
-    /// <summary>
-    /// All units currently occupying this tile.
-    /// </summary>
-    public readonly List<Unit> units = new List<Unit>();
-
-    /// <summary>
-    /// A tile construct occupying the center space of this cell (e.g. a village).  
-    /// There can be at most 1 tile-center construct per cell, as it occupies the central space of the tile.
-    /// </summary>
-    public ITileCenterConstruct tileConstruct;
-
-    Text label;
-
-    /// <summary>
-    /// Returns the hex cell's <code>HexCellCoordinates</code>, which is a 
-    /// set of three integer values representing the hexagon's position along
-    /// the three directions (E/W, NE/SW, and NW/SE).
-    /// </summary>
-    public HexCellCoordinates Coordinates { get; private set; }
-
-    ///// <summary>
-    ///// Returns the six edges of the hexagon cell, each represented as a pair
-    ///// of vectors.  There are 12 vectors in all and 6 unique vectors among them.
-    ///// </summary>
-    //public Edge[] Edges { get; private set; }
-
-    public readonly Vector3[] Vertices = new Vector3[6];
+    private Text label;
 
     /// <summary>
     /// Instantiates the <code>HexCell</code>. Should be called immediately.
@@ -108,7 +105,7 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
         SetVertices();
         CreateLabel(chunk.hexCanvas);
 
-        Biome = Biome.LAKE;
+        biome = Biome.LAKE;
     }
 
     void CreateLabel(Canvas hexCanvas)
@@ -120,12 +117,12 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
 
     void SetVertices()
     {
-        Vertices[VertexDirection.N] = Center + v1;
-        Vertices[VertexDirection.ENE] = Center + v2;
-        Vertices[VertexDirection.ESE] = Center + v3;
-        Vertices[VertexDirection.S] = Center - v1;
-        Vertices[VertexDirection.WNW] = Center - v2;
-        Vertices[VertexDirection.WSW] = Center - v3;
+        vertices[VertexDirection.N] = Center + v1;
+        vertices[VertexDirection.ENE] = Center + v2;
+        vertices[VertexDirection.ESE] = Center + v3;
+        vertices[VertexDirection.S] = Center - v1;
+        vertices[VertexDirection.WNW] = Center - v2;
+        vertices[VertexDirection.WSW] = Center - v3;
     }
 
     /// <summary>
@@ -164,7 +161,7 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
     /// <returns>The edge for the given direction.</returns>
     public TexturedEdge GetEdge(EdgeDirection direction)
     {
-        return new TexturedEdge(Vertices[direction.vertex1], Vertices[direction.vertex2], TerrainType);
+        return new TexturedEdge(vertices[direction.vertex1], vertices[direction.vertex2], TerrainType);
     }
 
     /// <summary>
@@ -218,8 +215,8 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
 
     void ISelectable.OnUpdateWhileSelected(InGameUI ui)
     {
-        ui.labelTitle.text = "{0} ({1})".Format(tileType, Biome);
-        ui.labelDescription.text = "Continent #{0}, Biome #{1}".Format(ContinentNumber + 1, BiomeNumber + 1);
+        ui.labelTitle.text = "{0} ({1})".Format(tileType, biome);
+        ui.labelDescription.text = "Continent #{0}, Biome #{1}".Format(continentNumber + 1, biomeNumber + 1);
         ui.labelDetails.text = tileConstruct == null ? "" : tileConstruct.Name;
         if (units.Count > 0) {
             if (ui.labelDetails.text != "") { ui.labelDetails.text += " | "; }
@@ -274,13 +271,13 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
 
     public void Save(BinaryWriter writer)
     {
-        writer.Write((Int16)Biome.id);
+        writer.Write((Int16)biome.id);
         writer.Write((Int16)Elevation);
     }
 
     public void Load(BinaryReader reader)
     {
-        Biome = Biome.GetByID(reader.ReadInt16());
+        biome = Biome.GetByID(reader.ReadInt16());
         Elevation = reader.ReadInt16();
     }
 

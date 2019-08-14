@@ -38,24 +38,24 @@ public class HexBoardGenerator
         UILoadingOverlay.Instance.UpdateLoad(.8f, "Planting forests...");
         yield return null;
         foreach (HexCell cell in hexBoard.hexCells.Values) {
-            cell.tileType = TileType.GetForBiome(cell.Biome);
+            cell.tileType = TileType.GetForBiome(cell.biome);
             if (cell.tileType == null) { continue; } // TODO: Delete this line once all biomes have valid tile types.
-            var trees = Resources.LoadAll<GameObject>("Trees/" + cell.Biome.name);
+            var trees = Resources.LoadAll<GameObject>("Trees/" + cell.biome.name);
             for (int i = 0; i < cell.tileType.treeCount; i++) {
                 var offset = UnityExtensions.RandomPointOnCircle() * HexConstants.HEX_SIZE * .6f;  // Trees appear 40% from edge of hex.
                 var spawn = cell.transform.position + new Vector3(offset.x, 0, offset.y);
                 var tree = Object.Instantiate(trees.GetRandom(), spawn, Quaternion.identity, cell.transform);
-                tree.transform.localScale = tree.transform.localScale.ScaledBy(cell.Biome.treeSizeModifier);
-                if (Random.value > cell.Biome.treeProbability) { break; }
+                tree.transform.localScale = tree.transform.localScale.ScaledBy(cell.biome.treeSizeModifier);
+                if (Random.value > cell.biome.treeProbability) { break; }
             }
         }
         // Spawn animals.
         UILoadingOverlay.Instance.UpdateLoad(.9f, "Moosifying...");
         yield return null;
         foreach (HexCell cell in hexBoard.hexCells.Values) {
-            if (Random.value <= cell.Biome.animalProbability) {
-                var animalType = AnimalType.GetForBiome(cell.Biome);
-                if (animalType == null) { Debug.LogWarningFormat("Can't spawn animals on {0}", cell.Biome); continue; }
+            if (Random.value <= cell.biome.animalProbability) {
+                var animalType = AnimalType.GetForBiome(cell.biome);
+                if (animalType == null) { Debug.LogWarningFormat("Can't spawn animals on {0}", cell.biome); continue; }
                 UnitAnimal.Create(cell, animalType);
             }
         }
@@ -145,15 +145,15 @@ public class HexBoardGenerator
                 HexCell nextCell = frontierCells.GetRandom();
                 if (blankCells.Remove(nextCell)) {
                     continentCells.Add(nextCell);
-                    var neighbors = nextCell.GetNeighbors().Where(c => c.BiomeNumber == 0);
+                    var neighbors = nextCell.GetNeighbors().Where(c => c.biomeNumber == 0);
                     frontierCells.UnionWith(neighbors);
                 }
                 frontierCells.Remove(nextCell);
             }
             if (continentCells.Count >= biome.minSize) {
                 foreach (HexCell cell in continentCells) {
-                    cell.Biome = biome;
-                    cell.BiomeNumber = continent + 1;
+                    cell.biome = biome;
+                    cell.biomeNumber = continent + 1;
                     cell.Elevation = cell.TerrainType == TerrainTexture.BLUEWATER ? 0 : 2;
                 }
                 if (biome.terrainTexture == TerrainTexture.BLUEWATER) {
@@ -170,8 +170,8 @@ public class HexBoardGenerator
         while (oceanCells.Count > 0) {
             var tile = oceanCells.First();
             foreach (HexCell neighbor in NeighborsInBiome(tile, 0)) {
-                neighbor.BiomeNumber = tile.BiomeNumber;
-                neighbor.Biome = tile.Biome;
+                neighbor.biomeNumber = tile.biomeNumber;
+                neighbor.biome = tile.biome;
                 oceanCells.Add(neighbor);
             }
             oceanCells.Remove(tile);
@@ -199,7 +199,7 @@ public class HexBoardGenerator
     static IEnumerable<HexCell> NeighborsInBiome(HexCell cell, int biomeId)
     {
         foreach (var neighbor in cell.GetNeighbors()) {
-            if (neighbor.BiomeNumber == biomeId) {
+            if (neighbor.biomeNumber == biomeId) {
                 yield return neighbor;
             }
         }
