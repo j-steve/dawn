@@ -121,7 +121,7 @@ public class UnitAnimal : Unit
         }
         var target = Location.GetNeighbors().FirstOrDefault(n => goal.neighborContains(this, n));
         if (target) {
-            transform.LookAt(target.Center);
+            LookAt(target.Center);
             atGoal = true;
             timeTilDeparture = Random.Range(5f, 10f);
             Debug.LogFormat(this, "{0} arrived at cell for {1}, til {2}", name, goal, timeTilDeparture);

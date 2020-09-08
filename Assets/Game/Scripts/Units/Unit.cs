@@ -188,8 +188,18 @@ abstract public class Unit : MonoBehaviour, ISelectable
             //transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.ScaledBy(Vector3.up));
         }
         CombatOpponent = attacker;
-        transform.LookAt(attacker.transform);
+        LookAt(attacker.transform.position);
         SetAnimation(UnitAnimationType.FIGHT);
+    }
+
+    /// <summary>
+    /// Points the unit at the given transform while keeping the unit level on the tile
+    /// (e.g., ignoring the transform's elevation).
+    /// </summary>
+    protected void LookAt(Vector3 target)
+    {
+        target.y = transform.position.y;
+        transform.LookAt(target);
     }
 
     public void TakeDamage(float damage)
@@ -208,6 +218,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
         Debug.LogFormat(this, "{0} is dead!", this);
         SetAnimation(UnitAnimationType.DEATH);
         IsDead = true;
+        CombatOpponent.CombatOpponent = null;
         Destroy(gameObject, DECOMPOSE_TIME);
     }
 
