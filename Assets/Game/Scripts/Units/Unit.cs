@@ -230,6 +230,10 @@ abstract public class Unit : MonoBehaviour, ISelectable
         }
         IsMoving = true;
         foreach (var cell in path.Skip(1)) {
+            if (cell.units.Count > 0) {
+                Debug.Log("Stopping, next cell occupied!", gameObject);
+                yield break;
+            }
             var lastLocation = Location;
             Location = cell;
             for (float t = 0f; t < 1f; t += Time.deltaTime * TravelSpeed) {
