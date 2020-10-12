@@ -163,7 +163,7 @@ public class UnitAnimal : Unit
     {
         base.OnUpdateWhileSelected(ui);
         ui.labelDescription.text = string.Format("hunger:{0:00}% thirst:{1:00}%", Hunger, Thirst);
-        ui.labelDetails.text = IsDead ? "Dead" : CombatOpponent ? "Fighting {0}".Format(CombatOpponent) : goal.goalName;
+        ui.labelDetails.text = IsDead ? "Dead" : CombatOpponent ? "Fighting {0}".Format(CombatOpponent) : goal != null ? goal.goalName : "";
     }
 
     #endregion

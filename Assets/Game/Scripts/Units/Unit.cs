@@ -236,6 +236,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
             }
             var lastLocation = Location;
             Location = cell;
+            var arrow = drawMovementArrow(lastLocation, cell);
             for (float t = 0f; t < 1f; t += Time.deltaTime * TravelSpeed) {
                 var rotation = t * 2;
                 if (rotation < 1f) {
@@ -250,11 +251,35 @@ abstract public class Unit : MonoBehaviour, ISelectable
                     yield break;
                 }
             }
+            clearMovementArrow(arrow);
         }
         // Reset any vertical rotation so unit is level on map.
         transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.ScaledBy(Vector3.up));
         IsMoving = false;
         ArrivedAtCell();
+    }
+
+    private GameObject drawMovementArrow(HexCell origin, HexCell destination)
+    {
+        var arrow = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        arrow.GetComponent<Renderer>().material.color = Color.blue;
+        var scale = arrow.transform.localScale * 10;
+        scale.y = scale.y / 10;
+        arrow.transform.localScale = scale;
+        arrow.transform.parent = origin.transform;
+        var newpos = arrow.transform.position;
+        newpos.y += arrow.transform.localScale.y * 2;
+        arrow.transform.localPosition = newpos;
+        var collider = arrow.AddComponent<BoxCollider>();
+        collider.isTrigger = true;
+        collider.transform.position = arrow.transform.position;
+        collider.transform.localScale = arrow.transform.localScale;
+        return arrow;
+    }
+
+    private void clearMovementArrow(GameObject arrow)
+    {
+        Destroy(arrow);
     }
 
     protected virtual void ArrivedAtCell() { }
