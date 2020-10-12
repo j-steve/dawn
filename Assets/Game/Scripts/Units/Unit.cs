@@ -124,7 +124,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
             // Do nothing.
         } else if (CombatOpponent) {
             CombatOpponent.TakeDamage(Time.deltaTime * AttackPower * Random.value);
-            if (CombatOpponent.IsDead) {
+            if (CombatOpponent == null || CombatOpponent.IsDead) {
                 var exOponent = CombatOpponent;
                 SetAnimation(UnitAnimationType.IDLE);
                 CombatOpponent = null;
