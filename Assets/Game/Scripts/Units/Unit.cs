@@ -261,20 +261,16 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     private GameObject drawMovementArrow(HexCell origin, HexCell destination)
     {
-        var arrow = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        arrow.GetComponent<Renderer>().material.color = Color.blue;
-        var scale = arrow.transform.localScale * 10;
-        scale.y = scale.y / 10;
-        arrow.transform.localScale = scale;
-        arrow.transform.parent = origin.transform;
-        var newpos = arrow.transform.position;
-        newpos.y += arrow.transform.localScale.y * 2;
-        arrow.transform.localPosition = newpos;
-        var collider = arrow.AddComponent<BoxCollider>();
-        collider.isTrigger = true;
-        collider.transform.position = arrow.transform.position;
-        collider.transform.localScale = arrow.transform.localScale;
-        return arrow;
+        GameObject go = new GameObject("Movement Arrow");
+        SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
+        renderer.sprite = Resources.Load<Sprite>("UI/arrow-white");
+        go.transform.rotation = Quaternion.Euler(90, 0, 0);
+        go.transform.parent = origin.transform;
+        go.transform.localScale *= 5;
+        var newpos = go.transform.position;
+        newpos.y += go.transform.localScale.y;
+        go.transform.localPosition = newpos;
+        return go;
     }
 
     private void clearMovementArrow(GameObject arrow)
