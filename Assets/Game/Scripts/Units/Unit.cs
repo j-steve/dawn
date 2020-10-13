@@ -261,14 +261,16 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     private GameObject drawMovementArrow(HexCell origin, HexCell destination)
     {
-        Debug.Log("Rotatin {0}".Format(origin.transform.position -  destination.transform.position));
-        GameObject go = new GameObject("Movement Arrow");
+        var go = new GameObject("Movement Arrow");
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
         renderer.sprite = Resources.Load<Sprite>("UI/arrow-white");
+        // Set the transformation to face the destination cell.
         go.transform.rotation = Quaternion.LookRotation(destination.transform.position - origin.transform.position);
-        go.transform.Rotate(new Vector3(90, 0, 90));
+        go.transform.Rotate(new Vector3(90, 0, 90)); // Flip it to face upward, and correct for initial rotation.
         go.transform.parent = origin.transform;
+        // Increase the arrow's base size.
         go.transform.localScale *= 5;
+        // Position the arrow between the orign & destination cells but raised above them (in the Y-axis).
         var newpos =( destination.transform.position - origin.transform.position) / 2;
         newpos.y += go.transform.localScale.y;
         go.transform.localPosition = newpos;
