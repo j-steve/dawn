@@ -264,12 +264,12 @@ abstract public class Unit : MonoBehaviour, ISelectable
         var go = new GameObject("Movement Arrow");
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
         renderer.sprite = Resources.Load<Sprite>("UI/arrow-white");
-        // Set the transformation to face the destination cell.
+        // Set the parent object and increase its base size.
+        go.transform.parent = origin.transform;
+        go.transform.localScale *= 5;
+        // Rotate the arrow to face upward and point towards the destination cell.
         go.transform.rotation = Quaternion.LookRotation(destination.transform.position - origin.transform.position);
         go.transform.Rotate(new Vector3(90, 0, 90)); // Flip it to face upward, and correct for initial rotation.
-        go.transform.parent = origin.transform;
-        // Increase the arrow's base size.
-        go.transform.localScale *= 5;
         // Position the arrow between the orign & destination cells but raised above them (in the Y-axis).
         var newpos =( destination.transform.position - origin.transform.position) / 2;
         newpos.y += go.transform.localScale.y;
