@@ -269,7 +269,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
         go.transform.Rotate(new Vector3(90, 0, 90));
         go.transform.parent = origin.transform;
         go.transform.localScale *= 5;
-        var newpos = go.transform.position;
+        var newpos =( destination.transform.position - origin.transform.position) / 2;
         newpos.y += go.transform.localScale.y;
         go.transform.localPosition = newpos;
         return go;
