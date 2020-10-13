@@ -261,10 +261,12 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     private GameObject drawMovementArrow(HexCell origin, HexCell destination)
     {
+        Debug.Log("Rotatin {0}".Format(origin.transform.position -  destination.transform.position));
         GameObject go = new GameObject("Movement Arrow");
         SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
         renderer.sprite = Resources.Load<Sprite>("UI/arrow-white");
-        go.transform.rotation = Quaternion.Euler(90, 0, 0);
+        go.transform.rotation = Quaternion.LookRotation(destination.transform.position - origin.transform.position);
+        go.transform.Rotate(new Vector3(90, 0, 90));
         go.transform.parent = origin.transform;
         go.transform.localScale *= 5;
         var newpos = go.transform.position;
