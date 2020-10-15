@@ -289,7 +289,7 @@ public class HexChunk : MonoBehaviour
             cell2.vertices[direction.Opposite().vertex1],
             cell3.vertices[direction.Previous().vertex1]);
         terrainMesh.AddColors(Color.red, Color.green, Color.blue);
-        IEnumerable<int> elevations = new HexCell[] { cell1, cell2, cell3 }.Select(c => c.Elevation);
+        //IEnumerable<int> elevations = new HexCell[] { cell1, cell2, cell3 }.Select(c => c.Elevation);
         terrainMesh.AddTerrainType(cell1.TerrainType, cell2.TerrainType, cell3.TerrainType, 3);
         //if (Math.Abs(elevations.Max() - elevations.Min()) <= 1) {
         //    terrainMesh.AddTerrainType(cell1.TerrainType, cell2.TerrainType, cell3.TerrainType, 3);
