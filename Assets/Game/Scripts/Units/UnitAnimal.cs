@@ -124,7 +124,7 @@ public class UnitAnimal : Unit
             LookAt(target.Center);
             atGoal = true;
             timeTilDeparture = Random.Range(5f, 10f);
-            Debug.LogFormat(this, "{0} arrived at cell for {1}, til {2}", name, goal, timeTilDeparture);
+            //Debug.LogFormat(this, "{0} arrived at cell for {1}, til {2}", name, goal, timeTilDeparture);
             if (goal == MoveGoal.HUNT) {
                 var victim = target.units.FirstOrDefault(u => u.UnitName != UnitName);
                 AttackedBy(victim);
