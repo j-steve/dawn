@@ -236,8 +236,9 @@ abstract public class Unit : MonoBehaviour, ISelectable
             }
             var lastLocation = Location;
             Location = cell;
-            var arrow = drawMovementArrow(lastLocation, cell);
+            var arrow = MovementArrow.Create(lastLocation, cell);
             for (float t = 0f; t < 1f; t += Time.deltaTime * TravelSpeed) {
+                arrow.SetCompletion(t);
                 var rotation = t * 2;
                 if (rotation < 1f) {
                     var fromRotation = transform.localRotation;
@@ -251,35 +252,12 @@ abstract public class Unit : MonoBehaviour, ISelectable
                     yield break;
                 }
             }
-            clearMovementArrow(arrow);
+            arrow.Remove();
         }
         // Reset any vertical rotation so unit is level on map.
         transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.ScaledBy(Vector3.up));
         IsMoving = false;
         ArrivedAtCell();
-    }
-
-    private GameObject drawMovementArrow(HexCell origin, HexCell destination)
-    {
-        var go = new GameObject("Movement Arrow");
-        SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
-        renderer.sprite = Resources.Load<Sprite>("UI/arrow-white");
-        // Set the parent object and increase its base size.
-        go.transform.parent = origin.transform;
-        go.transform.localScale *= 5;
-        // Rotate the arrow to face upward and point towards the destination cell.
-        go.transform.rotation = Quaternion.LookRotation(destination.transform.position - origin.transform.position);
-        go.transform.Rotate(new Vector3(90, 0, 90)); // Flip it to face upward, and correct for initial rotation.
-        // Position the arrow between the orign & destination cells but raised above them (in the Y-axis).
-        var newpos =( destination.transform.position - origin.transform.position) / 2;
-        newpos.y += go.transform.localScale.y;
-        go.transform.localPosition = newpos;
-        return go;
-    }
-
-    private void clearMovementArrow(GameObject arrow)
-    {
-        Destroy(arrow);
     }
 
     protected virtual void ArrivedAtCell() { }
