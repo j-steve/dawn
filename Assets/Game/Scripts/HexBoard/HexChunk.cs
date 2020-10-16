@@ -269,13 +269,13 @@ public class HexChunk : MonoBehaviour
 
     public Dictionary<Vector3, Color> vertices = new Dictionary<Vector3, Color>();
 
-    void OnDrawGizmos()
-    {
-        foreach (var vert in vertices) {
-            Gizmos.color = vert.Value;
-            Gizmos.DrawWireSphere(transform.TransformPoint(vert.Key), 0.2f);
-        }
-    }
+    //void OnDrawGizmos()
+    //{
+    //    foreach (var vert in vertices) {
+    //        Gizmos.color = vert.Value;
+    //        Gizmos.DrawWireSphere(transform.TransformPoint(vert.Key), 0.2f);
+    //    }
+    //}
 
     /// <summary>
     /// Creates the vertices and triangles for a corner triangle, in the 

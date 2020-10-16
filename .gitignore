@@ -1,8 +1,9 @@
 # =============== #
 # Unity generated #
 # =============== #
-Temp/ 
-Library/
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
 .collabignore
 
 # ===================================== #
@@ -19,3 +20,8 @@ packages/
 # ================= #
 Installer/*
 *.zip
+
+
+
+
+
