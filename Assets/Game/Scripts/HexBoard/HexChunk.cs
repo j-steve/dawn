@@ -269,13 +269,13 @@ public class HexChunk : MonoBehaviour
 
     public Dictionary<Vector3, Color> vertices = new Dictionary<Vector3, Color>();
 
-    void OnDrawGizmos()
-    {
-        foreach (var vert in vertices) {
-            Gizmos.color = vert.Value;
-            Gizmos.DrawWireSphere(transform.TransformPoint(vert.Key), 0.2f);
-        }
-    }
+    //void OnDrawGizmos()
+    //{
+    //    foreach (var vert in vertices) {
+    //        Gizmos.color = vert.Value;
+    //        Gizmos.DrawWireSphere(transform.TransformPoint(vert.Key), 0.2f);
+    //    }
+    //}
 
     /// <summary>
     /// Creates the vertices and triangles for a corner triangle, in the 
@@ -289,7 +289,7 @@ public class HexChunk : MonoBehaviour
             cell2.vertices[direction.Opposite().vertex1],
             cell3.vertices[direction.Previous().vertex1]);
         terrainMesh.AddColors(Color.red, Color.green, Color.blue);
-        IEnumerable<int> elevations = new HexCell[] { cell1, cell2, cell3 }.Select(c => c.Elevation);
+        //IEnumerable<int> elevations = new HexCell[] { cell1, cell2, cell3 }.Select(c => c.Elevation);
         terrainMesh.AddTerrainType(cell1.TerrainType, cell2.TerrainType, cell3.TerrainType, 3);
         //if (Math.Abs(elevations.Max() - elevations.Min()) <= 1) {
         //    terrainMesh.AddTerrainType(cell1.TerrainType, cell2.TerrainType, cell3.TerrainType, 3);

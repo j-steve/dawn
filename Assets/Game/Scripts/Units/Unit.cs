@@ -124,7 +124,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
             // Do nothing.
         } else if (CombatOpponent) {
             CombatOpponent.TakeDamage(Time.deltaTime * AttackPower * Random.value);
-            if (CombatOpponent.IsDead) {
+            if (CombatOpponent == null || CombatOpponent.IsDead) {
                 var exOponent = CombatOpponent;
                 SetAnimation(UnitAnimationType.IDLE);
                 CombatOpponent = null;
@@ -205,7 +205,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
     public void TakeDamage(float damage)
     {
         if (!IsDead) {
-            Debug.LogFormat(this, "{0} attacked {1} for {2} dmg", this, CombatOpponent, damage);
+            //Debug.LogFormat(this, "{0} attacked {1} for {2} dmg", this, CombatOpponent, damage);
             Health -= damage;
             if (Health <= 0) {
                 Die();
@@ -215,7 +215,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
 
     public void Die()
     {
-        Debug.LogFormat(this, "{0} is dead!", this);
+        //Debug.LogFormat(this, "{0} is dead!", this);
         SetAnimation(UnitAnimationType.DEATH);
         IsDead = true;
         CombatOpponent.CombatOpponent = null;
@@ -230,34 +230,50 @@ abstract public class Unit : MonoBehaviour, ISelectable
         }
         IsMoving = true;
         foreach (var cell in path.Skip(1)) {
+            // Look towards next cell but then clear any vertical rotation.
+            LookAt(cell.Center); 
+            //transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.ScaledBy(Vector3.up));
+
             if (cell.units.Count > 0) {
                 Debug.Log("Stopping, next cell occupied!", gameObject);
                 yield break;
             }
-            var lastLocation = Location;
-            Location = cell;
+            Debug.LogFormat("arrowing at {0}", Location);
+            var arrow = MovementArrow.Create(Location, cell);
             for (float t = 0f; t < 1f; t += Time.deltaTime * TravelSpeed) {
-                var rotation = t * 2;
-                if (rotation < 1f) {
-                    var fromRotation = transform.localRotation;
-                    var toRotation = Quaternion.LookRotation(cell.Center - transform.localPosition);
-                    transform.localRotation = Quaternion.Slerp(fromRotation, toRotation, rotation);
-                }
-                transform.localPosition = Vector3.Lerp(lastLocation.Center, cell.Center, t);
+                arrow.SetCompletion(t);
                 yield return null;
-                if (!IsMoving) {
-                    Debug.Log("Stopping, attacked!", gameObject);
-                    yield break;
-                }
             }
+            arrow.Remove();
+            //yield return AnimateMovement(Location, cell);
+            transform.localPosition = cell.Center;
+
+            Location = cell;
         }
-        // Reset any vertical rotation so unit is level on map.
-        transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.ScaledBy(Vector3.up));
         IsMoving = false;
         ArrivedAtCell();
     }
 
     protected virtual void ArrivedAtCell() { }
+
+    //private IEnumerator AnimateMovement(HexCell fromCell, HexCell toCell)
+    //{
+    //    for (float t = 0f; t < 1f; t += .1f) {
+    //        var rotation = t * 2;
+    //        if (rotation < 1f) {
+    //            var fromRotation = transform.localRotation;
+    //            var toRotation = Quaternion.LookRotation(toCell.Center - transform.localPosition);
+    //            transform.localRotation = Quaternion.Slerp(fromRotation, toRotation, rotation);
+    //        }
+    //        transform.localPosition = Vector3.Lerp(fromCell.Center, toCell.Center, t);
+    //        yield return null;
+    //        if (!IsMoving) {
+    //            Debug.Log("Stopping, attacked!", gameObject);
+    //            yield break;
+    //        }
+    //    }
+    //    yield return null;
+    //}
 
     /// <summary>
     /// Wait a short random interval before starting the idle animation loop,
