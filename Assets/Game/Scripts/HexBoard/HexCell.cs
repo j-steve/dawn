@@ -9,11 +9,9 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
 {
     #region Static
 
-    static public HexCell Create(HexCell prefab, HexChunk chunk, int row, int column)
+    static public HexCell Create(HexCell prefab, Transform parent, int row, int column)
     {
-        HexCell obj = Instantiate(prefab, chunk.transform, false);
-        obj.Initialize(chunk, row, column);
-        return obj;
+        return Instantiate(prefab, parent, false).Initialize(row, column);
     }
 
     static private readonly Vector3
@@ -95,7 +93,7 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
     /// </summary>
     /// <param name="row">The horizantal (x-axis) row for this cell.</param>
     /// <param name="column">The vertical (z-axis) column for this cell.</param>
-    void Initialize(HexChunk chunk, int row, int column)
+    HexCell Initialize(int row, int column)
     {
         Coordinates = HexCellCoordinates.FromOffsetCoordinates(column, row);
         name = "HexCell " + Coordinates.ToString();
@@ -104,17 +102,18 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
         Center = new Vector3(x * (float)HexConstants.HEX_DIAMETER, 0f, row * 1.5f)
             * HexConstants.HEX_CELL_SEPERATION;
         SetVertices();
-        CreateLabel(chunk.hexCanvas);
+        //CreateLabel(chunk.hexCanvas);
 
         biome = Biome.LAKE;
+        return this;
     }
 
-    void CreateLabel(Canvas hexCanvas)
-    {
-        label = Instantiate(HexBoard.Active.hexLabelPrefab, hexCanvas.transform, false);
-        label.name = "HexLabel " + Coordinates.ToString();
-        label.rectTransform.anchoredPosition = new Vector2(Center.x, Center.z);
-    }
+    //void CreateLabel(Canvas hexCanvas)
+    //{
+    //    label = Instantiate(HexBoard.Active.hexLabelPrefab, hexCanvas.transform, false);
+    //    label.name = "HexLabel " + Coordinates.ToString();
+    //    label.rectTransform.anchoredPosition = new Vector2(Center.x, Center.z);
+    //}
 
     void SetVertices()
     {
@@ -171,6 +170,16 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
     public int DistanceTo(HexCell other)
     {
         return Coordinates.DistanceTo(other.Coordinates);
+    }
+
+    public void GenerateGameObject()
+    {
+        string tilePrefab = "Tiles/Hex/SM_Tile_Hex_Flat_01";
+        if (this.biome == Biome.OCEAN || this.biome == Biome.LAKE) {
+            tilePrefab = "Tiles/Hex/SM_Tile_Hex_Flat_Water_01";
+        }
+        var go = Instantiate(Resources.Load(tilePrefab) as GameObject, transform, false);
+        go.transform.localScale *= 2.5f;
     }
 
     #region ISelectable

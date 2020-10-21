@@ -29,7 +29,7 @@ public class NewHexer : MonoBehaviour
     void AddCell(HexChunk chunk, int row, int col, Biome biome, params EdgeDirection[] riveredges)
     {
 
-        var cell = HexCell.Create(hexCellPrefab, chunk, row, col);
+        var cell = HexCell.Create(hexCellPrefab, chunk.transform, row, col);
         cell.biome = biome;
         cell.biomeNumber = 1;
         cell.Elevation = cell.TerrainType == TerrainTexture.BLUEWATER ? 0 : 2;
