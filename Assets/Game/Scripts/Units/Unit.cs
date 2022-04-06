@@ -238,6 +238,7 @@ abstract public class Unit : MonoBehaviour, ISelectable
                 Debug.Log("Stopping, next cell occupied!", gameObject);
                 yield break;
             }
+            Debug.LogFormat("arrowing at {0}", Location);
             var arrow = MovementArrow.Create(Location, cell);
             for (float t = 0f; t < 1f; t += Time.deltaTime * TravelSpeed) {
                 arrow.SetCompletion(t);

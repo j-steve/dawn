@@ -18,16 +18,22 @@ public class HexBoardGenerator
     public IEnumerator CreateMap()
     {
         hexBoard.hexCells.Clear();
-        UILoadingOverlay.Instance.UpdateLoad(.1f, "Creating hex cells...");
+        UILoadingOverlay.Instance.UpdateLoad(.1f, "Generating mesh chunks...");
         yield return null;
-        CreateHexCells();
+        var hexChunks = GetHexMeshChunks();
         UILoadingOverlay.Instance.UpdateLoad(.25f, "Generating terrain...");
         yield return null;
         GenerateTerrain();
-        UILoadingOverlay.Instance.UpdateLoad(.4f, "Creating map...");
+        UILoadingOverlay.Instance.UpdateLoad(.4f, "Triangulating Cells...");
         yield return null;
-        foreach (HexCell cell in hexBoard.hexCells.Values) {
-            cell.GenerateGameObject();
+        // Triangulate each HexMeshChunk to make the map visible.
+        var completion = .4f;
+        var chunkValue = (.8f - completion) / hexChunks.Count;
+        foreach (var entry in hexChunks) {
+            entry.Key.Triangulate(entry.Value);
+            completion += chunkValue;
+            UILoadingOverlay.Instance.UpdateLoad(completion);
+            yield return null;
         }
         UILoadingOverlay.Instance.UpdateLoad(.8f, "Planting forests...");
         yield return null;
@@ -69,9 +75,9 @@ public class HexBoardGenerator
             hexBoard.mapSize.Height = reader.ReadInt16();
             hexBoard.mapSize.Width = reader.ReadInt16();
             hexBoard.hexCells.Clear();
-            UILoadingOverlay.Instance.UpdateLoad(.1f, "Generating map...");
+            UILoadingOverlay.Instance.UpdateLoad(.1f, "Generating mesh chunks...");
             yield return null;
-            //var hexChunks = GetHexMeshChunks();
+            var hexChunks = GetHexMeshChunks();
 
             foreach (var cell in hexBoard.hexCells.Values) {
                 cell.Load(reader);
@@ -80,25 +86,44 @@ public class HexBoardGenerator
             yield return null;
             // Triangulate each HexMeshChunk to make the map visible.
             var completion = .4f;
-            //var chunkValue = (.8f - completion) / hexChunks.Count;
-            //foreach (var entry in hexChunks) {
-            //    entry.Key.Triangulate(entry.Value);
-            //    completion += chunkValue;
-            //    UILoadingOverlay.Instance.UpdateLoad(completion);
-            //    yield return null;
-            //}
+            var chunkValue = (.8f - completion) / hexChunks.Count;
+            foreach (var entry in hexChunks) {
+                entry.Key.Triangulate(entry.Value);
+                completion += chunkValue;
+                UILoadingOverlay.Instance.UpdateLoad(completion);
+                yield return null;
+            }
             UILoadingOverlay.Instance.UpdateLoad(1);
         }
     }
-    
-    private void CreateHexCells()
+
+    Dictionary<HexChunk, IEnumerable<HexCell>> GetHexMeshChunks()
     {
-        for (int row = 0; row < hexBoard.mapSize.Height * HexConstants.CELLS_PER_CHUNK_ROW; row++) {
-            for (int column = 0; column < hexBoard.mapSize.Width * HexConstants.CELLS_PER_CHUNK_ROW; column++) {
-                var cell = HexCell.Create(hexBoard.hexCellPrefab, hexBoard.transform, row, column);
-                hexBoard.hexCells[cell.Coordinates] = cell;
+        var chunks = new Dictionary<HexChunk, IEnumerable<HexCell>>();
+        for (int row = 0; row < hexBoard.mapSize.Height; row++) {
+            for (int column = 0; column < hexBoard.mapSize.Width; column++) {
+                var chunk = HexChunk.Create(hexBoard.hexChunkPrefab, hexBoard.transform, row, column);
+                chunks[chunk] = GetChunkHexCells(chunk);
             }
         }
+        return chunks;
+    }
+
+    IEnumerable<HexCell> GetChunkHexCells(HexChunk chunk)
+    {
+        var chunkCells = new List<HexCell>();
+        int rowStart = chunk.row * HexConstants.CELLS_PER_CHUNK_ROW;
+        int rowEnd = rowStart + HexConstants.CELLS_PER_CHUNK_ROW;
+        int colStart = chunk.column * HexConstants.CELLS_PER_CHUNK_ROW;
+        int colEnd = colStart + HexConstants.CELLS_PER_CHUNK_ROW;
+        for (int row = rowStart; row < rowEnd; row++) {
+            for (int column = colStart; column < colEnd; column++) {
+                var cell = HexCell.Create(hexBoard.hexCellPrefab, chunk, row, column);
+                hexBoard.hexCells[cell.Coordinates] = cell;
+                chunkCells.Add(cell);
+            }
+        }
+        return chunkCells;
     }
 
     void GenerateTerrain()

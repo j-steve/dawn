@@ -8,6 +8,8 @@ using UnityEngine;
     {
         var targetFile = Resources.Load<TextAsset>(filename);
         if (targetFile == null) { throw new ArgumentException(string.Format("Failed to load requested resource file: \"{0}\"", filename)); }
+       
+        Debug.LogWarning(targetFile.text);
         var text = "{\"data\":" + targetFile.text + "}";
         return JsonConvert.DeserializeObject<JsonDataList<T>>(text).data;
     }

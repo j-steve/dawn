@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using System.Linq;
 using System.IO;
 
@@ -10,9 +9,11 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
 {
     #region Static
 
-    static public HexCell Create(HexCell prefab, Transform parent, int row, int column)
+    static public HexCell Create(HexCell prefab, HexChunk chunk, int row, int column)
     {
-        return Instantiate(prefab, parent, false).Initialize(row, column);
+        HexCell obj = Instantiate(prefab, chunk.transform, false);
+        obj.Initialize(chunk, row, column);
+        return obj;
     }
 
     static private readonly Vector3
@@ -94,7 +95,7 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
     /// </summary>
     /// <param name="row">The horizantal (x-axis) row for this cell.</param>
     /// <param name="column">The vertical (z-axis) column for this cell.</param>
-    HexCell Initialize(int row, int column)
+    void Initialize(HexChunk chunk, int row, int column)
     {
         Coordinates = HexCellCoordinates.FromOffsetCoordinates(column, row);
         name = "HexCell " + Coordinates.ToString();
@@ -102,17 +103,18 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
         float x = column + (row % 2 * 0.5f); // Offset odd-numbered rows.
         Center = new Vector3(x * (float)HexConstants.HEX_DIAMETER, 0f, row * 1.5f)
             * HexConstants.HEX_CELL_SEPERATION;
+        SetVertices();
+        CreateLabel(chunk.hexCanvas);
 
         biome = Biome.LAKE;
-        return this;
     }
 
-    //void CreateLabel(Canvas hexCanvas)
-    //{
-    //    label = Instantiate(HexBoard.Active.hexLabelPrefab, hexCanvas.transform, false);
-    //    label.name = "HexLabel " + Coordinates.ToString();
-    //    label.rectTransform.anchoredPosition = new Vector2(Center.x, Center.z);
-    //}
+    void CreateLabel(Canvas hexCanvas)
+    {
+        label = Instantiate(HexBoard.Active.hexLabelPrefab, hexCanvas.transform, false);
+        label.name = "HexLabel " + Coordinates.ToString();
+        label.rectTransform.anchoredPosition = new Vector2(Center.x, Center.z);
+    }
 
     void SetVertices()
     {
@@ -169,16 +171,6 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
     public int DistanceTo(HexCell other)
     {
         return Coordinates.DistanceTo(other.Coordinates);
-    }
-
-    public void GenerateGameObject()
-    {
-        string tilePrefab = "Tiles/Hex/SM_Tile_Hex_Flat_01";
-        if (this.biome == Biome.OCEAN || this.biome == Biome.LAKE) {
-            tilePrefab = "Tiles/Hex/SM_Tile_Hex_Flat_Water_01";
-        }
-        var go = Instantiate(Resources.Load(tilePrefab) as GameObject, transform, false);
-        go.transform.localScale *= 2.5f; // TODO: mesh collider must be scaled up too.
     }
 
     #region ISelectable
@@ -241,33 +233,26 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
     public void Highlight(Color? color, string labelText)
     {
         Highlight(color);
-        //label.text = labelText;
+        label.text = labelText;
     }
 
     public void Highlight(Color? color)
     {
-        //var highlight = label.rectTransform.GetComponentInChildren<Image>();
-        //if (color.HasValue) { highlight.color = color.Value; }
-        //highlight.enabled = color.HasValue;
+        var highlight = label.rectTransform.GetComponentInChildren<Image>();
+        if (color.HasValue) { highlight.color = color.Value; }
+        highlight.enabled = color.HasValue;
     }
 
     public void UnHighlight()
     {
         Highlight(null);
-        //label.text = "";
+        label.text = "";
     }
 
     public bool HasHighlight()
     {
         var highlight = label.rectTransform.GetComponentInChildren<Image>();
         return highlight.enabled;
-    }
-
-    private void OnMouseDown()
-    {
-        if (!EventSystem.current.IsPointerOverGameObject()) { // Ensures cursor is not pointed at UI element.
-            HexBoard.Active.OnMapClick();
-        }
     }
 
     #endregion
