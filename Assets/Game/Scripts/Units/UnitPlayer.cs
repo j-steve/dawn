@@ -21,16 +21,16 @@ public class UnitPlayer : Unit
         base.OnFocus(ui);
         ui.labelDescription.text = "";
         ui.labelDetails.text = "";
-        ui.addBuildingButton.gameObject.SetActive(true);
-        ui.addBuildingButton.onClick.AddListener(ShowCreateVillageDialog);
+        ui.createVillageButton.gameObject.SetActive(true);
+        ui.createVillageButton.onClick.AddListener(ShowCreateVillageDialog);
         HexBoard.Active.HexCellClickedEvent += OnHexCellClick;
     }
 
     public override void OnBlur(InGameUI ui)
     {
         base.OnBlur(ui);
-        ui.addBuildingButton.gameObject.SetActive(false);
-        ui.addBuildingButton.onClick.RemoveListener(ShowCreateVillageDialog);
+        ui.createVillageButton.gameObject.SetActive(false);
+        ui.createVillageButton.onClick.RemoveListener(ShowCreateVillageDialog);
         HexBoard.Active.HexCellClickedEvent -= OnHexCellClick;
         UnHighlightPath();
     }

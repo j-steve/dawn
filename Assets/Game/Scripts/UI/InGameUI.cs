@@ -14,7 +14,8 @@ public class InGameUI : MonoBehaviour
     [SerializeField] public Text labelDescription = null;
     [SerializeField] public Text labelDetails = null;
     [SerializeField] public Text turnNumber = null;
-    [SerializeField] public Button addBuildingButton = null;
+    [SerializeField] public Button createVillageButton = null;
+    [SerializeField] public Button addTileBuildingButton = null;
     [SerializeField] public Dialog createVillageDialog = null;
     [SerializeField] public InputField createVillageName = null;
     [SerializeField] public GameObject villagePanel = null;
@@ -22,6 +23,7 @@ public class InGameUI : MonoBehaviour
     [SerializeField] public Text labelVillagePop = null;
     [SerializeField] public GameObject resourcePanel = null;
     [SerializeField] public OneResourcePanel oneResourcePrefab = null;
+    [SerializeField] public CardContainerScript cardContainer = null;
 
     string turnNumberFormat;
     public string villagePopFormat;
@@ -37,9 +39,10 @@ public class InGameUI : MonoBehaviour
         selectionInfoPanel.SetActive(false);
         resourcePanel.SetActive(false);
         villagePanel.SetActive(false);
-        addBuildingButton.gameObject.SetActive(false);
+        createVillageButton.gameObject.SetActive(false);
+        addTileBuildingButton.gameObject.SetActive(false);
         // Listen for turn event and increment the turn number.
-        GameTime.Instance.GameTurnEvent += (GameDate date) => {turnNumber.text = turnNumberFormat.Format(date.year, date.season, date.day);};
+        GameTime.Instance.GameTurnEvent += (GameDate date) => { turnNumber.text = turnNumberFormat.Format(date.year, date.season, date.day); };
     }
 
     void Update()
@@ -52,7 +55,7 @@ public class InGameUI : MonoBehaviour
     public void SetSelected(ISelectable newSelection)
     {
         if (!selectionInfoPanel) { return; /* Prevent potential null exception on game termination. */ }
-        
+
         if (selection != null) {
             selection.OnBlur(this);
         }
@@ -70,7 +73,7 @@ public class InGameUI : MonoBehaviour
 }
 
 public interface ISelectable
-{ 
+{
     /// <summary>
     /// Triggered when this entity first becomes selected by the player.  
     /// Should set up the requisite UI display and update the entity gameobject itself to display as selected.

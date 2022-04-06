@@ -5,33 +5,53 @@ using UnityEngine.UI;
 
 public class CardContainerScript : MonoBehaviour
 {
-  [SerializeField] CardScript cardPrefab;
-  [SerializeField] Text cardContainerTitle;
-  [SerializeField] GridLayoutGroup gridLayoutGroup;
+    [SerializeField] CardScript cardPrefab;
+    [SerializeField] Text cardContainerTitle;
+    [SerializeField] GridLayoutGroup gridLayoutGroup;
+    [SerializeField] public Button okButton;
+    [SerializeField] public Button cancelButton;
+    public CardScript selectedCard = null;
 
-  // Start is called before the first frame update
-  void Start()
-    {
-    cardContainerTitle.text = "Some Title";
-    //foreach (CardScript cardScript in gameObject.GetComponentsInChildren<CardScript>()) {
-    //  cardScript.gameObject.SetActive(false);
-    //}
-    createCard("Some Card", "fakeo");
-    createCard("Some Card2", "fakeo2");
-    cardPrefab.gameObject.SetActive(false);
-  }
+    List<CardScript> cardOptions = new List<CardScript>();
 
-    // Update is called once per frame
-    void Update()
+    // Start is called before the first frame update
+    void Start()
     {
-        
+        cardPrefab.gameObject.SetActive(false);
+        cancelButton.onClick.AddListener(this.Hide);
+        okButton.onClick.AddListener(this.Hide);
     }
 
 
-  public  void createCard( string title, string description)
-  {
-    CardScript cardScript = Instantiate(cardPrefab, gridLayoutGroup.transform);
-    cardScript.cardTitle.text = title;
-    cardScript.cardDescription.text = description;
-  }
+    public void Show(string title)
+    {
+        gameObject.SetActive(true);
+        cardContainerTitle.text = title;
+        okButton.interactable = false;
+    }
+
+    public void Hide()
+    {
+        selectedCard = null;
+        gameObject.SetActive(false);
+        foreach(CardScript cardScript in cardOptions) {
+            Destroy(cardScript.gameObject);
+        }
+        cardOptions.Clear();
+    }
+
+    public void AddCard(string title, string description)
+    {
+        CardScript cardScript = Instantiate(cardPrefab, gridLayoutGroup.transform);
+        cardScript.cardTitle.text = title;
+        cardScript.cardDescription.text = description;
+        cardScript.gameObject.SetActive(true); // TODO: why is this necessary?
+        cardScript.cardButton.onClick.AddListener(delegate () {
+            okButton.interactable = true;
+            cardScript.cardBackground.color = Color.yellow;
+            selectedCard = cardScript;
+        });
+        cardOptions.Add(cardScript);
+    }
+
 }

@@ -611,7 +611,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1934193656945460, guid: 8262c308c9cae2d43881e3c5c8ec9ebe, type: 3}
       propertyPath: m_Name
-      value: Build Button
+      value: Add Tile Building Button
       objectReference: {fileID: 0}
     - target: {fileID: 114224962324290972, guid: 8262c308c9cae2d43881e3c5c8ec9ebe,
         type: 3}
@@ -633,12 +633,42 @@ PrefabInstance:
       propertyPath: m_Colors.m_DisabledColor.a
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114367462155276426, guid: 8262c308c9cae2d43881e3c5c8ec9ebe,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114367462155276426, guid: 8262c308c9cae2d43881e3c5c8ec9ebe,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114367462155276426, guid: 8262c308c9cae2d43881e3c5c8ec9ebe,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 114381644665769676, guid: 8262c308c9cae2d43881e3c5c8ec9ebe,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 459dcd01a0be68648abfa26601c9bb58,
         type: 3}
+    - target: {fileID: 114381644665769676, guid: 8262c308c9cae2d43881e3c5c8ec9ebe,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114381644665769676, guid: 8262c308c9cae2d43881e3c5c8ec9ebe,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114381644665769676, guid: 8262c308c9cae2d43881e3c5c8ec9ebe,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 114396752199514450, guid: 8262c308c9cae2d43881e3c5c8ec9ebe,
         type: 3}
       propertyPath: m_ContentLines.Array.data[0].Content
@@ -759,6 +789,7 @@ GameObject:
   - component: {fileID: 280935080}
   - component: {fileID: 280935079}
   - component: {fileID: 280935078}
+  - component: {fileID: 280935081}
   m_Layer: 0
   m_Name: CardContainerCanvas
   m_TagString: Untagged
@@ -846,6 +877,23 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &280935081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280935076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0915585f55042774dacb58d37717c860, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardPrefab: {fileID: 1259695647}
+  cardContainerTitle: {fileID: 1339664608}
+  gridLayoutGroup: {fileID: 1989787551}
+  okButton: {fileID: 1874583140}
+  cancelButton: {fileID: 1376280151}
 --- !u!1 &282901935
 GameObject:
   m_ObjectHideFlags: 0
@@ -1355,11 +1403,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.6156863, g: 0.6156863, b: 0.6156863, a: 1}
-    m_HighlightedColor: {r: 0.69803923, g: 0.69803923, b: 0.69803923, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.69803923, g: 0.69803923, b: 0.69803923, a: 1}
-    m_DisabledColor: {r: 0.40784314, g: 0.40784314, b: 0.40784314, a: 1}
+    m_NormalColor: {r: 0.94509804, g: 0.25882354, b: 0.13725491, a: 1}
+    m_HighlightedColor: {r: 0.8117647, g: 0.3529412, b: 0.27058825, a: 1}
+    m_PressedColor: {r: 0.49019608, g: 0.07450981, b: 0, a: 1}
+    m_SelectedColor: {r: 0.8117647, g: 0.3529412, b: 0.27058825, a: 1}
+    m_DisabledColor: {r: 0.69803923, g: 0.69803923, b: 0.69803923, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -1498,6 +1546,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 415082069}
   m_CullTransparentMesh: 0
+--- !u!114 &423185629 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114224962324290972, guid: 8262c308c9cae2d43881e3c5c8ec9ebe,
+    type: 3}
+  m_PrefabInstance: {fileID: 270465406}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &508787340
 GameObject:
   m_ObjectHideFlags: 0
@@ -2676,6 +2736,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Colors.m_NormalColor.b
       value: 0.13725491
+      objectReference: {fileID: 0}
+    - target: {fileID: 114734387901170486, guid: 7ebc96e09f5936043a0a8dcbd6b4dcfe,
+        type: 3}
+      propertyPath: m_Colors.m_DisabledColor.r
+      value: 0.827451
+      objectReference: {fileID: 0}
+    - target: {fileID: 114734387901170486, guid: 7ebc96e09f5936043a0a8dcbd6b4dcfe,
+        type: 3}
+      propertyPath: m_Colors.m_DisabledColor.g
+      value: 0.2784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 114734387901170486, guid: 7ebc96e09f5936043a0a8dcbd6b4dcfe,
+        type: 3}
+      propertyPath: m_Colors.m_DisabledColor.b
+      value: 0.1764706
+      objectReference: {fileID: 0}
+    - target: {fileID: 114734387901170486, guid: 7ebc96e09f5936043a0a8dcbd6b4dcfe,
+        type: 3}
+      propertyPath: m_Colors.m_DisabledColor.a
+      value: 0.49803922
       objectReference: {fileID: 0}
     - target: {fileID: 114897666626297648, guid: 7ebc96e09f5936043a0a8dcbd6b4dcfe,
         type: 3}
@@ -3918,6 +3998,20 @@ MonoBehaviour:
   cardTitle: {fileID: 662377862}
   cardDescription: {fileID: 1824820998}
   cardImage: {fileID: 0}
+  cardBackground: {fileID: 0}
+  cardButton: {fileID: 0}
+--- !u!114 &1259695650 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8810686675781893598, guid: ab8ee7ba1428594439e1032306335027,
+    type: 3}
+  m_PrefabInstance: {fileID: 8273131119324504986}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1259695645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1270335774
 GameObject:
   m_ObjectHideFlags: 0
@@ -4166,7 +4260,6 @@ GameObject:
   - component: {fileID: 1324331285}
   - component: {fileID: 1324331287}
   - component: {fileID: 1324331286}
-  - component: {fileID: 1324331288}
   m_Layer: 0
   m_Name: CardContainer
   m_TagString: Untagged
@@ -4233,21 +4326,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1324331284}
   m_CullTransparentMesh: 0
---- !u!114 &1324331288
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1324331284}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0915585f55042774dacb58d37717c860, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cardPrefab: {fileID: 1259695647}
-  cardContainerTitle: {fileID: 1339664608}
-  gridLayoutGroup: {fileID: 1989787551}
 --- !u!1 &1339664606
 GameObject:
   m_ObjectHideFlags: 0
@@ -4491,11 +4569,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.6156863, g: 0.6156863, b: 0.6156863, a: 1}
-    m_HighlightedColor: {r: 0.69803923, g: 0.69803923, b: 0.69803923, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.69803923, g: 0.69803923, b: 0.69803923, a: 1}
-    m_DisabledColor: {r: 0.40784314, g: 0.40784314, b: 0.40784314, a: 1}
+    m_NormalColor: {r: 0.94509804, g: 0.25882354, b: 0.13725491, a: 1}
+    m_HighlightedColor: {r: 0.8117647, g: 0.3529412, b: 0.27058825, a: 1}
+    m_PressedColor: {r: 0.49019608, g: 0.07450981, b: 0, a: 1}
+    m_SelectedColor: {r: 0.8117647, g: 0.3529412, b: 0.27058825, a: 1}
+    m_DisabledColor: {r: 0.69803923, g: 0.69803923, b: 0.69803923, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -4969,7 +5047,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1934193656945460, guid: 8262c308c9cae2d43881e3c5c8ec9ebe, type: 3}
       propertyPath: m_Name
-      value: Add Building Button
+      value: Create Village Button
       objectReference: {fileID: 0}
     - target: {fileID: 114224962324290972, guid: 8262c308c9cae2d43881e3c5c8ec9ebe,
         type: 3}
@@ -5497,7 +5575,8 @@ MonoBehaviour:
   labelDescription: {fileID: 2138897472}
   labelDetails: {fileID: 1641729608}
   turnNumber: {fileID: 1134277953}
-  addBuildingButton: {fileID: 509256228}
+  createVillageButton: {fileID: 509256228}
+  addTileBuildingButton: {fileID: 423185629}
   createVillageDialog: {fileID: 1610137364}
   createVillageName: {fileID: 1890782466}
   villagePanel: {fileID: 1874508563}
@@ -5506,6 +5585,7 @@ MonoBehaviour:
   resourcePanel: {fileID: 1507033530}
   oneResourcePrefab: {fileID: 980455945656618453, guid: 1a61a64e9014e0f4bafc7767ad30e22f,
     type: 3}
+  cardContainer: {fileID: 280935081}
   villagePopFormat: 
 --- !u!1001 &1741242467
 PrefabInstance:
@@ -6580,6 +6660,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Work Tile Button
       objectReference: {fileID: 0}
+    - target: {fileID: 1934193656945460, guid: 8262c308c9cae2d43881e3c5c8ec9ebe, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114224962324290972, guid: 8262c308c9cae2d43881e3c5c8ec9ebe,
         type: 3}
       propertyPath: m_Colors.m_NormalColor.a
@@ -6659,7 +6743,7 @@ PrefabInstance:
     - target: {fileID: 224748389652441012, guid: 8262c308c9cae2d43881e3c5c8ec9ebe,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 84
       objectReference: {fileID: 0}
     - target: {fileID: 224748389652441012, guid: 8262c308c9cae2d43881e3c5c8ec9ebe,
         type: 3}
@@ -6684,7 +6768,7 @@ PrefabInstance:
     - target: {fileID: 224748389652441012, guid: 8262c308c9cae2d43881e3c5c8ec9ebe,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224748389652441012, guid: 8262c308c9cae2d43881e3c5c8ec9ebe,
         type: 3}
@@ -6694,7 +6778,7 @@ PrefabInstance:
     - target: {fileID: 224748389652441012, guid: 8262c308c9cae2d43881e3c5c8ec9ebe,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224748389652441012, guid: 8262c308c9cae2d43881e3c5c8ec9ebe,
         type: 3}
@@ -8002,6 +8086,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1989787550}
     m_Modifications:
+    - target: {fileID: 7598878199849354614, guid: ab8ee7ba1428594439e1032306335027,
+        type: 3}
+      propertyPath: cardButton
+      value: 
+      objectReference: {fileID: 1259695650}
     - target: {fileID: 8273131120212856196, guid: ab8ee7ba1428594439e1032306335027,
         type: 3}
       propertyPath: m_LocalPosition.x

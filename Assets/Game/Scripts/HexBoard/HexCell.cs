@@ -21,8 +21,8 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
         v2 = HexConstants.HEX_SIZE * new Vector3((float)HexConstants.HEX_RADIUS, 0f, 0.5f),
         v3 = HexConstants.HEX_SIZE * new Vector3((float)HexConstants.HEX_RADIUS, 0f, -0.5f);
 
-    #endregion 
-     
+    #endregion
+
     public int continentNumber = 0;
     public int biomeNumber = 0;
     public Biome biome;
@@ -187,9 +187,9 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
             var oneResourcePanel = Instantiate(ui.oneResourcePrefab, ui.resourcePanel.transform);
             oneResourcePanel.Initialize(resource.Key, resource.Value.quantity, resource.Value.regenRate);
         }
-        // Show the "create tile improvment" button, if the tile has no improvement and there are 1+ villages.
-        ui.addBuildingButton.gameObject.SetActive(tileConstruct == null && Village.Values.Count > 0);
-        ui.addBuildingButton.onClick.AddListener(CreateTileImprovement);
+        // Show the "build tile building" button if the tile has no improvement and there are no villages.
+        ui.addTileBuildingButton.gameObject.SetActive(tileConstruct == null);
+        ui.addTileBuildingButton.onClick.AddListener(AddTileBuilding);
     }
 
     void ISelectable.OnBlur(InGameUI ui)
@@ -202,16 +202,19 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
         foreach (var obj in ui.resourcePanel.GetComponentsInChildren<OneResourcePanel>()) {
             Destroy(obj.gameObject);
         }
-        // Hide the "create tile improvment" button.
-        ui.addBuildingButton.gameObject.SetActive(false);
-        ui.addBuildingButton.onClick.RemoveListener(CreateTileImprovement);
+        // Hide the "add tile building" button.
+        ui.addTileBuildingButton.gameObject.SetActive(false);
+        ui.addTileBuildingButton.onClick.RemoveListener(AddTileBuilding);
     }
 
-    void CreateTileImprovement()
+
+    void AddTileBuilding()
     {
-        TileImprovement.CreateTileImprovement(this, TileImprovementType.LumberCamp);
-        // Disable the "create tile improvement button" now, since we can't create a second tile improvement here.
-        InGameUI.Instance.addBuildingButton.gameObject.SetActive(false);
+        InGameUI.Instance.cardContainer.Show("Construct Tile Improvement");
+        InGameUI.Instance.cardContainer.AddCard("Logging camp", "A designated site in which to fell trees for lumber.");
+        InGameUI.Instance.cardContainer.okButton.onClick.AddListener(delegate () {
+            TileImprovement.CreateTileImprovement(this, TileImprovementType.LumberCamp);
+        });
     }
 
     void ISelectable.OnUpdateWhileSelected(InGameUI ui)
@@ -222,7 +225,7 @@ public class HexCell : MonoBehaviour, ISelectable, ISaveable
         if (units.Count > 0) {
             if (ui.labelDetails.text != "") { ui.labelDetails.text += " | "; }
             ui.labelDetails.text = units.Count == 0 ? "" : "UNITS: " + units.Select(x => x.UnitName).Join(", ");
-            
+
         }
     }
 
