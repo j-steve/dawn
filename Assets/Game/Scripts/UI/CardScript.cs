@@ -6,8 +6,9 @@ using UnityEngine.UI;
 public class CardScript : MonoBehaviour
 {
 
-  [SerializeField] Text cardTitle;
-  [SerializeField] Text cardDescription;
+
+  [SerializeField] public Text cardTitle;
+  [SerializeField] public  Text cardDescription;
   [SerializeField] Sprite cardImage;
 
   // Start is called before the first frame update
